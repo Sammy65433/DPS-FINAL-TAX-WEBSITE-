@@ -1,11 +1,11 @@
 function IRSLinksBox() {
     return (
         <section className="card irs-links-card" id="irs-links">
-            <h3>IRS Quick Links</h3>
+            <h3>Official IRS Resources</h3>
             <p>
-                Use these official IRS links for refund status, payments, and tax
-                records.
+                Access official IRS resources for refund status, payments, and tax records.
             </p>
+
 
             <ul className="irs-links-list">
                 <li>

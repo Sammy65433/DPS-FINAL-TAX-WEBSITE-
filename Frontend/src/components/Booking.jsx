@@ -355,10 +355,14 @@ function Booking() {
           />
 
           <p className="form-note">
-            Please do not submit Social Security numbers, tax IDs, or sensitive
-            tax documents through this form. Use our secure CCH iFirm portal for
-            document uploads.
-          </p>
+  <strong>Important Security Notice:</strong> For your privacy and protection,
+  do not submit <strong>Social Security numbers</strong>, <strong>tax IDs</strong>,
+  <strong> banking details</strong>, <strong>driver’s license numbers</strong>,
+  or other <strong>sensitive tax documents</strong> through this form. Please
+  use our secure <strong>CCH iFirm portal</strong> for document uploads.
+</p>
+
+
 
           <button type="submit" className="btn" disabled={isSubmitting}>
             {isSubmitting ? "Sending..." : "Book Your Appointment"}

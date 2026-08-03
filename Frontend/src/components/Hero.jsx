@@ -25,7 +25,7 @@ function Hero() {
           </Link>
 
           <Link to="/booking#irs-links" className="btn btn-ghost">
-            IRS Links
+            Taxpayer Resources
           </Link>
 
           <a href="tel:9733272340" className="btn btn-ghost">

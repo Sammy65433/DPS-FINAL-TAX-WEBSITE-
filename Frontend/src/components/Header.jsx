@@ -32,7 +32,7 @@ function Header() {
             Payments
           </Link>
           <Link to="/booking#irs-links" className="nav-call">
-            IRS Links
+            Taxpayer Resources 
           </Link>
           <a href="tel:+19733272340" className="nav-call">
             Call Now
