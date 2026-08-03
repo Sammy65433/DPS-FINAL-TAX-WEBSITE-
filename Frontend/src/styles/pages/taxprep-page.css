@@ -1,0 +1,55 @@
+.taxprep-page {
+  text-align: center;
+}
+
+.taxprep-text {
+  max-width: 800px;
+  margin: 0 auto 30px auto;
+}
+
+.taxprep-text h1 {
+  text-align: center;
+}
+
+.taxprep-image-row {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  flex-wrap: wrap;
+  margin: 0 auto 30px auto;
+}
+
+.taxprep-page-image {
+  width: 320px;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.service-content {
+  max-width: 850px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+.service-content h2 {
+  margin-top: 32px;
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.service-content p {
+  margin-bottom: 18px;
+  line-height: 1.9;
+}
+
+.service-content ul {
+  padding-left: 28px;
+  margin-top: 12px;
+  margin-bottom: 24px;
+}
+
+.service-content li {
+  margin-bottom: 18px;
+  line-height: 1.9;
+}

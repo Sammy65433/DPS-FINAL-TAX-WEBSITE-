@@ -8,6 +8,7 @@ function Notary() {
           <div className="taxprep-text">
             <p className="eyebrow">Our Services</p>
             <h1>Notary Services</h1>
+
             <p className="section-text">
               DPS Professional Tax Services offers professional notary support
               for clients who need important documents witnessed, signed, and
@@ -36,17 +37,18 @@ function Notary() {
 
           <div className="service-content">
             <h2>What We Help With</h2>
+
             <p>
-              We assist clients who need documents notarized for personal,
-              legal, business, or financial purposes. Our goal is to provide a
-              smooth and professional experience while helping clients complete
-              the required steps correctly.
+              We assist clients who need documents notarized for personal, legal,
+              business, or financial purposes. Our goal is to provide a smooth
+              and professional experience while helping clients complete the
+              required steps correctly.
             </p>
 
             <p>
-              We understand that notarized documents are often time-sensitive,
-              so we focus on making the process efficient while maintaining
-              accuracy and professionalism.
+              We understand that notarized documents are often time-sensitive, so
+              we focus on making the process efficient while maintaining accuracy
+              and professionalism.
             </p>
 
             <h2>Types of Notary Support</h2>

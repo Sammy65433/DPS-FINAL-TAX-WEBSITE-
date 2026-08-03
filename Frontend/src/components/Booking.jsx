@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import IRSLinksBox from "./IRSLinksBox";
 
 function generateTimeOptions(selectedDate) {
   if (!selectedDate) return [];
@@ -7,9 +8,9 @@ function generateTimeOptions(selectedDate) {
   const date = new Date(`${selectedDate}T00:00:00`);
   const day = date.getDay();
 
-  if (day === 0) return []; // Sunday by appointment only
+  if (day === 0) return [];
 
-  const closingHour = day === 6 ? 18 : 17; // Saturday 6 PM, weekdays 5 PM
+  const closingHour = day === 6 ? 18 : 17;
   const options = [];
 
   for (let hour = 9; hour <= closingHour; hour++) {
@@ -43,22 +44,22 @@ function Booking() {
   const [bookedTimes, setBookedTimes] = useState([]);
   const [status, setStatus] = useState({ message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+
   const location = useLocation();
-
-
   const timeOptions = generateTimeOptions(formData.appointment_date);
-  
-  useEffect(() => {
-  if (location.hash === "#payment") {
-    const el = document.getElementById("payment");
-    if (el) {
-      setTimeout(() => {
-        el.scrollIntoView({ behavior: "smooth", block: "start" });
-      }, 100);
-    }
-  }
-}, [location]);
 
+  useEffect(() => {
+    if (location.hash === "#payment" || location.hash === "#irs-links") {
+      const id = location.hash.replace("#", "");
+      const el = document.getElementById(id);
+
+      if (el) {
+        setTimeout(() => {
+          el.scrollIntoView({ behavior: "smooth", block: "start" });
+        }, 100);
+      }
+    }
+  }, [location]);
 
   useEffect(() => {
     async function fetchAvailability() {
@@ -85,9 +86,7 @@ function Booking() {
     fetchAvailability();
   }, [formData.appointment_date, formData.tax_preparer]);
 
-  const availableTimes = timeOptions.filter(
-    time => !bookedTimes.includes(time)
-  );
+  const availableTimes = timeOptions.filter(time => !bookedTimes.includes(time));
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -104,16 +103,13 @@ function Booking() {
     setStatus({ message: "Sending...", type: "sending" });
 
     try {
-      const response = await fetch(
-        `${import.meta.env.VITE_API_URL}/api/appointments`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
-        }
-      );
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointments`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
 
       const data = await response.json();
 
@@ -153,40 +149,38 @@ function Booking() {
   }
 
   return (
-    <section
-      className="section booking-section"
-      id="booking"
-      data-aos="fade-up"
-    >
+    <section className="section booking-section" id="booking" data-aos="fade-up">
       <div className="container">
         <p className="eyebrow">Schedule Your Visit</p>
         <h2 className="h2-sub">Book Your Appointment</h2>
+
         <p className="section-text">
           Fill out the form below, select your service and preferred preparer,
           and we will contact you to confirm your appointment.
         </p>
 
-        <div
-          className="card"
-          style={{ maxWidth: "720px", margin: "0 auto 1.5rem" }}
-        >
+        <div className="card" style={{ maxWidth: "720px", margin: "0 auto 1.5rem" }}>
           <h3>Secure Document Upload Portal</h3>
+
           <p>
             Clients can safely upload tax documents, download completed files,
-            and share information with our office using the secure CCH iFirm
-            portal.
+            and share information with our office using the secure CCH iFirm portal.
           </p>
+
           <p>
             You can upload W-2s, 1099s, IDs, proof of address, direct deposit
             information, and other requested documents.
           </p>
+
           <p>
-            If you need portal access, please contact our office first so we
-            can send you the secure upload link.
+            If you need portal access, please contact our office first so we can
+            send you the secure upload link.
           </p>
+
           <p>
             Phone: <a href="tel:9733272340">(973) 327-2340</a>
           </p>
+
           <a
             href="https://dpsprofessionaltaxservices.cchifirm.us"
             target="_blank"
@@ -207,6 +201,7 @@ function Booking() {
               value={formData.first_name}
               onChange={handleChange}
             />
+
             <input
               type="text"
               name="last_name"
@@ -302,22 +297,19 @@ function Booking() {
             </p>
           )}
 
-
-
-
           {formData.appointment_date &&
             formData.tax_preparer &&
             timeOptions.length > 0 &&
             availableTimes.length === 0 && (
               <p className="form-status error">
-                No appointment times are currently available for this date and
-                preparer.
+                No appointment times are currently available for this date and preparer.
               </p>
             )}
 
           <section className="card payment-card" id="payment">
             <h3>Payment Options</h3>
             <p>Please include your last name and tax year in the payment note.</p>
+
             <p>
               <strong>Venmo:</strong>{" "}
               <a
@@ -329,25 +321,31 @@ function Booking() {
                 @DPSTax
               </a>
             </p>
+
             <p>
               <strong>Cash App:</strong> <strong>$DPSTAX1811</strong>
             </p>
+
             <p>
               <strong>Zelle:</strong>{" "}
               <a href="tel:8627661725" className="payment-link">
                 862-766-1725
               </a>
             </p>
+
             <p>
               <strong>Apple Pay:</strong>{" "}
               <a href="tel:8627661725" className="payment-link">
                 862-766-1725
               </a>
             </p>
+
             <p>
               Phone: <a href="tel:9733272340">(973) 327-2340</a>
             </p>
           </section>
+
+          <IRSLinksBox />
 
           <textarea
             name="message"

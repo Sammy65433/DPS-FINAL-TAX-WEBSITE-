@@ -1,8 +1,4 @@
-import {
-  FaWhatsapp,
-  FaGoogle,
-  FaMapMarkerAlt
-} from "react-icons/fa";
+import { FaWhatsapp, FaGoogle, FaMapMarkerAlt } from "react-icons/fa";
 
 function TopBar() {
   return (
@@ -10,10 +6,10 @@ function TopBar() {
       <div className="container top-bar-content">
         <p>
           Call <a href="tel:9733272340">(973) 327-2340</a> &nbsp;| &nbsp;
-          <a href="mailto:info@dpstaxpro.com">info@DPStaxpro.com</a> &nbsp;| &nbsp;
+          <a href="mailto:info@dpstaxpro.com">info@DPStaxpro.com</a>
+          &nbsp;| &nbsp;
           <a href="mailto:dpstax1@gmail.com">DPStax1@gmail.com</a>
         </p>
-
 
         <div className="top-right">
           <div className="lang-row">
@@ -25,6 +21,7 @@ function TopBar() {
               />
               EN
             </span>
+
             <span className="lang-pill">
               <img
                 src="/Haitiflag.jpg"
@@ -33,6 +30,7 @@ function TopBar() {
               />
               KRY
             </span>
+
             <span className="lang-pill">
               <img
                 src="/FranceFlag.jpg"
@@ -41,6 +39,7 @@ function TopBar() {
               />
               FR
             </span>
+
             <span className="lang-pill">
               <img
                 src="/SpainFlag.jpg"
@@ -52,7 +51,6 @@ function TopBar() {
           </div>
 
           <div className="social-icons">
-
             <a
               href="https://wa.me/18627661725"
               target="_blank"
@@ -79,7 +77,6 @@ function TopBar() {
             >
               <FaMapMarkerAlt />
             </a>
-
           </div>
         </div>
       </div>

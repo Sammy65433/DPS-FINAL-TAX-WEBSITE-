@@ -1,6 +1,10 @@
 function Purpose() {
   return (
-    <section className="section purpose-section" id="mission-vision" data-aos="fade-up">
+    <section
+      className="section purpose-section"
+      id="mission-vision"
+      data-aos="fade-up"
+    >
       <div className="container">
         <p className="eyebrow">Our Purpose</p>
         <h2 className="h2-sub">DPS Mission & Vision</h2>

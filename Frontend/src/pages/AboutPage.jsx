@@ -7,8 +7,8 @@ function AboutPage() {
         <div className="container">
           <h1>About Us</h1>
           <p>
-            DPS provides reliable support for tax preparation, notary, translation,
-            immigration paperwork, and more.
+            DPS provides reliable support for tax preparation, notary,
+            translation, immigration paperwork, and more.
           </p>
         </div>
       </section>

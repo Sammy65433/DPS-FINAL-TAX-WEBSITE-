@@ -31,17 +31,22 @@ function Contact() {
                 1811 Springfield Ave, Maplewood, NJ 07040
               </a>
             </p>
+
             <p>
               Phone: <a href="tel:9733272340">(973) 327-2340</a>
             </p>
+
             <p>Fax: (973) 821-3684</p>
+
             <p>
               Email: <a href="mailto:dpstax1@gmail.com">DpsTax1@gmail.com</a>
             </p>
           </div>
 
           <div className="office-hours" id="hours" data-aos="fade-left">
-            <p><strong>Tax Season Office Hours</strong></p>
+            <p>
+              <strong>Tax Season Office Hours</strong>
+            </p>
             <p>Monday - Friday: 9:00 AM - 5:00 PM</p>
             <p>Saturday: 9:00 AM - 6:00 PM</p>
             <p>Sunday: By Appointment Only</p>

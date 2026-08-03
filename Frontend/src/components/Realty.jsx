@@ -12,7 +12,6 @@ function Realty() {
     message: "",
   });
 
-
   const [status, setStatus] = useState({ message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -60,7 +59,6 @@ function Realty() {
           appointment_time: "",
           message: "",
         });
-
       } else {
         setStatus({
           message: data.message || "Something went wrong. Please try again.",
@@ -86,11 +84,14 @@ function Realty() {
             alt="Real estate services"
             className="realty-side-image"
           />
+
           <h3>Need Real Estate Help?</h3>
+
           <p>
-            Our partner Ricot Casimir of RC Realty Group handles Buying,
-            Selling, Renting, and Investment property.
+            Our partner Ricot Casimir of RC Realty Group handles buying,
+            selling, renting, and investment property.
           </p>
+
           <a
             href="https://www.rcrealtygroup.net"
             target="_blank"
@@ -105,15 +106,18 @@ function Realty() {
           <p>
             <strong>Ricot Casimir</strong> - RC Realty Group
           </p>
+
           <p>
             Phone: <a href="tel:9738859929">(973) 885-9929</a>
           </p>
+
           <p>
             Email:{" "}
             <a href="mailto:ricot.casimir@gmail.com">
               Ricot.Casimir@gmail.com
             </a>
           </p>
+
           <a
             href="https://www.google.com/maps/search/1811+Springfield+Ave+Maplewood+NJ+07040"
             target="_blank"
@@ -122,6 +126,7 @@ function Realty() {
           >
             1811 Springfield Ave, Maplewood, NJ 07040
           </a>
+
           <img
             src="/real-estate-keys2.jpg"
             alt="Real estate services"
@@ -233,7 +238,6 @@ function Realty() {
             <option value="5:00 PM">5:00 PM</option>
           </select>
 
-
           <textarea
             name="message"
             placeholder="Tell us what kind of real estate help you need"
@@ -242,9 +246,7 @@ function Realty() {
           />
 
           <button type="submit" disabled={isSubmitting}>
-            {isSubmitting
-              ? "Sending..."
-              : "Book Real Estate Appointment"}
+            {isSubmitting ? "Sending..." : "Book Real Estate Appointment"}
           </button>
 
           {status.message && (
@@ -253,10 +255,7 @@ function Realty() {
         </form>
       </div>
     </section>
-
   );
-
-
 }
 
 export default Realty;

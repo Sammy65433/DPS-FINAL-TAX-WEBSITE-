@@ -8,6 +8,7 @@ function TaxPrep() {
           <div className="taxprep-text">
             <p className="eyebrow">DPS Services</p>
             <h1>Tax Preparation</h1>
+
             <p className="section-text">
               DPS Professional Tax Services provides reliable and professional
               tax preparation support for individuals, families, self-employed
@@ -37,6 +38,7 @@ function TaxPrep() {
 
           <div className="service-content">
             <h2>What We Help With</h2>
+
             <p>
               We support clients through every stage of the tax preparation
               process. That includes helping gather the right paperwork,

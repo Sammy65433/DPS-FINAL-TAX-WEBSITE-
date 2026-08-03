@@ -5,15 +5,15 @@ function WhyChoose() {
     <section className="section alt" data-aos="fade-up">
       <div className="container">
         <p className="eyebrow">
-          Why Choose Dps Professional Tax & Professional Support Services?
+          Why Choose DPS Professional Tax & Professional Support Services?
         </p>
 
         <h2 className="h2-sub">19+ Years of Trusted Service</h2>
 
         <p className="section-text">
-          With over 19 years of experience, We have served more than 2,000
-          clients throughout New Jersey and the Tri-State area with trusted Tax
-          Preparation and Professional Support Services.
+          With over 19 years of experience, we have served more than 2,000
+          clients throughout New Jersey and the Tri-State area with trusted tax
+          preparation and professional support services.
         </p>
 
         <div className="why-choose-button-wrap">

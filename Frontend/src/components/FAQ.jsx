@@ -4,6 +4,7 @@ function FAQ() {
       <div className="container">
         <p className="eyebrow">FAQ</p>
         <h2>Frequently Asked Questions</h2>
+
         <div className="card-grid">
           <div className="card">
             <img
@@ -13,7 +14,8 @@ function FAQ() {
             />
             <h3>What should I bring to my tax appointment?</h3>
             <p>
-              Please bring your ID, tax documents, income forms, and any important supporting paperwork.
+              Please bring your ID, tax documents, income forms, and any
+              important supporting paperwork.
             </p>
           </div>
 
@@ -25,7 +27,8 @@ function FAQ() {
             />
             <h3>Do you accept walk-ins?</h3>
             <p>
-              Walk-ins may be accepted based on availability, but appointments are recommended.
+              Walk-ins may be accepted based on availability, but appointments
+              are recommended.
             </p>
           </div>
 

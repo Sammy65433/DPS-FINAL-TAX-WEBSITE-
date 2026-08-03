@@ -17,34 +17,50 @@ function Languages() {
 
         <div className="lang-strip">
           <div className="lang-box">
-            <img src="/americanflag1.jpg" alt="English flag" className="flag-icon" />
+            <img
+              src="/americanflag1.jpg"
+              alt="English flag"
+              className="flag-icon"
+            />
             <div>
-              <strong>English</strong>
-              Professional tax and support services you can trust.
+              <strong>English</strong> Professional tax and support services you
+              can trust.
             </div>
           </div>
 
           <div className="lang-box">
-            <img src="/Haitiflag.jpg" alt="Haitian Creole flag" className="flag-icon" />
+            <img
+              src="/Haitiflag.jpg"
+              alt="Haitian Creole flag"
+              className="flag-icon"
+            />
             <div>
-              <strong>Kreyòl</strong>
-              Sèvis taks pwofesyonèl ak sipò ou ka fè konfyans.
+              <strong>Kreyòl</strong> Sèvis taks pwofesyonèl ak sipò ou ka fè
+              konfyans.
             </div>
           </div>
 
           <div className="lang-box">
-            <img src="/FranceFlag.jpg" alt="French flag" className="flag-icon" />
+            <img
+              src="/FranceFlag.jpg"
+              alt="French flag"
+              className="flag-icon"
+            />
             <div>
-              <strong>Français</strong>
-              Des services fiscaux professionnels et de confiance.
+              <strong>Français</strong> Des services fiscaux professionnels et
+              de confiance.
             </div>
           </div>
 
           <div className="lang-box">
-            <img src="/SpainFlag.jpg" alt="Spanish flag" className="flag-icon" />
+            <img
+              src="/SpainFlag.jpg"
+              alt="Spanish flag"
+              className="flag-icon"
+            />
             <div>
-              <strong>Español</strong>
-              Servicios profesionales de impuestos en los que puede confiar.
+              <strong>Español</strong> Servicios profesionales de impuestos en
+              los que puede confiar.
             </div>
           </div>
         </div>

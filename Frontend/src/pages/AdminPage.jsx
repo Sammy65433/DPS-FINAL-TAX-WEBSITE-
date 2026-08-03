@@ -1,4 +1,4 @@
-import AdminAppointments from "../components/AdminAppointments";
+import AdminAppointments from "../components/admin/AdminAppointments";
 
 function AdminPage() {
   return <AdminAppointments />;

@@ -6,8 +6,9 @@ function Services() {
       <div className="container">
         <p className="eyebrow">What we do</p>
         <h2>Services</h2>
+
         <p className="section-text">
-          Reliable, Professional Support for Individuals, Families, and Small
+          Reliable, professional support for individuals, families, and small
           businesses.
         </p>
 
@@ -40,8 +41,8 @@ function Services() {
             />
             <h3>Translation</h3>
             <p>
-              Multilingual document support to help clients understand,
-              complete, and submit important paperwork with confidence.
+              Multilingual document support to help clients understand, complete,
+              and submit important paperwork with confidence.
             </p>
           </Link>
 

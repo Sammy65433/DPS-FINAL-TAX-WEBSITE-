@@ -1,0 +1,22 @@
+@import "./base/variables.css";
+@import "./base/reset.css";
+@import "./base/global.css";
+@import "./base/utilities.css";
+
+@import "./components/topbar.css";
+@import "./components/header.css";
+@import "./components/hero.css";
+@import "./components/buttons.css";
+@import "./components/cards.css";
+@import "./components/stats.css";
+@import "./components/languages.css";
+@import "./components/forms.css";
+@import "./components/booking.css";
+@import "./components/realty.css";
+@import "./components/contact.css";
+@import "./components/gallery.css";
+@import "./components/footer.css";
+@import "./components/irs-links.css";
+
+@import "./pages/taxprep-page.css";
+@import "./pages/admin-page.css";

@@ -8,11 +8,12 @@ function InsuranceServices() {
           <div className="taxprep-text">
             <p className="eyebrow">Our Services</p>
             <h1>Insurance Services</h1>
+
             <p className="section-text">
               DPS Professional Tax Services provides guidance for clients
-              exploring insurance options for everyday personal and family
-              needs. We help clients better understand available coverage and
-              take the next step with confidence.
+              exploring insurance options for everyday personal and family needs.
+              We help clients better understand available coverage and take the
+              next step with confidence.
             </p>
           </div>
 
@@ -36,6 +37,7 @@ function InsuranceServices() {
 
           <div className="service-content">
             <h2>What We Help With</h2>
+
             <p>
               We help clients navigate general insurance questions and connect
               with coverage options that fit their needs. Whether someone is
@@ -56,7 +58,9 @@ function InsuranceServices() {
               <li>Support exploring auto insurance options</li>
               <li>Support exploring health-related coverage options</li>
               <li>Basic help understanding plan information</li>
-              <li>Guidance for individuals, families, and small business owners</li>
+              <li>
+                Guidance for individuals, families, and small business owners
+              </li>
             </ul>
 
             <h2>Why Clients Choose DPS</h2>

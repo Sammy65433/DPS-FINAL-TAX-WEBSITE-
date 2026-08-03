@@ -4,6 +4,7 @@ function Gallery() {
       <div className="container">
         <p className="eyebrow">Moments at DPS</p>
         <h2>DPS in the Community</h2>
+
         <p className="section-text">
           A few moments that reflect our commitment to service, community, and
           the people we proudly work with and support.

@@ -8,6 +8,7 @@ function CopyFax() {
           <div className="taxprep-text">
             <p className="eyebrow">Our Services</p>
             <h1>Copy & Fax Services</h1>
+
             <p className="section-text">
               DPS Professional Tax Services offers convenient on-site copy and
               fax services for clients who need fast, reliable support with
@@ -36,6 +37,7 @@ function CopyFax() {
 
           <div className="service-content">
             <h2>What We Help With</h2>
+
             <p>
               We help clients who need copies of important paperwork or who need
               to send documents quickly by fax. Our service is designed to be
@@ -44,9 +46,9 @@ function CopyFax() {
             </p>
 
             <p>
-              Whether you need a few pages copied, documents prepared for faxing,
-              or general assistance with paperwork handling, we provide a simple
-              in-office solution.
+              Whether you need a few pages copied, documents prepared for
+              faxing, or general assistance with paperwork handling, we provide
+              a simple in-office solution.
             </p>
 
             <h2>Types of Copy & Fax Support</h2>

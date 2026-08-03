@@ -1,0 +1,61 @@
+.container {
+    width: 90%;
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+.section {
+    position: relative;
+    padding: 4.75rem 0;
+}
+
+.section::before {
+    content: "";
+    position: absolute;
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 65%;
+    height: 120px;
+    background: radial-gradient(rgba(44, 167, 155, 0.08), transparent 70%);
+    filter: blur(20px);
+    z-index: 0;
+}
+
+.section .container {
+    position: relative;
+    z-index: 1;
+}
+
+.alt {
+    background: #f2f7f5;
+}
+
+h2 {
+    font-size: 1.9rem;
+    color: var(--header);
+    margin-bottom: 0.6rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+h2.h2-sub {
+    font-size: 1.55rem;
+}
+
+.eyebrow {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--teal);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.section-text {
+    color: var(--muted);
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    text-align: center;
+}

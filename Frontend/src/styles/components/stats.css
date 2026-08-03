@@ -1,0 +1,34 @@
+.stat-strip {
+    background: var(--header);
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 1.1rem 0;
+}
+
+.stat-strip .container {
+    display: flex;
+    justify-content: center;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+    text-align: center;
+}
+
+.stat-strip .container>div {
+    min-width: 110px;
+    max-width: 140px;
+}
+
+.stat-strip .stat-num {
+    font-family: "Fraunces", serif;
+    font-size: 1.35rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.1;
+}
+
+.stat-strip .stat-label {
+    font-size: 0.7rem;
+    color: #bfe3dd;
+    text-transform: uppercase;
+    letter-spacing: 0.35px;
+    line-height: 1.25;
+}

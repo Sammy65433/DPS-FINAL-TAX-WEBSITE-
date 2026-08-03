@@ -8,6 +8,7 @@ function Immigration() {
           <div className="taxprep-text">
             <p className="eyebrow">Our Services</p>
             <h1>Immigration Services</h1>
+
             <p className="section-text">
               DPS Professional Tax Services provides support for clients who need
               help organizing, understanding, and preparing immigration-related
@@ -36,6 +37,7 @@ function Immigration() {
 
           <div className="service-content">
             <h2>What We Help With</h2>
+
             <p>
               We assist clients with preparing and organizing immigration-related
               forms and supporting paperwork. Our role is to help make sure
@@ -45,9 +47,8 @@ function Immigration() {
 
             <p>
               We understand that immigration paperwork often carries a lot of
-              importance and urgency. That is why we focus on clear
-              communication, patience, and careful attention to detail when
-              supporting clients.
+              importance and urgency. That is why we focus on clear communication,
+              patience, and careful attention to detail when supporting clients.
             </p>
 
             <h2>Types of Immigration Support</h2>

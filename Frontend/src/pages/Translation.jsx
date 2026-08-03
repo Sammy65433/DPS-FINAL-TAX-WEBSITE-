@@ -9,6 +9,7 @@ function Translation() {
           <div className="taxprep-text">
             <p className="eyebrow">Our Services</p>
             <h1>Translation Services</h1>
+
             <p className="section-text">
               DPS Professional Tax Services provides translation support to help
               clients understand, complete, and submit important documents with
@@ -38,12 +39,13 @@ function Translation() {
 
           <div className="service-content">
             <h2>What We Help With</h2>
+
             <p>
               We help clients who need support understanding written materials,
               completing forms, and communicating important information clearly.
               Our translation services are designed to reduce confusion and make
-              the process easier for clients handling time-sensitive or
-              important documents.
+              the process easier for clients handling time-sensitive or important
+              documents.
             </p>
 
             <p>

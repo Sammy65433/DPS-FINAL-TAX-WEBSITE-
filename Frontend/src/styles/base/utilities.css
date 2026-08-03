@@ -1,0 +1,13 @@
+.name-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.9rem;
+}
+
+#payment {
+    scroll-margin-top: 140px;
+}
+
+#irs-links {
+    scroll-margin-top: 140px;
+}

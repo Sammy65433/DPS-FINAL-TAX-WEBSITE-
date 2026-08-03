@@ -5,7 +5,9 @@ function Hero() {
     <section className="hero" data-aos="fade-up">
       <div className="container hero-content">
         <p className="tag">19+ Years Serving Maplewood, NJ</p>
+
         <h1>DPS Professional Tax and Business Services You Can Trust</h1>
+
         <p className="lead">
           For over 19 years, DPS has provided trusted tax preparation, document
           support, immigration assistance, insurance services, and essential
@@ -17,6 +19,15 @@ function Hero() {
           <Link to="/booking" className="btn">
             Book Appointment
           </Link>
+
+          <Link to="/booking#payment" className="btn btn-ghost">
+            Payment Options
+          </Link>
+
+          <Link to="/booking#irs-links" className="btn btn-ghost">
+            IRS Links
+          </Link>
+
           <a href="tel:9733272340" className="btn btn-ghost">
             Call the Office
           </a>
