@@ -1,5 +1,22 @@
 ```md
-DPS Tax API is the backend service for the DPS Professional Tax Services and DPS Realty website. It handles appointment booking, appointment management, email notifications, availability checks, and client email utilities.
+DPS Tax API
+
+DPS Tax API is the backend service for the DPS Professional Tax Services and DPS Realty website. It handles tax appointment booking, realty appointment booking, email notifications, appointment updates, refund-related support links on the frontend, and client email utilities.
+
+This backend is built with Express and uses Supabase as the database, Resend for email delivery, and XLSX for spreadsheet parsing.
+
+## Overview
+
+The backend supports:
+
+- tax appointment booking
+- realty appointment booking
+- appointment availability lookups
+- client confirmation and cancellation from email links
+- admin update, archive, cancel, and delete actions
+- bulk email sending
+- parsing client email addresses from an Excel file
+- health check monitoring
 
 ## Tech Stack
 
@@ -11,66 +28,127 @@ DPS Tax API is the backend service for the DPS Professional Tax Services and DPS
 - CORS
 - dotenv
 
-## Features
-
-- Tax appointment booking
-- Realty appointment booking
-- Appointment availability lookup
-- Appointment confirmation from email links
-- Appointment cancellation from email links
-- Admin update, archive, cancel, and delete actions
-- Bulk email sending to clients
-- Parse client emails from Excel spreadsheet
-- Health check endpoint
-
-## Project Structure
+## Current Backend Structure
 
 ```bash
 DPS-FINAL-TAX/
-├── Backend/
-│   ├── config/
-│   │   ├── env.js
-│   │   ├── supabase.js
-│   │   └── resend.js
-│   ├── controllers/
-│   │   ├── appointmentController.js
-│   │   ├── realtyAppointmentController.js
-│   │   └── emailController.js
-│   ├── routes/
-│   │   ├── appointmentRoutes.js
-│   │   ├── realtyAppointmentRoutes.js
-│   │   └── emailRoutes.js
-│   ├── services/
-│   │   ├── appointmentService.js
-│   │   ├── realtyAppointmentService.js
-│   │   ├── emailService.js
-│   │   └── spreadsheetService.js
-│   ├── utils/
-│   │   ├── chunkArray.js
-│   │   └── normalizeEmails.js
-│   ├── app.js
-│   └── server.js
-├── public/
-├── .env
-├── .env.example
-└── package.json
+└── Backend/
+    ├── config/
+    │   ├── env.js
+    │   ├── supabase.js
+    │   └── resend.js
+    ├── controllers/
+    │   ├── appointmentController.js
+    │   ├── realtyAppointmentController.js
+    │   └── emailController.js
+    ├── routes/
+    │   ├── appointmentRoutes.js
+    │   ├── realtyAppointmentRoutes.js
+    │   └── emailRoutes.js
+    ├── services/
+    │   ├── appointmentService.js
+    │   ├── realtyAppointmentService.js
+    │   ├── emailService.js
+    │   └── spreadsheetService.js
+    ├── utils/
+    │   ├── chunkArray.js
+    │   └── normalizeEmails.js
+    ├── public/
+    │   └── DPS Client List.xls
+    ├── app.js
+    ├── server.js
+    ├── .env
+    ├── .env.example
+    ├── package.json
+    └── package-lock.json
 ```
+
+## Architecture
+
+This backend was refactored from a single large `server.js` file into smaller modules.
+
+Responsibilities are split like this:
+
+- `config/` = environment variables and third-party client setup
+- `routes/` = endpoint definitions only
+- `controllers/` = request and response handling
+- `services/` = business logic and database or email operations
+- `utils/` = reusable helper functions
+
+Application flow:
+
+```txt
+route -> controller -> service -> config/client
+```
+
+## Features
+
+### Tax Appointments
+- create tax appointments
+- get all tax appointments
+- check booked appointment times by date and preparer
+- confirm appointment from email
+- cancel appointment from email
+- cancel appointment from admin action
+- archive appointment
+- update appointment
+- delete appointment
+- send appointment confirmation emails
+- send office notification emails
+- send updated appointment emails when date or time changes
+
+### Realty Appointments
+- create realty appointments
+- get all realty appointments
+- confirm realty request from email
+- cancel realty request from email
+- confirm realty request from admin action
+- cancel realty request from admin action
+- archive realty request
+- update realty request
+- delete realty request
+- send client and office realty emails
+- send update emails when date or time changes
+
+### Email Utilities
+- send bulk emails to client lists
+- parse and clean email addresses from spreadsheet file
+
+### Monitoring
+- root route for API status
+- `/health` endpoint for health checks
 
 ## Installation
 
 1. Clone the repository
-2. Go into the backend folder
+2. Navigate to the backend directory
 3. Install dependencies
 
 ```bash
+cd Backend
 npm install
 ```
 
 ## Environment Variables
 
-Create a `.env` file in the `Backend` folder.
+Create a `.env` file inside the `Backend` folder.
 
 Example:
+
+```env
+SUPABASE_URL=your_supabase_project_url
+SUPABASE_KEY=your_supabase_service_or_anon_key
+PORT=5001
+RESEND_API_KEY=your_resend_api_key
+TWILIO_ACCOUNT_SID=your_twilio_account_sid
+TWILIO_API_KEY=your_twilio_api_key
+TWILIO_API_SECRET=your_twilio_api_secret
+TWILIO_PHONE_NUMBER=your_twilio_phone_number
+FRONTEND_URL=https://www.dpstaxpro.com
+BASE_URL=http://localhost:5001
+```
+
+Example `.env.example`:
 
 ```env
 SUPABASE_URL=your_supabase_project_url
@@ -85,19 +163,35 @@ FRONTEND_URL=http://localhost:5173
 BASE_URL=http://localhost:5001
 ```
 
-## Run the Server
+## Running the Server
+
+Start the backend with:
 
 ```bash
 npm start
 ```
 
-Server runs on:
+or
+
+```bash
+node server.js
+```
+
+The API runs locally at:
 
 ```bash
 http://localhost:5001
 ```
 
-## CORS Allowed Origins
+## Scripts
+
+```json
+{
+  "start": "node server.js"
+}
+```
+
+## CORS Configuration
 
 This backend currently allows requests from:
 
@@ -110,12 +204,20 @@ This backend currently allows requests from:
 
 ## API Endpoints
 
-### General
+## General
 
-#### `GET /`
+### `GET /`
 Returns API status message.
 
-#### `GET /health`
+Example response:
+
+```json
+{
+  "message": "DPS Tax API is running"
+}
+```
+
+### `GET /health`
 Returns health check response.
 
 Example response:
@@ -126,16 +228,24 @@ Example response:
 }
 ```
 
-## Tax Appointments
+## Tax Appointment Endpoints
 
-#### `GET /api/appointments`
-Get all tax appointments.
+### `GET /api/appointments`
+Returns all tax appointments ordered by newest first.
 
-#### `GET /api/appointments/availability?date=YYYY-MM-DD&preparer=NAME`
-Get booked time slots for a specific date and tax preparer.
+### `GET /api/appointments/availability?date=YYYY-MM-DD&preparer=NAME`
+Returns booked appointment times for a specific date and tax preparer.
 
-#### `POST /api/appointments`
-Create a new tax appointment.
+Example response:
+
+```json
+{
+  "bookedTimes": ["10:00 AM", "11:00 AM"]
+}
+```
+
+### `POST /api/appointments`
+Creates a new tax appointment.
 
 Example request body:
 
@@ -153,31 +263,31 @@ Example request body:
 }
 ```
 
-#### `GET /api/appointments/:id/confirm`
-Confirm a tax appointment from email link.
+### `GET /api/appointments/:id/confirm`
+Confirms a tax appointment from an email link.
 
-#### `GET /api/appointments/:id/cancel-from-email`
-Cancel a tax appointment from email link.
+### `GET /api/appointments/:id/cancel-from-email`
+Cancels a tax appointment from an email link.
 
-#### `PATCH /api/appointments/:id`
-Update a tax appointment.
+### `PATCH /api/appointments/:id`
+Updates an existing tax appointment.
 
-#### `PATCH /api/appointments/:id/cancel`
-Cancel a tax appointment.
+### `PATCH /api/appointments/:id/cancel`
+Cancels a tax appointment from an admin action.
 
-#### `PATCH /api/appointments/:id/archive`
-Archive a tax appointment.
+### `PATCH /api/appointments/:id/archive`
+Archives a tax appointment.
 
-#### `DELETE /api/appointments/:id`
-Delete a tax appointment.
+### `DELETE /api/appointments/:id`
+Deletes a tax appointment.
 
-## Realty Appointments
+## Realty Appointment Endpoints
 
-#### `GET /api/realty-appointments`
-Get all realty appointments.
+### `GET /api/realty-appointments`
+Returns all realty appointments ordered by newest first.
 
-#### `POST /api/realty-appointments`
-Create a new realty appointment.
+### `POST /api/realty-appointments`
+Creates a new realty appointment.
 
 Example request body:
 
@@ -194,31 +304,31 @@ Example request body:
 }
 ```
 
-#### `GET /api/realty-appointments/:id/confirm`
-Confirm a realty appointment from email link.
+### `GET /api/realty-appointments/:id/confirm`
+Confirms a realty appointment from an email link.
 
-#### `GET /api/realty-appointments/:id/cancel-from-email`
-Cancel a realty appointment from email link.
+### `GET /api/realty-appointments/:id/cancel-from-email`
+Cancels a realty appointment from an email link.
 
-#### `PATCH /api/realty-appointments/:id`
-Update a realty appointment.
+### `PATCH /api/realty-appointments/:id`
+Updates a realty appointment.
 
-#### `PATCH /api/realty-appointments/:id/confirm`
-Confirm a realty appointment.
+### `PATCH /api/realty-appointments/:id/confirm`
+Confirms a realty appointment from an admin action.
 
-#### `PATCH /api/realty-appointments/:id/cancel`
-Cancel a realty appointment.
+### `PATCH /api/realty-appointments/:id/cancel`
+Cancels a realty appointment from an admin action.
 
-#### `PATCH /api/realty-appointments/:id/archive`
-Archive a realty appointment.
+### `PATCH /api/realty-appointments/:id/archive`
+Archives a realty appointment.
 
-#### `DELETE /api/realty-appointments/:id`
-Delete a realty appointment.
+### `DELETE /api/realty-appointments/:id`
+Deletes a realty appointment.
 
-## Client Email Utilities
+## Email Utility Endpoints
 
-#### `POST /api/send-client-bulk-email`
-Send a bulk email to a list of client email addresses.
+### `POST /api/send-client-bulk-email`
+Sends a bulk email to a list of client email addresses.
 
 Example request body:
 
@@ -230,27 +340,38 @@ Example request body:
 }
 ```
 
-#### `GET /api/parse-client-emails`
-Reads `./public/DPS Client List.xls` and returns cleaned email addresses.
+### `GET /api/parse-client-emails`
+Reads the spreadsheet file at `./public/DPS Client List.xls`, normalizes the email addresses, removes duplicates, and returns the cleaned list.
+
+Example response:
+
+```json
+{
+  "totalRows": 1732,
+  "totalEmails": 1499,
+  "emails": ["example1@gmail.com", "example2@gmail.com"]
+}
+```
 
 ## Email Behavior
 
-This backend uses Resend to:
+This backend uses Resend to send:
 
-- send appointment request emails to clients
-- send office notification emails
-- send updated appointment emails
-- send realty request emails
-- send bulk client emails
+- tax appointment request emails to clients
+- realty appointment request emails to clients
+- office notification emails
+- appointment update emails
+- realty update emails
+- bulk client emails
 
-## Supabase Tables Expected
+## Supabase Tables Required
 
-This backend expects at least these tables:
+This backend expects at least these two tables:
 
 - `appointments`
 - `realty_appointments`
 
-Suggested fields for `appointments`:
+### Suggested `appointments` table fields
 
 - `id`
 - `first_name`
@@ -265,7 +386,7 @@ Suggested fields for `appointments`:
 - `status`
 - `created_at`
 
-Suggested fields for `realty_appointments`:
+### Suggested `realty_appointments` table fields
 
 - `id`
 - `first_name`
@@ -279,39 +400,144 @@ Suggested fields for `realty_appointments`:
 - `status`
 - `created_at`
 
-## Notes
+## SQL Table Setup
 
-- `SUPABASE_URL` and `SUPABASE_KEY` are required or the server will crash on startup
-- `RESEND_API_KEY` is required for email features
-- `TWILIO` variables are present in the environment but not currently used in the shown backend code
-- `BASE_URL` is used for email action links
-- `FRONTEND_URL` is used for reschedule links
+Use this in Supabase SQL Editor:
+
+```sql
+create table if not exists public.appointments (
+  id uuid primary key default gen_random_uuid(),
+  first_name text,
+  last_name text,
+  phone text,
+  email text,
+  service text,
+  tax_preparer text,
+  appointment_date date,
+  appointment_time text,
+  message text,
+  status text default 'booked',
+  created_at timestamp with time zone default now()
+);
+
+create table if not exists public.realty_appointments (
+  id uuid primary key default gen_random_uuid(),
+  first_name text,
+  last_name text,
+  phone text,
+  email text,
+  service text,
+  appointment_date date,
+  appointment_time text,
+  message text,
+  status text default 'pending',
+  created_at timestamp with time zone default now()
+);
+```
+
+## Key Files
+
+### `app.js`
+Sets up:
+- Express app
+- CORS
+- JSON middleware
+- root route
+- health route
+- route mounting
+
+### `server.js`
+Starts the server and handles:
+- uncaught exceptions
+- unhandled rejections
+- port binding
+
+### `config/env.js`
+Loads and exports environment variables.
+
+### `config/supabase.js`
+Creates the Supabase client.
+
+### `config/resend.js`
+Creates the Resend client.
+
+### `controllers/`
+These files handle request and response logic for appointments, realty appointments, and email utilities.
+
+### `services/`
+These files contain the database calls, email behavior, and spreadsheet parsing logic.
+
+### `utils/`
+These files contain helper functions such as:
+- `chunkArray`
+- `normalizeEmails`
+
+## Frontend Integration Notes
+
+The frontend can now test forms against:
+
+- `POST /api/appointments`
+- `POST /api/realty-appointments`
+
+Since both table endpoints already return `[]`, the backend and Supabase connection are working correctly.
+
+Frontend should also be able to test:
+
+- availability route
+- confirmation and cancellation links
+- admin CRUD operations
 
 ## Troubleshooting
 
 ### Error: `supabaseUrl is required`
-Your `.env` file is missing, in the wrong folder, or incorrectly formatted.
+Cause:
+- `.env` missing
+- `.env` in wrong folder
+- variable names incorrect
+- missing `=` in `.env`
 
-Make sure:
+Fix:
+- make sure `.env` is inside `Backend`
+- use exact variable names
+- use `KEY=value` format
 
-- `.env` is inside the backend folder
-- variable names match exactly
-- each variable uses `KEY=value` format
+### Error: `ENOTFOUND ...supabase.co`
+Cause:
+- bad Supabase project URL
+- typo in `SUPABASE_URL`
+- old or deleted project
+- DNS resolution failure
 
-### Environment variables not loading
-Add this near the top of `server.js`:
+Fix:
+- copy the correct project URL from Supabase
+- update `.env`
+- restart the server
 
-```js
-console.log("cwd:", process.cwd());
-console.log("SUPABASE_URL exists:", !!process.env.SUPABASE_URL);
-```
+### Error: `Could not find the table 'public.appointments' in the schema cache`
+Cause:
+- table not created yet
 
-## Scripts
+Fix:
+- create `appointments` and `realty_appointments` in Supabase
 
-```json
-{
-  "start": "node server.js"
-}
+### Route returns `[]`
+Cause:
+- route is working but table has no records yet
+
+Fix:
+- no fix needed
+- test a form submission or POST request
+
+### Spreadsheet route fails
+Cause:
+- missing Excel file
+- wrong path
+
+Fix:
+- ensure file exists at:
+
+```bash
+Backend/public/DPS Client List.xls
 ```
 
 ## Dependencies
@@ -324,154 +550,31 @@ console.log("SUPABASE_URL exists:", !!process.env.SUPABASE_URL);
 - `twilio`
 - `xlsx`
 
+## Notes
+
+- `SUPABASE_URL` and `SUPABASE_KEY` are required for database access
+- `RESEND_API_KEY` is required for email features
+- `TWILIO` variables exist in the environment but are not actively used in the shown backend flow
+- `BASE_URL` is used for confirm and cancel links in emails
+- `FRONTEND_URL` is used for reschedule links
+- secrets should never be committed to GitHub
+- rotate exposed keys if they were shown publicly
+
+## Status
+
+Current backend status:
+
+- Express server running
+- Environment variables loading
+- Supabase connection working
+- `appointments` endpoint working
+- `realty_appointments` endpoint working
+- spreadsheet parsing working
+- backend refactor completed into modular structure
+
 ## Author
 
 DPS Tax API
 ```
-- `config/` = env vars and client setup
-- `routes/` = endpoint definitions only
-- `controllers/` = request/response logic
-- `services/` = Supabase, Resend, XLSX business logic
-- `utils/` = helper functions like `chunkArray`, `normalizeEmails`
 
-Minimal flow:
-
-```txt
-route -> controller -> service -> config/client
-```
-
-Example:
-
-`src/config/env.js`
-```js
-import dotenv from "dotenv";
-dotenv.config();
-
-export const env = {
-  PORT: process.env.PORT || 5001,
-  SUPABASE_URL: process.env.SUPABASE_URL,
-  SUPABASE_KEY: process.env.SUPABASE_KEY,
-  RESEND_API_KEY: process.env.RESEND_API_KEY,
-  BASE_URL: process.env.BASE_URL || "http://localhost:5001",
-  FRONTEND_URL: process.env.FRONTEND_URL || "http://localhost:5173",
-};
-```
-
-`src/config/supabase.js`
-```js
-import { createClient } from "@supabase/supabase-js";
-import { env } from "./env.js";
-
-export const supabase = createClient(env.SUPABASE_URL, env.SUPABASE_KEY);
-```
-
-`src/config/resend.js`
-```js
-import { Resend } from "resend";
-import { env } from "./env.js";
-
-export const resend = new Resend(env.RESEND_API_KEY);
-```
-
-`src/utils/chunkArray.js`
-```js
-export function chunkArray(array, size) {
-  const chunks = [];
-  for (let i = 0; i < array.length; i += size) {
-    chunks.push(array.slice(i, i + size));
-  }
-  return chunks;
-}
-```
-
-`src/utils/normalizeEmails.js`
-```js
-export function normalizeEmails(emails = []) {
-  return [
-    ...new Set(
-      emails
-        .map(email => String(email || "").trim().toLowerCase())
-        .filter(email => email && email.includes("@"))
-    ),
-  ];
-}
-```
-
-`src/routes/appointmentRoutes.js`
-```js
-import express from "express";
-import {
-  getAppointments,
-  createAppointment,
-  getAvailability,
-} from "../controllers/appointmentController.js";
-
-const router = express.Router();
-
-router.get("/", getAppointments);
-router.get("/availability", getAvailability);
-router.post("/", createAppointment);
-
-export default router;
-```
-
-`src/app.js`
-```js
-import express from "express";
-import cors from "cors";
-import appointmentRoutes from "./routes/appointmentRoutes.js";
-
-const app = express();
-
-app.use(cors());
-app.use(express.json());
-
-app.get("/", (req, res) => {
-  res.json({ message: "DPS Tax API is running" });
-});
-
-app.get("/health", (req, res) => {
-  res.status(200).json({ ok: true });
-});
-
-app.use("/api/appointments", appointmentRoutes);
-
-export default app;
-```
-
-`src/server.js`
-```js
-import app from "./app.js";
-import { env } from "./config/env.js";
-
-app.listen(env.PORT, "0.0.0.0", () => {
-  console.log(`Server running on port ${env.PORT}`);
-});
-```
-
-Best way to refactor your current file:
-
-1. move env + client setup first
-2. move helper functions into `utils`
-3. move email template builders into `services/emailService.js`
-4. move tax appointment logic into appointment controller/service
-5. move realty logic into realty controller/service
-6. move bulk email + spreadsheet parsing into email controller/service
-7. leave `app.js` only for middleware and route mounting
-8. leave `server.js` only for startup
-
-Your file is big enough that I would split it into these first 6 files immediately:
-
-- `app.js`
-- `server.js`
-- `config/supabase.js`
-- `config/resend.js`
-- `routes/appointmentRoutes.js`
-- `routes/realtyAppointmentRoutes.js`
-
-Then second pass:
-
-- `controllers/*`
-- `services/*`
-- `utils/*`
-
+Replace your current README with that full version.
