@@ -573,8 +573,6 @@ Current backend status:
 - backend refactor completed into modular structure
 
 ## Author
-
+Samuel Jacquet
 DPS Tax API
 ```
-
-Replace your current README with that full version.

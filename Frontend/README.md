@@ -448,6 +448,6 @@ Current frontend status:
 - appointment creation confirmed
 
 ## Author
-
+Samuel Jacquet 
 DPS Tax Frontend
 ```
