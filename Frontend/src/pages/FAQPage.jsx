@@ -1,10 +1,10 @@
 import Layout from "../components/Layout";
-import FAQ from "../components/FAQ";
+import FullFAQ from "../components/FullFAQ";
 
 function FAQPage() {
   return (
     <Layout>
-      <FAQ />
+      <FullFAQ />
     </Layout>
   );
 }

@@ -1,10 +1,10 @@
 import Layout from "../components/Layout";
-import HowItWorks from "../components/HowItWorks";
+import FullHowItWorks from "../components/FullHowItWorks";
 
 function HowItWorksPage() {
   return (
     <Layout>
-      <HowItWorks />
+      <FullHowItWorks />
     </Layout>
   );
 }

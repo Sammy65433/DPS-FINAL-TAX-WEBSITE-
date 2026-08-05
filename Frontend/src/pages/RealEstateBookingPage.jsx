@@ -1,10 +1,12 @@
 import Layout from "../components/Layout";
-import Realty from "../components/Realty";
+import RealtyIntro from "../components/RealtyIntro";
+import RealtyBookingForm from "../components/RealtyBookingForm";
 
 function RealEstateBookingPage() {
   return (
     <Layout>
-      <Realty />
+      <RealtyIntro />
+      <RealtyBookingForm />
     </Layout>
   );
 }

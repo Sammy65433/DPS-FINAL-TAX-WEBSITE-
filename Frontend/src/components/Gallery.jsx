@@ -5,9 +5,21 @@ function Gallery() {
         <p className="eyebrow">Moments at DPS</p>
         <h2>DPS in the Community</h2>
 
-        <p className="section-text">
-          A few moments that reflect our commitment to service, community, and
-          the people we proudly work with and support.
+        <p className="section-text gallery-section-text">
+          These moments reflect more than just photos. They represent the trust,
+          relationships, and community connection that DPS Professional Tax
+          Services has built over the years. From serving individuals and
+          families during tax season to supporting clients with important
+          documents, appointments, and everyday needs, our work has always been
+          rooted in service, care, and consistency.
+        </p>
+
+        <p className="section-text gallery-section-text">
+          We are proud to be part of the Maplewood community and grateful for
+          every client, family, and small business that has allowed us to be a
+          trusted resource over the years. These images capture a few of the
+          people, moments, and experiences that reflect the heart of DPS and the
+          community we continue to serve.
         </p>
 
         <div className="gallery-grid">

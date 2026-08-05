@@ -18,6 +18,7 @@ import FAQPage from "./pages/FAQPage";
 import MomentsPage from "./pages/MomentsPage";
 import HowItWorksPage from "./pages/HowItWorksPage";
 import TaxpayerResourcesPage from "./pages/TaxpayerResourcesPage";
+import ClientFeedbackPage from "./pages/ClientFeedbackPage";
 
 function App() {
   return (
@@ -42,6 +43,7 @@ function App() {
         <Route path="/how-it-works" element={<HowItWorksPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/taxpayer-resources" element={<TaxpayerResourcesPage />} />
+        <Route path="/client-feedback" element={<ClientFeedbackPage />} />
 
       </Routes>
     </>

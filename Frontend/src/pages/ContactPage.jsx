@@ -1,10 +1,10 @@
 import Layout from "../components/Layout";
-import Contact from "../components/Contact";
+import FullContact from "../components/FullContact";
 
 function ContactPage() {
   return (
     <Layout>
-      <Contact />
+      <FullContact />
     </Layout>
   );
 }

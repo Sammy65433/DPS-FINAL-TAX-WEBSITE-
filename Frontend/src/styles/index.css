@@ -21,3 +21,7 @@
 @import "./pages/taxprep-page.css";
 @import "./pages/admin-page.css";
 @import "./pages/taxpayer-resources-page.css";
+@import "./components/faq.css";
+@import "./components/how-it-works.css";
+@import "./components/services.css";
+@import "./components/testimonials.css";

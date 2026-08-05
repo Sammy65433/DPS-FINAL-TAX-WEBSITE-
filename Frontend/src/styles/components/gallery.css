@@ -30,3 +30,11 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
+.gallery-section-text {
+  max-width: 760px;
+  margin: 0 auto 1rem;
+  text-align: center;
+  line-height: 1.9;
+  font-size: 1rem;
+}
