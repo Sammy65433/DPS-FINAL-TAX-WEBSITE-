@@ -1,10 +1,10 @@
 import Layout from "../components/Layout";
-import Purpose from "../components/Purpose";
+import FullPurpose from "../components/FullPurpose";
 
 function PurposePage() {
   return (
     <Layout>
-      <Purpose />
+      <FullPurpose />
     </Layout>
   );
 }
