@@ -92,3 +92,34 @@
     border-color: rgba(255, 255, 255, 0.45);
     transform: translateY(-1px);
 }
+
+#google_translate_element {
+    display: flex;
+    align-items: center;
+}
+
+#google_translate_element .goog-te-gadget {
+    color: #e9f3f1;
+    font-family: "Manrope", Arial, sans-serif;
+    font-size: 0.82rem;
+}
+
+#google_translate_element .goog-te-gadget-simple {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 999px;
+    padding: 0.25rem 0.6rem;
+}
+
+#google_translate_element .goog-te-gadget-simple span {
+    color: #e9f3f1 !important;
+    border: none !important;
+}
+
+.goog-te-banner-frame.skiptranslate {
+    display: none !important;
+}
+
+body {
+    top: 0px !important;
+}

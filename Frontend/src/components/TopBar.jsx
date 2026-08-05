@@ -1,5 +1,5 @@
 import { FaWhatsapp, FaGoogle, FaMapMarkerAlt } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import GoogleTranslate from "./GoogleTranslate";
 
 function TopBar() {
   return (
@@ -13,20 +13,7 @@ function TopBar() {
         </p>
 
         <div className="top-right">
-          <div className="lang-row">
-            <Link to="/translation" className="lang-pill">
-              EN
-            </Link>
-            <Link to="/translation" className="lang-pill">
-              ES
-            </Link>
-            <Link to="/translation" className="lang-pill">
-              FR
-            </Link>
-            <Link to="/translation" className="lang-pill">
-              KRY
-            </Link>
-          </div>
+          <GoogleTranslate />
 
           <div className="social-icons">
             <a
