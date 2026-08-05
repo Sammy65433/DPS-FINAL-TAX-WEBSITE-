@@ -36,7 +36,7 @@ function RealtyPreview() {
 
         <div className="realty-contact">
           <p>
-            <strong>Ricot Casimir</strong> - RC Realty Group
+            <strong>Ricot Casimir - RC Realty Group</strong>
           </p>
 
           <p>

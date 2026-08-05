@@ -15,39 +15,16 @@ function TopBar() {
         <div className="top-right">
           <div className="lang-row">
             <Link to="/translation" className="lang-pill">
-              <img
-                src="/americanflag1.jpg"
-                alt="English"
-                className="lang-mini-flag"
-              />
               EN
             </Link>
-
             <Link to="/translation" className="lang-pill">
-              <img
-                src="/Haitiflag.jpg"
-                alt="Kreyòl"
-                className="lang-mini-flag"
-              />
-              KRY
+              ES
             </Link>
-
             <Link to="/translation" className="lang-pill">
-              <img
-                src="/FranceFlag.jpg"
-                alt="French"
-                className="lang-mini-flag"
-              />
               FR
             </Link>
-
             <Link to="/translation" className="lang-pill">
-              <img
-                src="/SpainFlag.jpg"
-                alt="Spanish"
-                className="lang-mini-flag"
-              />
-              ES
+              KRY
             </Link>
           </div>
 

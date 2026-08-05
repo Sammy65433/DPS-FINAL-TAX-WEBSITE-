@@ -12,14 +12,20 @@ function HowItWorks() {
         </p>
 
         <div className="how-step-grid">
-          <Link to="/how-it-works#book-step" className="card how-step-card how-preview-card">
+          <Link
+            to="/how-it-works#book-step"
+            className="card how-step-card how-preview-card"
+          >
             <div className="how-step-number">01</div>
             <h3>1. Book</h3>
             <p>Schedule your appointment online or call the office directly.</p>
             <span className="btn how-it-works-btn">Book Now</span>
           </Link>
 
-          <Link to="/how-it-works#confirm-step" className="card how-step-card how-preview-card">
+          <Link
+            to="/how-it-works#confirm-step"
+            className="card how-step-card how-preview-card"
+          >
             <div className="how-step-number">02</div>
             <h3>2. Confirm</h3>
             <p>
@@ -28,13 +34,19 @@ function HowItWorks() {
             </p>
           </Link>
 
-          <Link to="/how-it-works#prepare-step" className="card how-step-card how-preview-card">
+          <Link
+            to="/how-it-works#prepare-step"
+            className="card how-step-card how-preview-card"
+          >
             <div className="how-step-number">03</div>
             <h3>3. Prepare</h3>
             <p>Bring your documents or upload them securely to the portal.</p>
           </Link>
 
-          <Link to="/how-it-works#file-step" className="card how-step-card how-preview-card">
+          <Link
+            to="/how-it-works#file-step"
+            className="card how-step-card how-preview-card"
+          >
             <div className="how-step-number">04</div>
             <h3>4. File</h3>
             <p>Meet with a preparer and complete your service with confidence.</p>
