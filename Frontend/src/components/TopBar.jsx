@@ -1,4 +1,5 @@
 import { FaWhatsapp, FaGoogle, FaMapMarkerAlt } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 function TopBar() {
   return (
@@ -13,41 +14,41 @@ function TopBar() {
 
         <div className="top-right">
           <div className="lang-row">
-            <span className="lang-pill">
+            <Link to="/translation" className="lang-pill">
               <img
                 src="/americanflag1.jpg"
                 alt="English"
                 className="lang-mini-flag"
               />
               EN
-            </span>
+            </Link>
 
-            <span className="lang-pill">
+            <Link to="/translation" className="lang-pill">
               <img
                 src="/Haitiflag.jpg"
                 alt="Kreyòl"
                 className="lang-mini-flag"
               />
               KRY
-            </span>
+            </Link>
 
-            <span className="lang-pill">
+            <Link to="/translation" className="lang-pill">
               <img
                 src="/FranceFlag.jpg"
                 alt="French"
                 className="lang-mini-flag"
               />
               FR
-            </span>
+            </Link>
 
-            <span className="lang-pill">
+            <Link to="/translation" className="lang-pill">
               <img
                 src="/SpainFlag.jpg"
                 alt="Spanish"
                 className="lang-mini-flag"
               />
               ES
-            </span>
+            </Link>
           </div>
 
           <div className="social-icons">
