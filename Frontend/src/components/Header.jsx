@@ -31,8 +31,8 @@ function Header() {
           <Link to="/booking#payment" className="nav-call">
             Payments
           </Link>
-          <Link to="/booking#irs-links" className="nav-call">
-            Taxpayer Resources 
+          <Link to="/taxpayer-resources" className="nav-call">
+            Taxpayer Resources
           </Link>
           <a href="tel:+19733272340" className="nav-call">
             Call Now

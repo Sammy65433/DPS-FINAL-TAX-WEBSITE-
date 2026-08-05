@@ -17,6 +17,7 @@ import PurposePage from "./pages/PurposePage";
 import FAQPage from "./pages/FAQPage";
 import MomentsPage from "./pages/MomentsPage";
 import HowItWorksPage from "./pages/HowItWorksPage";
+import TaxpayerResourcesPage from "./pages/TaxpayerResourcesPage";
 
 function App() {
   return (
@@ -40,6 +41,8 @@ function App() {
         <Route path="/moments" element={<MomentsPage />} />
         <Route path="/how-it-works" element={<HowItWorksPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/taxpayer-resources" element={<TaxpayerResourcesPage />} />
+
       </Routes>
     </>
   );

@@ -20,14 +20,6 @@ function Hero() {
             Book Appointment
           </Link>
 
-          <Link to="/booking#payment" className="btn btn-ghost">
-            Payment Options
-          </Link>
-
-          <Link to="/booking#irs-links" className="btn btn-ghost">
-            Taxpayer Resources
-          </Link>
-
           <a href="tel:9733272340" className="btn btn-ghost">
             Call the Office
           </a>

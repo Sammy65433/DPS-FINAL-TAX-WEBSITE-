@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
-import IRSLinksBox from "./IRSLinksBox";
 
 function generateTimeOptions(selectedDate) {
   if (!selectedDate) return [];
@@ -345,7 +344,6 @@ function Booking() {
             </p>
           </section>
 
-          <IRSLinksBox />
 
           <textarea
             name="message"
