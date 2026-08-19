@@ -155,12 +155,11 @@ export async function sendTaxAppointmentRequestEmail(appointment) {
         console.error("Error sending tax confirmation email:", emailError);
     }
 }
-
 export async function sendTaxOfficeNotificationEmail(appointment) {
     try {
         await resend.emails.send({
             from: "appointments@dpstaxpro.com",
-            to: "appointments@dpstaxpro.com",
+            to: process.env.OFFICE_NOTIFICATION_EMAIL,
             subject: "New DPS Tax Appointment Booked",
             html: `
         <h2>New Tax Appointment Booked</h2>
@@ -172,12 +171,19 @@ export async function sendTaxOfficeNotificationEmail(appointment) {
         <p><strong>Date:</strong> ${appointment.appointment_date}</p>
         <p><strong>Time:</strong> ${appointment.appointment_time}</p>
         <p><strong>Message:</strong> ${appointment.message || "None"}</p>
+        <p>
+          <a href="https://dps-final-taxwebsite.onrender.com/admin">
+            Open Admin Panel
+          </a>
+        </p>
       `,
         });
     } catch (officeEmailError) {
         console.error("Error sending office notification email:", officeEmailError);
     }
 }
+
+
 
 export async function sendRealtyAppointmentRequestEmail(appointment) {
     try {
