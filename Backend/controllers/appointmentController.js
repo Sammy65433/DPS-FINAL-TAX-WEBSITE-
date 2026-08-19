@@ -17,13 +17,17 @@ import {
     sendTaxOfficeNotificationEmail,
 } from "../services/emailService.js";
 
+
 export async function getAvailability(req, res) {
     const { date, preparer } = req.query;
+    console.log("Availability query:", { date, preparer });
 
     try {
         const { data, error } = await getAvailabilityService(date, preparer);
+        console.log("Availability service response:", { data, error });
 
         if (error) {
+            console.error("Availability supabase error:", error);
             return res.status(500).json({ message: error.message });
         }
 
@@ -34,6 +38,7 @@ export async function getAvailability(req, res) {
         res.status(500).json({ message: "Error fetching availability." });
     }
 }
+
 
 export async function getAppointments(req, res) {
     try {
@@ -49,7 +54,6 @@ export async function getAppointments(req, res) {
         res.status(500).json({ message: "Error fetching appointments." });
     }
 }
-
 export async function createAppointment(req, res) {
     const {
         first_name,
@@ -63,6 +67,8 @@ export async function createAppointment(req, res) {
         message,
     } = req.body;
 
+    console.log("Create appointment body:", req.body);
+
     try {
         const { data: existingAppointments, error: existingError } =
             await findExistingAppointmentSlotService({
@@ -71,7 +77,13 @@ export async function createAppointment(req, res) {
                 tax_preparer,
             });
 
+        console.log("Existing slot response:", {
+            existingAppointments,
+            existingError,
+        });
+
         if (existingError) {
+            console.error("Existing slot supabase error:", existingError);
             return res.status(500).json({ message: existingError.message });
         }
 
@@ -93,14 +105,21 @@ export async function createAppointment(req, res) {
             message,
         });
 
+        console.log("Create appointment response:", { data, error });
+
         if (error) {
+            console.error("Create appointment supabase error:", error);
             return res.status(500).json({ message: error.message });
         }
 
         const newAppointment = data[0];
 
-        await sendTaxAppointmentRequestEmail(newAppointment);
-        await sendTaxOfficeNotificationEmail(newAppointment);
+        try {
+            await sendTaxAppointmentRequestEmail(newAppointment);
+            await sendTaxOfficeNotificationEmail(newAppointment);
+        } catch (emailError) {
+            console.error("Appointment email error:", emailError);
+        }
 
         res.status(201).json(newAppointment);
     } catch (error) {
