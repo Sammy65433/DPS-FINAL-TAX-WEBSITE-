@@ -15,6 +15,7 @@ app.use(
             "http://127.0.0.1:5174",
             "https://dpstaxpro.com",
             "https://www.dpstaxpro.com",
+            "https://dps-final-taxwebsite.onrender.com",
         ],
         methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type"],
