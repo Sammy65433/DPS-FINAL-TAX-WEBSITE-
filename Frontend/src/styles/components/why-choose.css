@@ -1,0 +1,202 @@
+.why-choose-section {
+  position: relative;
+  background: linear-gradient(180deg, #f8fbff 0%, #fdfcff 50%, #ffffff 100%);
+  overflow: hidden;
+}
+
+.why-choose-section::before {
+  content: "";
+  position: absolute;
+  top: -90px;
+  right: -70px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(rgba(109, 60, 200, 0.08), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.why-choose-section::after {
+  content: "";
+  position: absolute;
+  bottom: -100px;
+  left: -80px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(rgba(15, 92, 84, 0.08), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.why-choose-section .container {
+  position: relative;
+  z-index: 1;
+}
+
+.why-choose-heading {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.why-choose-heading .eyebrow {
+  display: inline-block;
+  margin-bottom: 0.8rem;
+  color: var(--accent);
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.why-choose-heading .h2-sub {
+  color: var(--header);
+  text-align: center;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.12;
+  font-weight: 800;
+  margin-bottom: 0.85rem;
+}
+
+.why-choose-heading .section-text {
+  max-width: 760px;
+  margin: 0 auto;
+  color: var(--muted);
+  line-height: 1.9;
+  font-size: 1.03rem;
+}
+
+.why-choose-button-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0 2.5rem;
+}
+
+.why-choose-btn {
+  box-shadow: 0 12px 24px rgba(91, 33, 182, 0.18);
+}
+
+.why-choose-grid {
+  gap: 1.5rem;
+}
+
+.why-choose-card {
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(15, 23, 42, 0.06);
+  background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+  box-shadow: 0 16px 34px rgba(15, 92, 84, 0.08);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+  padding: 0;
+}
+
+.why-choose-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 42px rgba(15, 92, 84, 0.12);
+  border-color: rgba(109, 60, 200, 0.14);
+}
+
+.why-choose-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--teal), var(--accent), #8b5cf6);
+  z-index: 2;
+}
+
+.why-choose-card .service-card-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border: none;
+  border-radius: 0;
+  margin-bottom: 0;
+  transition: transform 0.35s ease;
+}
+
+.why-choose-card:hover .service-card-image {
+  transform: scale(1.04);
+}
+
+.why-choose-card-content {
+  padding: 1.55rem;
+}
+
+.why-choose-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-width: 84px;
+  min-height: 40px;
+  padding: 0 0.95rem;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #eef7f5, #f3efff);
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--line);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.why-choose-badge svg {
+  font-size: 0.88rem;
+}
+
+.why-choose-card h3 {
+  font-size: 1.15rem;
+  color: var(--header);
+  margin-bottom: 0.8rem;
+  line-height: 1.4;
+}
+
+.why-choose-card p {
+  color: var(--muted);
+  line-height: 1.85;
+  font-size: 0.96rem;
+  margin-bottom: 0;
+}
+
+.why-choose-card .card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin-top: 1rem;
+  color: var(--accent);
+  font-weight: 800;
+  font-size: 0.92rem;
+  text-decoration: none;
+}
+
+.why-choose-card .card-link:hover {
+  color: var(--accent-dark);
+}
+
+@media (max-width: 760px) {
+  .why-choose-card .service-card-image {
+    height: 190px;
+  }
+
+  .why-choose-card-content {
+    padding: 1.35rem;
+  }
+
+  .why-choose-heading .h2-sub {
+    font-size: 2rem;
+  }
+
+  .why-choose-card h3 {
+    font-size: 1.05rem;
+  }
+
+  .why-choose-card p {
+    font-size: 0.94rem;
+    line-height: 1.8;
+  }
+}

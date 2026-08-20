@@ -1,7 +1,7 @@
-.taxprep-page-section {
+.translation-page-section {
   position: relative;
   background:
-    linear-gradient(120deg, rgba(15, 92, 84, 0.7), rgba(49, 22, 97, 0.58)),
+    linear-gradient(120deg, rgba(15, 92, 84, 0.68), rgba(109, 60, 200, 0.56)),
     url("/tax-desktop.jpg");
   background-position: center;
   background-size: cover;
@@ -9,63 +9,63 @@
   overflow: hidden;
 }
 
-.taxprep-page-section::before {
+.translation-page-section::before {
   content: "";
   position: absolute;
-  top: -80px;
-  right: -60px;
-  width: 260px;
-  height: 260px;
-  background: radial-gradient(rgba(255, 255, 255, 0.12), transparent 70%);
+  top: -90px;
+  right: -70px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(rgba(255, 255, 255, 0.13), transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
 
-.taxprep-page-section::after {
+.translation-page-section::after {
   content: "";
   position: absolute;
   bottom: -100px;
   left: -80px;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(rgba(109, 60, 200, 0.12), transparent 70%);
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(rgba(20, 184, 166, 0.16), transparent 70%);
   border-radius: 50%;
   pointer-events: none;
 }
 
-.taxprep-page {
+.translation-page {
   position: relative;
   z-index: 1;
   text-align: center;
 }
 
-.taxprep-hero-card {
+.translation-hero-card {
   max-width: 980px;
   margin: 0 auto 2rem;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.13);
   border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 28px;
   padding: 2.5rem 2rem;
-  backdrop-filter: blur(8px);
+  backdrop-filter: blur(10px);
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
 }
 
-.taxprep-text {
+.translation-text {
   max-width: 820px;
   margin: 0 auto;
 }
 
-.taxprep-text .eyebrow {
+.translation-text .eyebrow {
   display: inline-block;
   margin-bottom: 0.85rem;
-  color: #f3e8ff;
+  color: #f5f3ff;
   font-size: 0.98rem;
   font-weight: 800;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
 
-.taxprep-text h1 {
+.translation-text h1 {
   text-align: center;
   color: #ffffff;
   font-size: clamp(2.4rem, 5vw, 4rem);
@@ -75,15 +75,15 @@
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-.taxprep-text .section-text {
+.translation-text .section-text {
   max-width: 760px;
   margin: 0 auto 1.5rem;
-  color: #e8f5f2;
+  color: #eefcf9;
   line-height: 1.9;
   font-size: 1.06rem;
 }
 
-.taxprep-hero-badges {
+.translation-hero-badges {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -91,20 +91,20 @@
   margin-top: 1rem;
 }
 
-.taxprep-badge {
+.translation-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
-  padding: 0.65rem 1rem;
+  padding: 0.68rem 1rem;
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.14);
   border: 1px solid rgba(255, 255, 255, 0.18);
   color: #ffffff;
   font-weight: 700;
   font-size: 0.9rem;
 }
 
-.taxprep-image-row {
+.translation-image-row {
   display: flex;
   justify-content: center;
   gap: 24px;
@@ -112,7 +112,7 @@
   margin: 0 auto 2rem;
 }
 
-.taxprep-page-image {
+.translation-page-image {
   width: 320px;
   height: 220px;
   object-fit: cover;
@@ -122,11 +122,11 @@
   transition: transform 0.28s ease;
 }
 
-.taxprep-page-image:hover {
+.translation-page-image:hover {
   transform: translateY(-4px) scale(1.01);
 }
 
-.taxprep-content-card {
+.translation-content-card {
   max-width: 920px;
   margin: 0 auto;
   text-align: left;
@@ -137,24 +137,24 @@
   box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
 }
 
-.taxprep-section-block + .taxprep-section-block {
+.translation-section-block + .translation-section-block {
   margin-top: 2rem;
 }
 
-.taxprep-block-title {
+.translation-block-title {
   display: flex;
   align-items: center;
   gap: 0.7rem;
   margin-bottom: 0.9rem;
 }
 
-.taxprep-block-title svg {
-  color: var(--accent);
+.translation-block-title svg {
+  color: #14b8a6;
   font-size: 1rem;
   flex-shrink: 0;
 }
 
-.taxprep-block-title h2 {
+.translation-block-title h2 {
   margin: 0;
   text-align: left;
   color: var(--header);
@@ -162,14 +162,14 @@
   font-weight: 800;
 }
 
-.taxprep-content-card p {
+.translation-content-card p {
   margin-bottom: 1rem;
   line-height: 1.9;
   color: var(--muted);
   font-size: 0.98rem;
 }
 
-.taxprep-list {
+.translation-list {
   list-style: none;
   padding: 0;
   margin: 0.5rem 0 0;
@@ -177,7 +177,7 @@
   gap: 0.9rem;
 }
 
-.taxprep-list li {
+.translation-list li {
   display: flex;
   align-items: flex-start;
   gap: 0.65rem;
@@ -186,38 +186,38 @@
   margin: 0;
 }
 
-.taxprep-list li svg {
-  color: #14b8a6;
+.translation-list li svg {
+  color: #8b5cf6;
   margin-top: 0.22rem;
   flex-shrink: 0;
 }
 
 @media (max-width: 760px) {
-  .taxprep-hero-card {
+  .translation-hero-card {
     padding: 1.7rem 1.2rem;
   }
 
-  .taxprep-text .section-text {
+  .translation-text .section-text {
     font-size: 1rem;
     line-height: 1.8;
   }
 
-  .taxprep-page-image {
+  .translation-page-image {
     width: 100%;
     max-width: 340px;
     height: 200px;
   }
 
-  .taxprep-content-card {
+  .translation-content-card {
     padding: 1.4rem;
   }
 
-  .taxprep-block-title h2 {
+  .translation-block-title h2 {
     font-size: 1.12rem;
   }
 
-  .taxprep-content-card p,
-  .taxprep-list li {
+  .translation-content-card p,
+  .translation-list li {
     font-size: 0.94rem;
     line-height: 1.8;
   }

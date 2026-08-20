@@ -1,19 +1,48 @@
-import { FaWhatsapp, FaGoogle, FaMapMarkerAlt } from "react-icons/fa";
+import {
+  FaWhatsapp,
+  FaGoogle,
+  FaMapMarkerAlt,
+  FaPhoneAlt,
+  FaUser,
+  FaBriefcase,
+  FaGlobeAmericas,
+} from "react-icons/fa";
+import { Link } from "react-router-dom";
 import GoogleTranslate from "./GoogleTranslate";
 
 function TopBar() {
   return (
     <div className="top-bar">
       <div className="container top-bar-content">
-        <p>
-          Call <a href="tel:9733272340">(973) 327-2340</a> &nbsp;| &nbsp;
-          <a href="mailto:info@dpstaxpro.com">info@DPStaxpro.com</a>
-          &nbsp;| &nbsp;
-          <a href="mailto:dpstax1@gmail.com">DPStax1@gmail.com</a>
-        </p>
+        <div className="top-bar-left">
+          <p className="top-contact-row">
+            <span className="top-contact-chip">
+              <FaPhoneAlt className="topbar-inline-icon" />
+              <a href="tel:9733272340">(973) 327-2340</a>
+            </span>
+
+            <span className="top-contact-chip">
+              <FaUser className="topbar-inline-icon" />
+              <a href="mailto:dpstax1@gmail.com">dpstax1@gmail.com</a>
+            </span>
+
+            <span className="top-contact-chip">
+              <FaBriefcase className="topbar-inline-icon" />
+              <a href="mailto:info@dpstaxpro.com">info@DPStaxpro.com</a>
+            </span>
+
+            <Link to="/translation" className="top-contact-chip top-language-chip">
+              <span>🇺🇸 🇭🇹 🇫🇷 🇪🇸</span>
+              <span>Languages</span>
+            </Link>
+
+          </p>
+        </div>
 
         <div className="top-right">
-          <GoogleTranslate />
+          <div className="translate-wrap">
+            <GoogleTranslate />
+          </div>
 
           <div className="social-icons">
             <a

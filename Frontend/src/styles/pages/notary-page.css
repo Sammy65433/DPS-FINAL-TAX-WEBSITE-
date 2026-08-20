@@ -1,4 +1,4 @@
-.taxprep-page-section {
+.notary-page-section {
   position: relative;
   background:
     linear-gradient(120deg, rgba(15, 92, 84, 0.7), rgba(49, 22, 97, 0.58)),
@@ -9,7 +9,7 @@
   overflow: hidden;
 }
 
-.taxprep-page-section::before {
+.notary-page-section::before {
   content: "";
   position: absolute;
   top: -80px;
@@ -21,7 +21,7 @@
   pointer-events: none;
 }
 
-.taxprep-page-section::after {
+.notary-page-section::after {
   content: "";
   position: absolute;
   bottom: -100px;
@@ -33,13 +33,13 @@
   pointer-events: none;
 }
 
-.taxprep-page {
+.notary-page {
   position: relative;
   z-index: 1;
   text-align: center;
 }
 
-.taxprep-hero-card {
+.notary-hero-card {
   max-width: 980px;
   margin: 0 auto 2rem;
   background: rgba(255, 255, 255, 0.12);
@@ -50,12 +50,12 @@
   box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
 }
 
-.taxprep-text {
+.notary-text {
   max-width: 820px;
   margin: 0 auto;
 }
 
-.taxprep-text .eyebrow {
+.notary-text .eyebrow {
   display: inline-block;
   margin-bottom: 0.85rem;
   color: #f3e8ff;
@@ -65,7 +65,7 @@
   text-transform: uppercase;
 }
 
-.taxprep-text h1 {
+.notary-text h1 {
   text-align: center;
   color: #ffffff;
   font-size: clamp(2.4rem, 5vw, 4rem);
@@ -75,7 +75,7 @@
   text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }
 
-.taxprep-text .section-text {
+.notary-text .section-text {
   max-width: 760px;
   margin: 0 auto 1.5rem;
   color: #e8f5f2;
@@ -83,7 +83,7 @@
   font-size: 1.06rem;
 }
 
-.taxprep-hero-badges {
+.notary-hero-badges {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -91,7 +91,7 @@
   margin-top: 1rem;
 }
 
-.taxprep-badge {
+.notary-badge {
   display: inline-flex;
   align-items: center;
   gap: 0.5rem;
@@ -104,7 +104,7 @@
   font-size: 0.9rem;
 }
 
-.taxprep-image-row {
+.notary-image-row {
   display: flex;
   justify-content: center;
   gap: 24px;
@@ -112,7 +112,7 @@
   margin: 0 auto 2rem;
 }
 
-.taxprep-page-image {
+.notary-page-image {
   width: 320px;
   height: 220px;
   object-fit: cover;
@@ -122,11 +122,11 @@
   transition: transform 0.28s ease;
 }
 
-.taxprep-page-image:hover {
+.notary-page-image:hover {
   transform: translateY(-4px) scale(1.01);
 }
 
-.taxprep-content-card {
+.notary-content-card {
   max-width: 920px;
   margin: 0 auto;
   text-align: left;
@@ -137,24 +137,24 @@
   box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
 }
 
-.taxprep-section-block + .taxprep-section-block {
+.notary-section-block + .notary-section-block {
   margin-top: 2rem;
 }
 
-.taxprep-block-title {
+.notary-block-title {
   display: flex;
   align-items: center;
   gap: 0.7rem;
   margin-bottom: 0.9rem;
 }
 
-.taxprep-block-title svg {
+.notary-block-title svg {
   color: var(--accent);
   font-size: 1rem;
   flex-shrink: 0;
 }
 
-.taxprep-block-title h2 {
+.notary-block-title h2 {
   margin: 0;
   text-align: left;
   color: var(--header);
@@ -162,14 +162,14 @@
   font-weight: 800;
 }
 
-.taxprep-content-card p {
+.notary-content-card p {
   margin-bottom: 1rem;
   line-height: 1.9;
   color: var(--muted);
   font-size: 0.98rem;
 }
 
-.taxprep-list {
+.notary-list {
   list-style: none;
   padding: 0;
   margin: 0.5rem 0 0;
@@ -177,7 +177,7 @@
   gap: 0.9rem;
 }
 
-.taxprep-list li {
+.notary-list li {
   display: flex;
   align-items: flex-start;
   gap: 0.65rem;
@@ -186,38 +186,38 @@
   margin: 0;
 }
 
-.taxprep-list li svg {
+.notary-list li svg {
   color: #14b8a6;
   margin-top: 0.22rem;
   flex-shrink: 0;
 }
 
 @media (max-width: 760px) {
-  .taxprep-hero-card {
+  .notary-hero-card {
     padding: 1.7rem 1.2rem;
   }
 
-  .taxprep-text .section-text {
+  .notary-text .section-text {
     font-size: 1rem;
     line-height: 1.8;
   }
 
-  .taxprep-page-image {
+  .notary-page-image {
     width: 100%;
     max-width: 340px;
     height: 200px;
   }
 
-  .taxprep-content-card {
+  .notary-content-card {
     padding: 1.4rem;
   }
 
-  .taxprep-block-title h2 {
+  .notary-block-title h2 {
     font-size: 1.12rem;
   }
 
-  .taxprep-content-card p,
-  .taxprep-list li {
+  .notary-content-card p,
+  .notary-list li {
     font-size: 0.94rem;
     line-height: 1.8;
   }

@@ -1,9 +1,16 @@
 import { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
+import {
+  FaCloudUploadAlt,
+  FaPhoneAlt,
+  FaCalendarAlt,
+  FaClock,
+  FaMoneyCheckAlt,
+  FaVenusDouble,
+} from "react-icons/fa";
 
 function generateTimeOptions(selectedDate) {
   if (!selectedDate) return [];
-
   const date = new Date(`${selectedDate}T00:00:00`);
   const day = date.getDay();
 
@@ -19,7 +26,6 @@ function generateTimeOptions(selectedDate) {
       const period = hour >= 12 ? "PM" : "AM";
       const displayHour = hour % 12 === 0 ? 12 : hour % 12;
       const displayMinute = minute.toString().padStart(2, "0");
-
       options.push(`${displayHour}:${displayMinute} ${period}`);
     }
   }
@@ -43,8 +49,8 @@ function Booking() {
   const [bookedTimes, setBookedTimes] = useState([]);
   const [status, setStatus] = useState({ message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
-
   const location = useLocation();
+
   const timeOptions = generateTimeOptions(formData.appointment_date);
 
   useEffect(() => {
@@ -73,7 +79,6 @@ function Booking() {
             formData.appointment_date
           )}&preparer=${encodeURIComponent(formData.tax_preparer)}`
         );
-
         const data = await response.json();
         setBookedTimes(data.bookedTimes || []);
       } catch (error) {
@@ -85,12 +90,11 @@ function Booking() {
     fetchAvailability();
   }, [formData.appointment_date, formData.tax_preparer]);
 
-  const availableTimes = timeOptions.filter(time => !bookedTimes.includes(time));
+  const availableTimes = timeOptions.filter((time) => !bookedTimes.includes(time));
 
   function handleChange(e) {
     const { name, value } = e.target;
-
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       [name]: value,
     }));
@@ -150,47 +154,47 @@ function Booking() {
   return (
     <section className="section booking-section" id="booking" data-aos="fade-up">
       <div className="container">
-        <p className="eyebrow">Schedule Your Visit</p>
-        <h2 className="h2-sub">Book Your Appointment</h2>
+        <div className="booking-heading">
+          <p className="eyebrow">Schedule Your Visit</p>
+          <h2 className="h2-sub">Book Your Appointment</h2>
+          <p className="section-text">
+            Fill out the form below, choose your service and preferred preparer,
+            and we will contact you to confirm your appointment.
+          </p>
+        </div>
 
-        <p className="section-text">
-          Fill out the form below, select your service and preferred preparer,
-          and we will contact you to confirm your appointment.
-        </p>
-
-        <div className="card" style={{ maxWidth: "720px", margin: "0 auto 1.5rem" }}>
+        <div className="booking-top-card card">
+          <div className="booking-card-icon">
+            <FaCloudUploadAlt />
+          </div>
           <h3>Secure Document Upload Portal</h3>
-
           <p>
             Clients can safely upload tax documents, download completed files,
             and share information with our office using the secure CCH iFirm portal.
           </p>
-
           <p>
             You can upload W-2s, 1099s, IDs, proof of address, direct deposit
             information, and other requested documents.
           </p>
-
           <p>
             If you need portal access, please contact our office first so we can
             send you the secure upload link.
           </p>
-
-          <p>
-            Phone: <a href="tel:9733272340">(973) 327-2340</a>
+          <p className="booking-inline-contact">
+            <FaPhoneAlt />
+            <a href="tel:9733272340">(973) 327-2340</a>
           </p>
-
           <a
             href="https://dpsprofessionaltaxservices.cchifirm.us"
             target="_blank"
             rel="noopener noreferrer"
-            className="card-link"
+            className="btn"
           >
             Open Secure CCH iFirm Portal
           </a>
         </div>
 
-        <form className="contact-form" onSubmit={handleSubmit}>
+        <form className="contact-form booking-form" onSubmit={handleSubmit}>
           <div className="name-row">
             <input
               type="text"
@@ -200,7 +204,6 @@ function Booking() {
               value={formData.first_name}
               onChange={handleChange}
             />
-
             <input
               type="text"
               name="last_name"
@@ -259,7 +262,11 @@ function Booking() {
             <option value="Ricot Casimir">Ricot Casimir</option>
           </select>
 
-          <label htmlFor="appointment-date">Preferred Date</label>
+          <div className="booking-label">
+            <FaCalendarAlt />
+            <label htmlFor="appointment-date">Preferred Date</label>
+          </div>
+
           <input
             id="appointment-date"
             type="date"
@@ -269,7 +276,11 @@ function Booking() {
             onChange={handleChange}
           />
 
-          <label htmlFor="appointment-time">Preferred Time</label>
+          <div className="booking-label">
+            <FaClock />
+            <label htmlFor="appointment-time">Preferred Time</label>
+          </div>
+
           <select
             id="appointment-time"
             name="appointment_time"
@@ -278,7 +289,7 @@ function Booking() {
             onChange={handleChange}
           >
             <option value="">Select a Time</option>
-            {availableTimes.map(time => (
+            {availableTimes.map((time) => (
               <option key={time} value={time}>
                 {time}
               </option>
@@ -286,14 +297,15 @@ function Booking() {
           </select>
 
           {formData.appointment_date && timeOptions.length === 0 && (
-            <p className="sunday-note">
-              <span className="sunday-note-icon">📞</span>
-              Sunday is by appointment only. Please call our office at{" "}
-              <a href="tel:9733272340" className="sunday-note-link">
-                (973) 327-2340
-              </a>{" "}
-              to schedule.
-            </p>
+            <div className="sunday-note">
+              <p>
+                Sunday is by appointment only. Please call our office to schedule.
+              </p>
+              <a href="tel:9733272340" className="btn btn-outline-light">
+                <FaPhoneAlt />
+                <span>Call the Office</span>
+              </a>
+            </div>
           )}
 
           {formData.appointment_date &&
@@ -306,44 +318,52 @@ function Booking() {
             )}
 
           <section className="card payment-card" id="payment">
-            <h3>Payment Options</h3>
-            <p>Please include your last name and tax year in the payment note.</p>
+            <div className="payment-card-header">
+              <div className="booking-card-icon small">
+                <FaMoneyCheckAlt />
+              </div>
+              <div>
+                <h3>Payment Options</h3>
+                <p>Please include your last name and tax year in the payment note.</p>
+              </div>
+            </div>
 
-            <p>
-              <strong>Venmo:</strong>{" "}
-              <a
-                href="https://venmo.com/u/DPSTax"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="payment-link"
-              >
-                @DPSTax
-              </a>
-            </p>
-
-            <p>
-              <strong>Cash App:</strong> <strong>$DPSTAX1811</strong>
-            </p>
-
-            <p>
-              <strong>Zelle:</strong>{" "}
-              <a href="tel:8627661725" className="payment-link">
-                862-766-1725
-              </a>
-            </p>
-
-            <p>
-              <strong>Apple Pay:</strong>{" "}
-              <a href="tel:8627661725" className="payment-link">
-                862-766-1725
-              </a>
-            </p>
-
-            <p>
-              Phone: <a href="tel:9733272340">(973) 327-2340</a>
-            </p>
+            <div className="payment-list">
+              <p>
+                <strong>Venmo:</strong>
+                <a
+                  href="https://venmo.com/u/DPSTax"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="payment-link"
+                >
+                  @DPSTax
+                </a>
+              </p>
+              <p>
+                <strong>Cash App:</strong>
+                <span>$DPSTAX1811</span>
+              </p>
+              <p>
+                <strong>Zelle:</strong>
+                <a href="tel:8627661725" className="payment-link">
+                  862-766-1725
+                </a>
+              </p>
+              <p>
+                <strong>Apple Pay:</strong>
+                <a href="tel:8627661725" className="payment-link">
+                  862-766-1725
+                </a>
+              </p>
+              <p>
+                <strong>Phone:</strong>
+                <a href="tel:9733272340" className="payment-link">
+                  (973) 327-2340
+                </a>
+              </p>
+            </div>
           </section>
-
 
           <textarea
             name="message"
@@ -353,16 +373,14 @@ function Booking() {
           />
 
           <p className="form-note">
-  <strong>Important Security Notice:</strong> For your privacy and protection,
-  do not submit <strong>Social Security numbers</strong>, <strong>tax IDs</strong>,
-  <strong> banking details</strong>, <strong>driver’s license numbers</strong>,
-  or other <strong>sensitive tax documents</strong> through this form. Please
-  use our secure <strong>CCH iFirm portal</strong> for document uploads.
-</p>
+            <strong>Important Security Notice:</strong> For your privacy and protection,
+            do not submit <strong>Social Security numbers</strong>, <strong>tax IDs</strong>,
+            <strong> banking details</strong>, <strong>driver’s license numbers</strong>,
+            or other <strong>sensitive tax documents</strong> through this form.
+            Please use our secure <strong>CCH iFirm portal</strong> for document uploads.
+          </p>
 
-
-
-          <button type="submit" className="btn" disabled={isSubmitting}>
+          <button type="submit" className="btn booking-submit-btn" disabled={isSubmitting}>
             {isSubmitting ? "Sending..." : "Book Your Appointment"}
           </button>
 

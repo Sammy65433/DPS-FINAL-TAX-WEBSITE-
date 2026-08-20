@@ -1,156 +1,264 @@
 .full-purpose-section {
-    background-image: linear-gradient(rgba(15, 92, 84, 0.78),
-            rgba(12, 73, 66, 0.82)),
-        url("/pexels-fauxels-3184638.jpg");
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
+  position: relative;
+  background:
+    linear-gradient(rgba(15, 92, 84, 0.78), rgba(12, 73, 66, 0.82)),
+    url("/pexels-fauxels-3184638.jpg");
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  overflow: hidden;
+}
+
+.full-purpose-section::before {
+  content: "";
+  position: absolute;
+  top: -90px;
+  right: -70px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(rgba(255, 255, 255, 0.08), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.full-purpose-section::after {
+  content: "";
+  position: absolute;
+  bottom: -100px;
+  left: -80px;
+  width: 320px;
+  height: 320px;
+  background: radial-gradient(rgba(109, 60, 200, 0.12), transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .full-purpose-section .container {
-    max-width: 1100px;
+  position: relative;
+  z-index: 1;
+  max-width: 1100px;
+}
+
+.full-purpose-heading {
+  text-align: center;
+  margin-bottom: 2.2rem;
 }
 
 .full-purpose-section .eyebrow {
-    color: #f5e7c0;
+  display: inline-block;
+  color: #f5e7c0;
+  margin-bottom: 0.8rem;
+  font-size: 0.98rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
 }
 
 .full-purpose-section .h2-sub {
-    color: #ffffff;
-    text-align: center;
+  color: #ffffff;
+  text-align: center;
+  font-size: clamp(2.2rem, 4vw, 3.5rem);
+  line-height: 1.12;
+  font-weight: 800;
+  margin-bottom: 0.85rem;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.2);
 }
 
 .full-purpose-text {
-    max-width: 860px;
-    margin: 0 auto 1.2rem;
-    line-height: 1.95;
-    font-size: 1rem;
-    color: #21443f;
-    text-align: center;
-    background: rgba(255, 250, 244, 0.92);
-    border: 1px solid rgba(230, 211, 168, 0.65);
-    padding: 1.15rem 1.35rem;
-    border-radius: 16px;
-    box-shadow: 0 10px 24px rgba(15, 92, 84, 0.08);
+  max-width: 860px;
+  margin: 0 auto 1.2rem;
+  line-height: 1.95;
+  font-size: 1rem;
+  color: #21443f;
+  text-align: center;
+  background: rgba(255, 250, 244, 0.94);
+  border: 1px solid rgba(230, 211, 168, 0.65);
+  padding: 1.15rem 1.35rem;
+  border-radius: 18px;
+  box-shadow: 0 10px 24px rgba(15, 92, 84, 0.12);
 }
 
 .purpose-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    gap: 1.5rem;
-    margin-top: 2rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
 }
 
 .purpose-card {
-    position: relative;
-    overflow: hidden;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: linear-gradient(180deg, #ffffff, #fbfcfc);
-    box-shadow: 0 16px 34px rgba(15, 92, 84, 0.12);
+  position: relative;
+  overflow: hidden;
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.96);
+  box-shadow: 0 18px 36px rgba(15, 92, 84, 0.14);
+  padding: 1.8rem;
+  backdrop-filter: blur(8px);
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.purpose-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 22px 42px rgba(15, 92, 84, 0.18);
 }
 
 .purpose-card::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 5px;
-    background: linear-gradient(90deg, var(--teal), var(--accent));
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, var(--teal), var(--accent), #8b5cf6);
+}
+
+.purpose-icon {
+  width: 58px;
+  height: 58px;
+  border-radius: 18px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef7f5, #f3efff);
+  color: var(--accent);
+  font-size: 1.35rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--line);
 }
 
 .purpose-badge {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 90px;
-    height: 38px;
-    padding: 0 0.95rem;
-    border-radius: 999px;
-    background: #eef7f5;
-    color: var(--header);
-    font-weight: 800;
-    font-size: 0.82rem;
-    margin-bottom: 1rem;
-    border: 1px solid var(--line);
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 110px;
+  height: 38px;
+  padding: 0 0.95rem;
+  border-radius: 999px;
+  background: #eef7f5;
+  color: var(--header);
+  font-weight: 800;
+  font-size: 0.82rem;
+  margin-bottom: 1rem;
+  border: 1px solid var(--line);
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
 }
 
 .purpose-card h3 {
-    font-size: 1.18rem;
-    margin-bottom: 0.85rem;
-    color: var(--header);
+  font-size: 1.18rem;
+  margin-bottom: 0.85rem;
+  color: var(--header);
 }
 
 .purpose-card p {
-    line-height: 1.85;
-    font-size: 0.97rem;
-    color: var(--muted);
+  line-height: 1.85;
+  font-size: 0.97rem;
+  color: var(--muted);
+  margin: 0;
 }
 
 .purpose-detail-block {
-    max-width: 950px;
-    margin: 2.25rem auto 0;
-    background: rgba(255, 255, 255, 0.94);
-    border: 1px solid rgba(255, 255, 255, 0.65);
-    border-radius: 18px;
-    padding: 1.6rem 1.7rem;
-    box-shadow: 0 14px 30px rgba(15, 92, 84, 0.08);
+  max-width: 960px;
+  margin: 2.25rem auto 0;
+  background: rgba(255, 255, 255, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 20px;
+  padding: 1.7rem 1.8rem;
+  box-shadow: 0 14px 30px rgba(15, 92, 84, 0.1);
+}
+
+.purpose-detail-title {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  margin-bottom: 1.1rem;
+}
+
+.purpose-detail-title svg {
+  color: var(--accent);
+  font-size: 1rem;
 }
 
 .purpose-detail-block h3 {
-    color: var(--header);
-    margin-bottom: 0.85rem;
-    font-size: 1.2rem;
+  color: var(--header);
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.35;
+  text-align: center;
 }
 
 .purpose-detail-block p {
-    color: #41514d;
-    line-height: 1.9;
-    margin-bottom: 1rem;
+  color: #41514d;
+  line-height: 1.9;
+  margin: 0 0 1rem;
+  text-align: left;
+}
+
+.purpose-detail-block p:last-child {
+  margin-bottom: 0;
 }
 
 .purpose-note {
-    max-width: 900px;
-    margin: 2rem auto 0;
-    padding: 1rem 1.2rem;
-    border-radius: 14px;
-    background: #fff8ec;
-    border: 1px solid #e6d3a8;
-    color: #6b5a2f;
-    line-height: 1.75;
-    font-size: 0.95rem;
-    text-align: center;
+  max-width: 920px;
+  margin: 2rem auto 0;
+  padding: 1rem 1.2rem;
+  border-radius: 16px;
+  background: rgba(255, 248, 236, 0.96);
+  border: 1px solid #e6d3a8;
+  color: #6b5a2f;
+  line-height: 1.8;
+  font-size: 0.96rem;
+  text-align: center;
+  box-shadow: 0 12px 26px rgba(15, 92, 84, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.purpose-note svg {
+  color: #14b8a6;
+  flex-shrink: 0;
 }
 
 .purpose-note strong {
-    color: #5d4a1d;
+  color: #5d4a1d;
+}
+
+@media (max-width: 900px) {
+  .purpose-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 @media (max-width: 760px) {
-    .full-purpose-text {
-        font-size: 0.96rem;
-        line-height: 1.85;
-        padding: 1rem 1.1rem;
-    }
+  .full-purpose-text {
+    font-size: 0.96rem;
+    line-height: 1.85;
+    padding: 1rem 1.1rem;
+  }
 
-    .purpose-detail-block {
-        padding: 1.3rem 1.2rem;
-    }
+  .purpose-card {
+    padding: 1.4rem;
+  }
 
-    .purpose-detail-block h3 {
-        font-size: 1.08rem;
-    }
+  .purpose-card h3 {
+    font-size: 1.08rem;
+  }
 
-    .purpose-card h3 {
-        font-size: 1.08rem;
-    }
+  .purpose-card p,
+  .purpose-detail-block p {
+    font-size: 0.94rem;
+    line-height: 1.8;
+  }
 
-    .purpose-card p,
-    .purpose-detail-block p {
-        font-size: 0.94rem;
-        line-height: 1.8;
-    }
+  .purpose-detail-block {
+    padding: 1.3rem 1.2rem;
+  }
+
+  .purpose-note {
+    flex-direction: column;
+    text-align: center;
+  }
 }

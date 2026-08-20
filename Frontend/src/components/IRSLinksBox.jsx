@@ -1,11 +1,27 @@
+import {
+    FaUniversity,
+    FaSearchDollar,
+    FaCreditCard,
+    FaFileAlt,
+    FaExternalLinkAlt,
+} from "react-icons/fa";
+
 function IRSLinksBox() {
     return (
         <section className="card irs-links-card" id="irs-links">
-            <h3>Official IRS Resources</h3>
-            <p>
-                Access official IRS resources for refund status, payments, and tax records.
-            </p>
+            <div className="irs-links-header">
+                <div className="irs-links-icon">
+                    <FaUniversity />
+                </div>
 
+                <div>
+                    <h3>Official IRS Resources</h3>
+                    <p>
+                        Access official IRS resources for refund status, payments, and tax
+                        records.
+                    </p>
+                </div>
+            </div>
 
             <ul className="irs-links-list">
                 <li>
@@ -15,9 +31,14 @@ function IRSLinksBox() {
                         rel="noopener noreferrer"
                         className="irs-link"
                     >
-                        Check IRS Refund Status
+                        <span className="irs-link-left">
+                            <FaSearchDollar />
+                            <span>Check IRS Refund Status</span>
+                        </span>
+                        <FaExternalLinkAlt className="irs-link-arrow" />
                     </a>
                 </li>
+
                 <li>
                     <a
                         href="https://www.irs.gov/payments"
@@ -25,9 +46,14 @@ function IRSLinksBox() {
                         rel="noopener noreferrer"
                         className="irs-link"
                     >
-                        Make an IRS Payment
+                        <span className="irs-link-left">
+                            <FaCreditCard />
+                            <span>Make an IRS Payment</span>
+                        </span>
+                        <FaExternalLinkAlt className="irs-link-arrow" />
                     </a>
                 </li>
+
                 <li>
                     <a
                         href="https://www.irs.gov/individuals/get-transcript"
@@ -35,7 +61,11 @@ function IRSLinksBox() {
                         rel="noopener noreferrer"
                         className="irs-link"
                     >
-                        Get Tax Records / Transcripts
+                        <span className="irs-link-left">
+                            <FaFileAlt />
+                            <span>Get Tax Records / Transcripts</span>
+                        </span>
+                        <FaExternalLinkAlt className="irs-link-arrow" />
                     </a>
                 </li>
             </ul>

@@ -59,3 +59,24 @@
 .card:hover .service-card-image {
     transform: scale(1.04);
 }
+
+.why-choose-heading {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+.why-choose-heading .eyebrow {
+    display: inline-block;
+    margin-bottom: 0.75rem;
+}
+
+.why-choose-heading .section-text {
+    max-width: 760px;
+    margin: 0 auto;
+}
+
+.why-choose-button-wrap {
+    display: flex;
+    justify-content: center;
+    margin: 2rem 0 2.5rem;
+}

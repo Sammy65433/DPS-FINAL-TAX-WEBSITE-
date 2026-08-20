@@ -1,0 +1,301 @@
+.business-page {
+    position: relative;
+    padding: 4.5rem 0 5.5rem;
+    background: linear-gradient(180deg, #f5fbfa 0%, #f8f8ff 45%, #ffffff 100%);
+    overflow: hidden;
+}
+
+.business-page::before {
+    content: "";
+    position: absolute;
+    top: -90px;
+    right: -70px;
+    width: 280px;
+    height: 280px;
+    background: radial-gradient(rgba(109, 60, 200, 0.08), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.business-page::after {
+    content: "";
+    position: absolute;
+    bottom: -100px;
+    left: -80px;
+    width: 320px;
+    height: 320px;
+    background: radial-gradient(rgba(15, 92, 84, 0.08), transparent 70%);
+    border-radius: 50%;
+    pointer-events: none;
+}
+
+.business-page .container {
+    position: relative;
+    z-index: 1;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+.business-hero {
+    display: grid;
+    grid-template-columns: 1.3fr 0.9fr;
+    gap: 2rem;
+    align-items: stretch;
+    margin-bottom: 3rem;
+}
+
+.business-hero-text,
+.business-hero-card,
+.business-service-card,
+.business-bottom-card {
+    background: rgba(255, 255, 255, 0.94);
+    border: 1px solid rgba(15, 23, 42, 0.06);
+    border-radius: 24px;
+    box-shadow: 0 18px 40px rgba(15, 23, 42, 0.08);
+    backdrop-filter: blur(8px);
+}
+.business-hero-text {
+  padding: 2.5rem;
+  text-align: center;
+}
+
+.business-page .eyebrow {
+  display: block;
+  width: fit-content;
+  margin: 0 auto 0.85rem;
+  font-size: 0.9rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.business-page .h2-sub {
+  font-size: clamp(1.9rem, 3.2vw, 2.9rem);
+  line-height: 1.15;
+  font-weight: 800;
+  color: var(--header);
+  margin: 0 auto 1rem;
+  max-width: 11ch;
+  text-align: center;
+}
+
+.business-page .section-text {
+  font-size: 1.05rem;
+  line-height: 1.9;
+  color: var(--muted);
+  max-width: 36rem;
+  margin: 0 auto 1.5rem;
+  text-align: center;
+}
+
+.business-cta-row {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.5rem;
+}
+
+.business-cta-row .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.95rem 1.3rem;
+    border-radius: 999px;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    transition: all 0.25s ease;
+}
+
+.business-btn-primary {
+    background: linear-gradient(135deg, #7c3aed, #5b21b6);
+    color: #fff !important;
+    box-shadow: 0 14px 28px rgba(91, 33, 182, 0.24);
+}
+
+.business-btn-primary:hover {
+    background: linear-gradient(135deg, #6d28d9, #4c1d95);
+    color: #fff !important;
+    transform: translateY(-2px);
+}
+
+.business-btn-secondary {
+    background: linear-gradient(135deg, #0f766e, #115e59);
+    color: #fff !important;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    box-shadow: 0 14px 28px rgba(15, 94, 89, 0.22);
+}
+
+.business-btn-secondary:hover {
+    background: linear-gradient(135deg, #0d665f, #0f4f4a);
+    color: #fff !important;
+    transform: translateY(-2px);
+}
+
+.business-hero-card {
+    padding: 2rem;
+}
+
+.business-card-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    margin-bottom: 1rem;
+}
+
+.business-card-heading svg {
+    color: var(--accent);
+    font-size: 1.1rem;
+}
+
+.business-hero-card h4,
+.business-bottom-card h4,
+.business-service-card h5 {
+    margin: 0;
+    color: var(--header);
+}
+
+.business-hero-card h4 {
+    font-size: 1.25rem;
+    font-weight: 800;
+}
+
+.business-hero-card ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.8rem;
+}
+
+.business-hero-card li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    color: #334155;
+    line-height: 1.75;
+}
+
+.business-list-icon {
+    color: #14b8a6;
+    margin-top: 0.25rem;
+    flex-shrink: 0;
+}
+
+.business-services-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.business-service-card {
+    padding: 1.75rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+}
+
+.business-service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 42px rgba(15, 23, 42, 0.1);
+    border-color: rgba(109, 60, 200, 0.12);
+}
+
+.business-service-icon {
+    width: 58px;
+    height: 58px;
+    border-radius: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, #eef7f5, #f3efff);
+    color: var(--accent);
+    font-size: 1.4rem;
+    margin-bottom: 1rem;
+    border: 1px solid var(--line);
+}
+
+.business-service-card h5 {
+    font-size: 1.15rem;
+    font-weight: 800;
+    margin-bottom: 0.75rem;
+}
+
+.business-service-card p {
+    color: var(--muted);
+    line-height: 1.8;
+    margin: 0;
+}
+
+.business-bottom-card {
+    padding: 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+}
+
+.business-bottom-card h4 {
+    font-size: 1.35rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.business-bottom-card p {
+    margin: 0;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 700px;
+}
+
+.business-bottom-card strong {
+    color: var(--header);
+}
+
+@media (max-width: 992px) {
+    .business-hero {
+        grid-template-columns: 1fr;
+    }
+
+    .business-services-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .business-hero-text,
+    .business-hero-card,
+    .business-service-card,
+    .business-bottom-card {
+        padding: 1.5rem;
+    }
+
+    .business-page .h2-sub {
+        font-size: 2.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .business-page {
+        padding: 2.8rem 0 3.6rem;
+    }
+
+    .business-page .container {
+        padding: 0 1rem;
+    }
+
+    .business-cta-row {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .business-cta-row .btn {
+        width: 100%;
+    }
+
+    .business-page .section-text {
+        font-size: 1rem;
+    }
+}

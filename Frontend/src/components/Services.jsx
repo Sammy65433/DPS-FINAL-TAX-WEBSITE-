@@ -1,17 +1,29 @@
 import { Link } from "react-router-dom";
+import {
+  FaFileInvoiceDollar,
+  FaStamp,
+  FaLanguage,
+  FaPassport,
+  FaCopy,
+  FaShieldAlt,
+  FaHome,
+  FaArrowRight,
+} from "react-icons/fa";
 
 function Services() {
   return (
-    <section className="section" id="services" data-aos="fade-down">
+    <section className="section services-section" id="services" data-aos="fade-down">
       <div className="container">
-        <p className="eyebrow">What we do</p>
-        <h2>Services</h2>
-        <p className="section-text">
-          Reliable, professional support for individuals, families, and small
-          businesses.
-        </p>
+        <div className="services-heading">
+          <p className="eyebrow">What we do</p>
+          <h2>Services</h2>
+          <p className="section-text">
+            Reliable, professional support for individuals, families, and small
+            businesses.
+          </p>
+        </div>
 
-        <div className="card-grid">
+        <div className="card-grid services-grid">
           <Link to="/tax-preparation" className="card service-preview-card">
             <img
               src="/tax-prep2.jpg"
@@ -19,9 +31,15 @@ function Services() {
               className="service-card-image"
             />
             <div className="service-preview-content">
-              <div className="service-badge">Tax</div>
+              <div className="service-badge">
+                <FaFileInvoiceDollar />
+                <span>Tax</span>
+              </div>
               <h3>Tax Preparation</h3>
-              <p>Professional filing support for individuals and businesses.</p>
+              <p>
+                Reliable tax filing support for individuals, families, and
+                businesses.
+              </p>
             </div>
           </Link>
 
@@ -32,9 +50,15 @@ function Services() {
               className="service-card-image"
             />
             <div className="service-preview-content">
-              <div className="service-badge">Notary</div>
+              <div className="service-badge">
+                <FaStamp />
+                <span>Notary</span>
+              </div>
               <h3>Notary Public</h3>
-              <p>Fast, professional notarization when you need it.</p>
+              <p>
+                Fast, professional notarization for important personal and
+                business documents.
+              </p>
             </div>
           </Link>
 
@@ -45,11 +69,14 @@ function Services() {
               className="service-card-image"
             />
             <div className="service-preview-content">
-              <div className="service-badge">Language</div>
+              <div className="service-badge">
+                <FaLanguage />
+                <span>Language</span>
+              </div>
               <h3>Translation</h3>
               <p>
-                Multilingual document support to help clients understand,
-                complete, and submit important paperwork with confidence.
+                Clear multilingual document support to help clients complete and
+                understand important paperwork.
               </p>
             </div>
           </Link>
@@ -61,9 +88,15 @@ function Services() {
               className="service-card-image"
             />
             <div className="service-preview-content">
-              <div className="service-badge">Support</div>
+              <div className="service-badge">
+                <FaPassport />
+                <span>Support</span>
+              </div>
               <h3>Immigration Services</h3>
-              <p>Help with immigration-related forms and paperwork.</p>
+              <p>
+                Help organizing and preparing immigration-related forms and
+                supporting documents.
+              </p>
             </div>
           </Link>
 
@@ -74,9 +107,15 @@ function Services() {
               className="service-card-image"
             />
             <div className="service-preview-content">
-              <div className="service-badge">Office</div>
+              <div className="service-badge">
+                <FaCopy />
+                <span>Office</span>
+              </div>
               <h3>Copy & Fax</h3>
-              <p>Document copying and faxing on-site.</p>
+              <p>
+                Convenient in-office document copying and faxing when you need it
+                most.
+              </p>
             </div>
           </Link>
 
@@ -87,11 +126,14 @@ function Services() {
               className="service-card-image"
             />
             <div className="service-preview-content">
-              <div className="service-badge">Coverage</div>
+              <div className="service-badge">
+                <FaShieldAlt />
+                <span>Coverage</span>
+              </div>
               <h3>Insurance Services</h3>
               <p>
-                Guidance for life, auto, health, and other everyday insurance
-                needs.
+                Helpful guidance for life, auto, health, and other everyday
+                insurance needs.
               </p>
             </div>
           </Link>
@@ -103,13 +145,18 @@ function Services() {
               className="service-card-image"
             />
             <div className="service-preview-content">
-              <div className="service-badge">Real Estate</div>
+              <div className="service-badge">
+                <FaHome />
+                <span>Real Estate</span>
+              </div>
               <h3>Real Estate</h3>
               <p>
-                Buying, selling, renting, or investing, handled by our trusted
-                partner.
+                Buying, selling, renting, or investing with support from our
+                trusted partner.
               </p>
-              <span className="card-link">Need Help? →</span>
+              <span className="card-link">
+                Need Help? <FaArrowRight />
+              </span>
             </div>
           </Link>
         </div>

@@ -19,6 +19,7 @@ import MomentsPage from "./pages/MomentsPage";
 import HowItWorksPage from "./pages/HowItWorksPage";
 import TaxpayerResourcesPage from "./pages/TaxpayerResourcesPage";
 import ClientFeedbackPage from "./pages/ClientFeedbackPage";
+import BusinessServicesPage from "./pages/BusinessServicesPage";
 
 
 function App() {
@@ -45,6 +46,7 @@ function App() {
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/taxpayer-resources" element={<TaxpayerResourcesPage />} />
         <Route path="/client-feedback" element={<ClientFeedbackPage />} />
+        <Route path="/business-services" element={<BusinessServicesPage />} />
 
       </Routes>
     </>
