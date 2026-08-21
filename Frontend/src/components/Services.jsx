@@ -8,6 +8,7 @@ import {
   FaShieldAlt,
   FaHome,
   FaArrowRight,
+  FaBriefcase,
 } from "react-icons/fa";
 
 function Services() {
@@ -134,6 +135,25 @@ function Services() {
               <p>
                 Helpful guidance for life, auto, health, and other everyday
                 insurance needs.
+              </p>
+            </div>
+          </Link>
+
+          <Link to="/business-services" className="card service-preview-card">
+            <img
+              src="/pro2.jpg"
+              alt="Business services"
+              className="service-card-image"
+            />
+            <div className="service-preview-content">
+              <div className="service-badge">
+                <FaBriefcase />
+                <span>Business</span>
+              </div>
+              <h3>Business Services</h3>
+              <p>
+                Professional support for small businesses, records, consultations,
+                and filing guidance.
               </p>
             </div>
           </Link>

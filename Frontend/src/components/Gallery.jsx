@@ -3,34 +3,37 @@ import { FaCameraRetro, FaUsers, FaHeart } from "react-icons/fa";
 function Gallery() {
   return (
     <section className="section gallery-section" id="gallery" data-aos="zoom-out">
-      <div className="container">
-        <div className="gallery-heading">
-          <p className="eyebrow">Moments at DPS</p>
-          <h2>DPS in the Community</h2>
-          <p className="section-text gallery-section-text">
-            These moments reflect more than just photos. They represent the
-            trust, relationships, and community connection that DPS Professional
-            Tax Services has built over the years.
-          </p>
-          <p className="section-text gallery-section-text">
-            From serving individuals and families during tax season to supporting
-            clients with important documents, appointments, and everyday needs,
-            our work has always been rooted in service, care, and consistency.
-          </p>
-        </div>
+      <div className="container gallery-page">
+        <div className="gallery-hero-card">
+          <div className="gallery-heading">
+            <p className="eyebrow">Moments at DPS</p>
+            <h2>DPS in the Community</h2>
+            <p className="section-text gallery-section-text">
+              These moments reflect more than just photos. They represent the
+              trust, relationships, and community connection that DPS Professional
+              Tax Services has built over the years.
+            </p>
+            <p className="section-text gallery-section-text">
+              From serving individuals and families during tax season to
+              supporting clients with important documents, appointments, and
+              everyday needs, our work has always been rooted in service, care,
+              and consistency.
+            </p>
+          </div>
 
-        <div className="gallery-highlight-row">
-          <div className="gallery-highlight-card">
-            <FaCameraRetro />
-            <span>Real Moments</span>
-          </div>
-          <div className="gallery-highlight-card">
-            <FaUsers />
-            <span>Community Connection</span>
-          </div>
-          <div className="gallery-highlight-card">
-            <FaHeart />
-            <span>Trusted Service</span>
+          <div className="gallery-highlight-row">
+            <div className="gallery-highlight-card">
+              <FaCameraRetro />
+              <span>Real Moments</span>
+            </div>
+            <div className="gallery-highlight-card">
+              <FaUsers />
+              <span>Community Connection</span>
+            </div>
+            <div className="gallery-highlight-card">
+              <FaHeart />
+              <span>Trusted Service</span>
+            </div>
           </div>
         </div>
 

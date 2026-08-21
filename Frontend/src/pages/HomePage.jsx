@@ -21,7 +21,6 @@ function HomePage() {
       <Services />
       <WhyChoose />
       <HowItWorks />
-      <RealtyPreview />
       <FAQ />
       <Testimonials />
       <Contact />
