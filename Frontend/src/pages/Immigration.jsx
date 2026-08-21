@@ -1,6 +1,6 @@
 import Layout from "../components/Layout";
 import {
-  FaPassport,
+  FaFileAlt,
   FaFolderOpen,
   FaLanguage,
   FaCheckCircle,
@@ -16,19 +16,19 @@ function Immigration() {
           <div className="immigration-hero-card">
             <div className="immigration-text">
               <p className="eyebrow">Our Services</p>
-              <h1>Immigration Services</h1>
+              <h1>Form Preparation Support</h1>
               <p className="section-text">
                 DPS Professional Tax Services provides support for clients who
-                need help organizing, understanding, and preparing
-                immigration-related paperwork. We know these documents can feel
+                need help organizing, understanding, and preparing important
+                forms and supporting paperwork. We know documents can feel
                 overwhelming, so we aim to make the process clearer, more
                 organized, and less stressful.
               </p>
 
               <div className="immigration-hero-badges">
                 <span className="immigration-badge">
-                  <FaPassport />
-                  Immigration Paperwork Support
+                  <FaFileAlt />
+                  Paperwork Support
                 </span>
                 <span className="immigration-badge">
                   <FaLanguage />
@@ -45,7 +45,7 @@ function Immigration() {
           <div className="immigration-image-row">
             <img
               src="/transla2.jpg"
-              alt="Immigration paperwork support"
+              alt="Paperwork support services"
               className="immigration-page-image"
             />
             <img
@@ -68,30 +68,29 @@ function Immigration() {
               </div>
 
               <p>
-                We assist clients with preparing and organizing
-                immigration-related forms and supporting paperwork. Our role is
-                to help make sure documents are easier to understand, properly
-                arranged, and ready for the next step in the process.
+                We assist clients with preparing and organizing important forms
+                and supporting paperwork. Our role is to help make sure documents
+                are easier to understand, properly arranged, and ready for the
+                next step in the process.
               </p>
 
               <p>
-                We understand that immigration paperwork often carries a lot of
-                importance and urgency. That is why we focus on clear
-                communication, patience, and careful attention to detail when
-                supporting clients.
+                We understand that paperwork can carry a lot of importance and
+                urgency. That is why we focus on clear communication, patience,
+                and careful attention to detail when supporting clients.
               </p>
             </div>
 
             <div className="immigration-section-block">
               <div className="immigration-block-title">
                 <FaClipboardList />
-                <h2>Types of Immigration Support</h2>
+                <h2>Types of Form Preparation Support</h2>
               </div>
 
               <ul className="immigration-list">
                 <li>
                   <FaCheckCircle />
-                  <span>Help organizing immigration-related forms</span>
+                  <span>Help organizing important forms</span>
                 </li>
                 <li>
                   <FaCheckCircle />

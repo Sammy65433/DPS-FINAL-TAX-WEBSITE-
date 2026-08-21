@@ -5,7 +5,7 @@ import Footer from "./Footer";
 function Layout({ children }) {
   return (
     <>
-      <TopBar />
+      {/* <TopBar /> */}
       <Header />
       <main>{children}</main>
       <Footer />

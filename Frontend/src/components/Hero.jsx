@@ -10,10 +10,8 @@ function Hero() {
         <h1>DPS Professional Tax and Business Services You Can Trust</h1>
 
         <p className="lead">
-          For over 19 years, DPS has provided trusted tax preparation, document
-          support, immigration assistance, insurance services, and essential
-          business services to individuals, families, and small businesses
-          throughout New Jersey and the Tri-State area.
+          For over 19 years, DPS has provided trusted tax preparation, document support, form preparation support, insurance services, and essential business services to individuals, families, and small businesses throughout New Jersey and the Tri-State area.
+
         </p>
 
         <div className="hero-buttons">

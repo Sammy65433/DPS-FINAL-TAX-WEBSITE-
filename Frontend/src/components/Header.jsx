@@ -67,7 +67,7 @@ function Header() {
                   Translation
                 </Link>
                 <Link to="/immigration" onClick={() => setServicesOpen(false)}>
-                  Immigration Services
+                  Form Preparation Support 
                 </Link>
                 <Link to="/copy-fax" onClick={() => setServicesOpen(false)}>
                   Copy & Fax
@@ -119,6 +119,9 @@ function Header() {
     <Link to="/contact" onClick={() => setLearnOpen(false)}>
       Contact
     </Link>
+    <Link to="/payments" onClick={() => setLearnOpen(false)}>
+      Payments
+    </Link>
   </div>
 )}
 
@@ -129,15 +132,7 @@ function Header() {
             <span>Book</span>
           </Link>
 
-          <Link to="/booking#payment" className="nav-pill nav-pill-secondary">
-            <FaCreditCard />
-            <span>Pay</span>
-          </Link>
 
-          <a href="tel:+19733272340" className="nav-pill nav-pill-call">
-            <FaPhoneAlt />
-            <span>Call</span>
-          </a>
         </nav>
       </div>
     </header>

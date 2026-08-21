@@ -14,7 +14,7 @@ import RealtyPreview from "../components/RealtyPreview";
 function HomePage() {
   return (
     <>
-      <TopBar />
+      {/* <TopBar /> */}
       <Header />
       <Hero />
       <Stats />

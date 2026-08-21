@@ -20,6 +20,7 @@ import HowItWorksPage from "./pages/HowItWorksPage";
 import TaxpayerResourcesPage from "./pages/TaxpayerResourcesPage";
 import ClientFeedbackPage from "./pages/ClientFeedbackPage";
 import BusinessServicesPage from "./pages/BusinessServicesPage";
+import PaymentsPage from "./pages/PaymentsPage";
 
 
 function App() {
@@ -47,6 +48,7 @@ function App() {
         <Route path="/taxpayer-resources" element={<TaxpayerResourcesPage />} />
         <Route path="/client-feedback" element={<ClientFeedbackPage />} />
         <Route path="/business-services" element={<BusinessServicesPage />} />
+        <Route path="/payments" element={<PaymentsPage />} />
 
       </Routes>
     </>
