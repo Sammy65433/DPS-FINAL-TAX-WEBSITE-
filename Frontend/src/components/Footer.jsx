@@ -5,6 +5,7 @@ import {
   FaPhoneAlt,
   FaEnvelope,
   FaClock,
+  FaUser,
 } from "react-icons/fa";
 
 function Footer() {
@@ -25,26 +26,34 @@ function Footer() {
 
         <div className="footer-grid">
           <div className="footer-card">
-            <h4>Contact</h4>
-            <p>
-              <FaPhoneAlt className="footer-icon" />
-              <a href="tel:+19733272340">(973) 327-2340</a>
-            </p>
-            <p>
-              <FaEnvelope className="footer-icon" />
-              <a href="mailto:info@dpstaxpro.com">info@DPStaxpro.com</a>
-            </p>
-            <p>
-              <FaMapMarkerAlt className="footer-icon" />
-              <a
-                href="https://www.google.com/maps?q=1811+Springfield+Ave,+Maplewood,+NJ+07040"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                1811 Springfield Ave, Maplewood, NJ
-              </a>
-            </p>
-          </div>
+  <h4>Contact</h4>
+
+  <p>
+    <FaPhoneAlt className="footer-icon" />
+    <a href="tel:+19733272340">(973) 327-2340</a>
+  </p>
+
+  <p>
+    <FaEnvelope className="footer-icon" />
+    <a href="mailto:info@dpstaxpro.com">info@DPStaxpro.com</a>
+  </p>
+
+  <p>
+    <FaUser className="footer-icon" />
+    <a href="mailto:dpstax1@gmail.com">DpsTax1@gmail.com</a>
+  </p>
+
+  <p>
+    <FaMapMarkerAlt className="footer-icon" />
+    <a
+      href="https://www.google.com/maps?q=1811+Springfield+Ave,+Maplewood,+NJ+07040"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
+      1811 Springfield Ave, Maplewood, NJ
+    </a>
+  </p>
+</div>
 
           <div className="footer-card">
             <h4>Office Hours</h4>
