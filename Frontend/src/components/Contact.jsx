@@ -17,20 +17,20 @@ function Contact() {
         </div>
 
         <div className="contact-info" data-aos="zoom-in">
-          <img
-            src="/DPS-LOGO1.png"
-            alt="DPS Professional Tax Services logo"
-            className="contact-logo"
-          />
+          <div className="contact-brand-box">
+            <img
+              src="/DPS-LOGO1.png"
+              alt="DPS Professional Tax Services logo"
+              className="contact-logo"
+            />
 
-          <div className="contact-brand-card">
-            <strong>
+            <strong className="contact-brand-title">
               DPS Professional Tax Services
               <span>& Realty Management</span>
             </strong>
           </div>
 
-          <div className="full-contact-grid">
+          <div className="contact-grid">
             <div className="contact-details" data-aos="fade-right">
               <h3>Office Information</h3>
 
@@ -47,17 +47,21 @@ function Contact() {
 
               <p>
                 <FaPhoneAlt className="contact-icon" />
-                Phone: <a href="tel:9733272340">(973) 327-2340</a>
+                <span>
+                  Phone: <a href="tel:9733272340">(973) 327-2340</a>
+                </span>
               </p>
 
               <p>
                 <FaFax className="contact-icon" />
-                Fax: (973) 821-3684
+                <span>Fax: (973) 821-3684</span>
               </p>
 
               <p>
                 <FaEnvelope className="contact-icon" />
-                Email: <a href="mailto:dpstax1@gmail.com">DpsTax1@gmail.com</a>
+                <span>
+                  Email: <a href="mailto:dpstax1@gmail.com">DpsTax1@gmail.com</a>
+                </span>
               </p>
             </div>
 

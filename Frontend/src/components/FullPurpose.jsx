@@ -13,12 +13,14 @@ function FullPurpose() {
                 <div className="full-purpose-heading">
                     <p className="eyebrow">Our Purpose</p>
                     <h2 className="h2-sub">DPS Mission, Vision & Commitment</h2>
+
                     <p className="section-text full-purpose-text">
                         At DPS Professional Tax Services, our work is rooted in service,
                         trust, and community. We believe professional support should feel
                         clear, respectful, and accessible for every client who walks through
                         our doors.
                     </p>
+
                     <p className="section-text full-purpose-text">
                         Whether someone comes to us for tax preparation, document support,
                         translation, immigration-related paperwork, insurance guidance, or

@@ -10,14 +10,14 @@ import {
 
 function FullContact() {
     return (
-        <section className="section contact-section full-contact-section" id="contact">
+        <section className="section full-contact-page" id="contact">
             <div className="container">
-                <div className="contact-heading">
+                <div className="full-contact-heading">
                     <p className="eyebrow">Contact</p>
                     <h2>We’re Here to Help</h2>
                 </div>
 
-                <p className="section-text full-contact-text">
+                <p className="section-text full-contact-page-text">
                     Thank you for visiting DPS Professional Tax Services. We sincerely
                     appreciate the opportunity to serve you and support your next steps.
                     Whether you are reaching out for tax preparation, document services,
@@ -26,7 +26,7 @@ function FullContact() {
                     professional, welcoming, and dependable experience.
                 </p>
 
-                <p className="section-text full-contact-text">
+                <p className="section-text full-contact-page-text">
                     We understand that every client comes to us with unique needs and
                     important questions. Our goal is to make each interaction clear,
                     respectful, and reassuring. If you need assistance before booking, have
@@ -34,43 +34,45 @@ function FullContact() {
                     prepare, we encourage you to contact our office directly.
                 </p>
 
-                <div className="contact-info" data-aos="zoom-in">
-                    <img
-                        src="/DPS-LOGO1.png"
-                        alt="DPS Professional Tax Services logo"
-                        className="contact-logo"
-                    />
+                <div className="full-contact-info" data-aos="zoom-in">
+                    <div className="full-contact-brand-box">
+                        <img
+                            src="/DPS-LOGO1.png"
+                            alt="DPS Professional Tax Services logo"
+                            className="full-contact-logo"
+                        />
 
-                    <div className="contact-brand-card">
-                        <strong>
-                            DPS Professional Tax Services
-                            <span>& Realty Management</span>
-                        </strong>
+                        <div className="full-contact-brand-card">
+                            <strong>
+                                DPS Professional Tax Services
+                                <span>& Realty Management</span>
+                            </strong>
+                        </div>
                     </div>
 
-                    <div className="contact-cta-row">
-                        <a href="tel:9733272340" className="contact-cta-btn contact-cta-primary">
+                    <div className="full-contact-cta-row">
+                        <a href="tel:9733272340" className="full-contact-cta-btn full-contact-cta-primary">
                             <FaPhoneAlt />
                             <span>Call (973) 327-2340</span>
                         </a>
 
-                        <a href="mailto:dpstax1@gmail.com" className="contact-cta-btn contact-cta-secondary">
+                        <a href="mailto:dpstax1@gmail.com" className="full-contact-cta-btn full-contact-cta-secondary">
                             <FaEnvelope />
                             <span>Email Us</span>
                         </a>
 
-                        <a href="/booking" className="contact-cta-btn contact-cta-light">
+                        <a href="/booking" className="full-contact-cta-btn full-contact-cta-light">
                             <FaCalendarCheck />
                             <span>Book Appointment</span>
                         </a>
                     </div>
 
                     <div className="full-contact-grid">
-                        <div className="contact-details" data-aos="fade-right">
+                        <div className="full-contact-details" data-aos="fade-right">
                             <h3>Office Information</h3>
 
                             <p>
-                                <FaMapMarkerAlt className="contact-icon" />
+                                <FaMapMarkerAlt className="full-contact-icon" />
                                 <a
                                     href="https://www.google.com/maps/search/1811+Springfield+Ave+Maplewood+NJ+07040"
                                     target="_blank"
@@ -81,29 +83,29 @@ function FullContact() {
                             </p>
 
                             <p>
-                                <FaPhoneAlt className="contact-icon" />
+                                <FaPhoneAlt className="full-contact-icon" />
                                 <strong>Phone:</strong>
                                 <a href="tel:9733272340">(973) 327-2340</a>
                             </p>
 
                             <p>
-                                <FaFax className="contact-icon" />
+                                <FaFax className="full-contact-icon" />
                                 <strong>Fax:</strong>
                                 <span>(973) 821-3684</span>
                             </p>
 
                             <p>
-                                <FaEnvelope className="contact-icon" />
+                                <FaEnvelope className="full-contact-icon" />
                                 <strong>Email:</strong>
                                 <a href="mailto:dpstax1@gmail.com">DpsTax1@gmail.com</a>
                             </p>
                         </div>
 
-                        <div className="office-hours" id="hours" data-aos="fade-left">
+                        <div className="full-contact-hours" id="hours" data-aos="fade-left">
                             <h3>Tax Season Office Hours</h3>
 
                             <p>
-                                <FaClock className="contact-icon" />
+                                <FaClock className="full-contact-icon" />
                                 Monday - Friday: 9:00 AM - 5:00 PM
                             </p>
                             <p>Saturday: 9:00 AM - 6:00 PM</p>
@@ -111,8 +113,8 @@ function FullContact() {
                         </div>
                     </div>
 
-                    <p className="irs-contact-note">
-                        <FaAward className="irs-icon" />
+                    <p className="full-contact-irs-note">
+                        <FaAward className="full-contact-irs-icon" />
                         IRS e-file Authorized Agent
                     </p>
                 </div>
