@@ -60,9 +60,10 @@ function RealtyAppointmentCard({
                         onChange={handleRealtyEditChange}
                     >
                         <option value="">Select Service</option>
-                        <option value="Buying">Buying</option>
-                        <option value="Selling">Selling</option>
+                        <option value="Buying a Home">Buying a Home</option>
+                        <option value="Selling a Home">Selling a Home</option>
                         <option value="Renting">Renting</option>
+                        <option value="Investment Property">Investment Property</option>
                         <option value="Consultation">Consultation</option>
                     </select>
 
@@ -79,7 +80,7 @@ function RealtyAppointmentCard({
                         onChange={handleRealtyEditChange}
                     >
                         <option value="">Select Time</option>
-                        {timeOptions.map(time => (
+                        {timeOptions.map((time) => (
                             <option key={time} value={time}>
                                 {time}
                             </option>
@@ -104,14 +105,7 @@ function RealtyAppointmentCard({
                         <option value="archived">Archived</option>
                     </select>
 
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: "0.75rem",
-                            marginTop: "1rem",
-                            flexWrap: "wrap",
-                        }}
-                    >
+                    <div className="admin-card-actions">
                         <button
                             className="btn"
                             type="button"
@@ -175,20 +169,13 @@ function RealtyAppointmentCard({
                         </span>
                     </p>
 
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: "0.75rem",
-                            marginTop: "1rem",
-                            flexWrap: "wrap",
-                        }}
-                    >
+                    <div className="admin-card-actions">
                         <button
                             className="btn"
                             type="button"
                             onClick={() => startRealtyEdit(appointment)}
                         >
-                            Edit Realty
+                            Edit
                         </button>
 
                         {appointment.status !== "confirmed" && (
@@ -197,7 +184,7 @@ function RealtyAppointmentCard({
                                 type="button"
                                 onClick={() => handleRealtyConfirm(appointment.id)}
                             >
-                                Confirm Realty
+                                Confirm
                             </button>
                         )}
 
@@ -207,7 +194,7 @@ function RealtyAppointmentCard({
                                 type="button"
                                 onClick={() => handleRealtyCancel(appointment.id)}
                             >
-                                Cancel Realty
+                                Cancel
                             </button>
                         )}
 
@@ -217,7 +204,7 @@ function RealtyAppointmentCard({
                                 type="button"
                                 onClick={() => handleRealtyArchive(appointment.id)}
                             >
-                                Archive Realty
+                                Archive
                             </button>
                         )}
 
@@ -226,16 +213,16 @@ function RealtyAppointmentCard({
                             type="button"
                             onClick={() => handleRealtyDelete(appointment.id)}
                         >
-                            Delete Realty
+                            Delete
                         </button>
 
                         <a
-                            className="btn"
+                            className="btn admin-wide-action"
                             href={getRealtyGoogleCalendarLink(appointment)}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Add to Google Calendar
+                            Add to Calendar
                         </a>
                     </div>
                 </>
