@@ -61,7 +61,7 @@ function TaxAppointmentCard({
                         onChange={handleEditChange}
                     >
                         <option value="">Select Service</option>
-                        {serviceOptions.map(service => (
+                        {serviceOptions.map((service) => (
                             <option key={service} value={service}>
                                 {service}
                             </option>
@@ -74,7 +74,7 @@ function TaxAppointmentCard({
                         onChange={handleEditChange}
                     >
                         <option value="">Select Preparer</option>
-                        {preparerOptions.map(preparer => (
+                        {preparerOptions.map((preparer) => (
                             <option key={preparer} value={preparer}>
                                 {preparer}
                             </option>
@@ -94,7 +94,7 @@ function TaxAppointmentCard({
                         onChange={handleEditChange}
                     >
                         <option value="">Select Time</option>
-                        {timeOptions.map(time => (
+                        {timeOptions.map((time) => (
                             <option key={time} value={time}>
                                 {time}
                             </option>
@@ -119,14 +119,7 @@ function TaxAppointmentCard({
                         <option value="archived">Archived</option>
                     </select>
 
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: "0.75rem",
-                            marginTop: "1rem",
-                            flexWrap: "wrap",
-                        }}
-                    >
+                    <div className="admin-card-actions">
                         <button
                             className="btn"
                             type="button"
@@ -194,14 +187,7 @@ function TaxAppointmentCard({
                         </span>
                     </p>
 
-                    <div
-                        style={{
-                            display: "flex",
-                            gap: "0.75rem",
-                            marginTop: "1rem",
-                            flexWrap: "wrap",
-                        }}
-                    >
+                    <div className="admin-card-actions">
                         <button
                             className="btn"
                             type="button"
@@ -240,7 +226,7 @@ function TaxAppointmentCard({
 
                         {appointment.appointment_date && appointment.appointment_time && (
                             <a
-                                className="btn"
+                                className="btn admin-wide-action"
                                 href={getGoogleCalendarLink(appointment)}
                                 target="_blank"
                                 rel="noopener noreferrer"
