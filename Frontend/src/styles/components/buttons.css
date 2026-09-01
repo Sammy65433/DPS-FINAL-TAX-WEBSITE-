@@ -1,97 +1,96 @@
-.btn {
-    display: inline-block;
-    background: var(--accent);
-    color: #fff;
-    padding: 0.9rem 1.4rem;
-    border-radius: 10px;
-    font-weight: 700;
-    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
-}
-
-.btn:hover {
-    background: var(--accent-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(111, 66, 168, 0.25);
-}
-
-.btn-ghost {
-    background: transparent;
-    color: #fff;
-    border: 1.5px solid rgba(255, 255, 255, 0.5);
-}
-
-.btn-ghost:hover {
-    background: rgba(255, 255, 255, 0.1);
-}
-
-.nav-cta {
-    background: var(--accent);
-    color: #fff !important;
-    padding: 0.6rem 1.1rem;
-    border-radius: 9px;
-    font-weight: 700 !important;
-}
-
-.nav-cta:hover {
-    background: var(--accent-dark) !important;
-}
-
-.nav-call {
-    background: var(--accent);
-    color: #fff !important;
-    padding: 0.42rem 0.8rem;
-    border-radius: 9px;
-    font-weight: 700 !important;
-    font-size: 0.82rem;
-    line-height: 1;
-    display: inline-block;
-}
-
-.nav-call:hover {
-    background: var(--accent-dark) !important;
-}
-
-.how-it-works-btn {
-    margin-top: 16px;
-    display: inline-block;
-}
-
-.why-choose-button-wrap {
-    display: flex;
-    justify-content: center;
-    margin: 30px 0;
-}
-
-.btn-realty-secondary {
-    background: transparent;
-    color: var(--realty);
-    border: 1px solid var(--realty);
-}
-
-.btn-realty-secondary:hover {
-    background: #f3e9d7;
-}
-
 .btn,
 button.btn,
 a.btn {
-    display: inline-block;
-    background: var(--accent);
-    color: #fff !important;
-    padding: 0.9rem 1.4rem;
-    border-radius: 10px;
-    font-weight: 700;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
+  display: inline-block;
+  background: var(--accent);
+  color: #fff !important;
+  padding: 0.9rem 1.4rem;
+  border-radius: 10px;
+  font-weight: 700;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s, box-shadow 0.2s;
 }
 
 .btn:hover,
 button.btn:hover,
 a.btn:hover {
-    background: var(--accent-dark);
-    color: #fff !important;
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(111, 66, 168, 0.25);
+  background: var(--accent-dark);
+  color: #fff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(111, 66, 168, 0.25);
+}
+
+.btn-ghost {
+  background: transparent;
+  color: #fff !important;
+  border: 1.5px solid rgba(255, 255, 255, 0.5);
+}
+
+.btn-ghost:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: #fff !important;
+}
+
+.nav-cta {
+  background: var(--accent);
+  color: #fff !important;
+  padding: 0.6rem 1.1rem;
+  border-radius: 9px;
+  font-weight: 700 !important;
+}
+
+.nav-cta:hover {
+  background: var(--accent-dark) !important;
+}
+
+.nav-call {
+  background: var(--accent);
+  color: #fff !important;
+  padding: 0.42rem 0.8rem;
+  border-radius: 9px;
+  font-weight: 700 !important;
+  font-size: 0.82rem;
+  line-height: 1;
+  display: inline-block;
+}
+
+.nav-call:hover {
+  background: var(--accent-dark) !important;
+}
+
+.how-it-works-btn {
+  margin-top: 16px;
+  display: inline-block;
+}
+
+.why-choose-button-wrap {
+  display: flex;
+  justify-content: center;
+  margin: 30px 0;
+}
+
+.btn-realty-secondary {
+  background: transparent;
+  color: var(--realty);
+  border: 1px solid var(--realty);
+}
+
+.btn-realty-secondary:hover {
+  background: #f3e9d7;
+}
+
+/* admin appointment action buttons should not inherit full public-site button styling */
+.admin-card-actions .btn,
+.admin-card-actions button,
+.admin-card-actions a {
+  background: none !important;
+  color: inherit !important;
+  padding: unset !important;
+  border-radius: unset !important;
+  box-shadow: none !important;
+  transform: none !important;
+  border: unset !important;
+  text-decoration: none !important;
 }
