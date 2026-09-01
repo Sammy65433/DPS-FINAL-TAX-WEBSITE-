@@ -14,7 +14,7 @@
   max-width: 100% !important;
   padding: 0.42rem 0.72rem !important;
   min-height: 32px !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
   font-size: 0.74rem !important;
   font-weight: 700 !important;
   line-height: 1.1 !important;
@@ -26,6 +26,7 @@
   transition: all 0.18s ease;
   border: 1px solid transparent !important;
   white-space: nowrap !important;
+  opacity: 1 !important;
 }
 
 .admin-card-actions .btn:hover,
@@ -59,15 +60,15 @@
 }
 
 .admin-action-neutral {
-  background: #ffffff !important;
-  color: #334155 !important;
-  border: 1px solid #cbd5e1 !important;
+  background: #475569 !important;
+  color: #ffffff !important;
+  border-color: #475569 !important;
 }
 
 .admin-action-neutral:hover {
-  background: #f8fafc !important;
-  color: #0f172a !important;
-  border-color: #94a3b8 !important;
+  background: #334155 !important;
+  border-color: #334155 !important;
+  color: #ffffff !important;
 }
 
 .admin-action-archive {
@@ -106,15 +107,8 @@
   color: #ffffff !important;
 }
 
-@media (max-width: 760px) {
-  .admin-card-actions {
-    gap: 0.4rem;
-  }
-
-  .admin-card-actions .btn,
-  .admin-card-actions button,
-  .admin-card-actions a {
-    font-size: 0.72rem !important;
-    padding: 0.44rem 0.68rem !important;
-  }
+.admin-card-actions .btn:disabled,
+.admin-card-actions button:disabled,
+.admin-card-actions a:disabled {
+  opacity: 1 !important;
 }
