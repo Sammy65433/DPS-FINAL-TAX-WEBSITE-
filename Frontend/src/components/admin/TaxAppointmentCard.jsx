@@ -121,15 +121,19 @@ function TaxAppointmentCard({
 
                     <div className="admin-card-actions">
                         <button
-                            className="btn"
+                            className="btn admin-action-primary"
                             type="button"
                             onClick={() => handleUpdate(appointment.id)}
                         >
-                            Save Changes
+                            Save
                         </button>
 
-                        <button className="btn" type="button" onClick={cancelEdit}>
-                            Cancel Edit
+                        <button
+                            className="btn admin-action-neutral"
+                            type="button"
+                            onClick={cancelEdit}
+                        >
+                            Cancel
                         </button>
                     </div>
                 </>
@@ -189,49 +193,49 @@ function TaxAppointmentCard({
 
                     <div className="admin-card-actions">
                         <button
-                            className="btn"
+                            className="btn admin-action-primary"
                             type="button"
                             onClick={() => startEdit(appointment)}
                         >
-                            Edit Appointment
+                            Edit
                         </button>
 
                         {appointment.status === "booked" && (
                             <button
-                                className="btn"
+                                className="btn admin-action-neutral"
                                 type="button"
                                 onClick={() => handleCancel(appointment.id)}
                             >
-                                Cancel Appointment
+                                Cancel
                             </button>
                         )}
 
                         {appointment.status !== "archived" && (
                             <button
-                                className="btn"
+                                className="btn admin-action-archive"
                                 type="button"
                                 onClick={() => handleArchive(appointment.id)}
                             >
-                                Archive Appointment
+                                Archive
                             </button>
                         )}
 
                         <button
-                            className="btn"
+                            className="btn admin-action-danger"
                             type="button"
                             onClick={() => handleDelete(appointment.id)}
                         >
-                            Delete Appointment
+                            Delete
                         </button>
 
                         {appointment.appointment_date && appointment.appointment_time && (
                             <a
-                                className="btn admin-wide-action"
+                                className="btn admin-action-calendar"
                                 href={getGoogleCalendarLink(appointment)}
                                 target="_blank"
                                 rel="noopener noreferrer"
                             >
-                                Add to Google Calendar
+                                Calendar
                             </a>
                         )}
                     </div>

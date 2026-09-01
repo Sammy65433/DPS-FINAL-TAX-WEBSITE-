@@ -107,15 +107,19 @@ function RealtyAppointmentCard({
 
                     <div className="admin-card-actions">
                         <button
-                            className="btn"
+                            className="btn admin-action-primary"
                             type="button"
                             onClick={() => handleRealtyUpdate(appointment.id)}
                         >
-                            Save Changes
+                            Save
                         </button>
 
-                        <button className="btn" type="button" onClick={cancelRealtyEdit}>
-                            Cancel Edit
+                        <button
+                            className="btn admin-action-neutral"
+                            type="button"
+                            onClick={cancelRealtyEdit}
+                        >
+                            Cancel
                         </button>
                     </div>
                 </>
@@ -171,7 +175,7 @@ function RealtyAppointmentCard({
 
                     <div className="admin-card-actions">
                         <button
-                            className="btn"
+                            className="btn admin-action-primary"
                             type="button"
                             onClick={() => startRealtyEdit(appointment)}
                         >
@@ -180,7 +184,7 @@ function RealtyAppointmentCard({
 
                         {appointment.status !== "confirmed" && (
                             <button
-                                className="btn"
+                                className="btn admin-action-confirm"
                                 type="button"
                                 onClick={() => handleRealtyConfirm(appointment.id)}
                             >
@@ -190,7 +194,7 @@ function RealtyAppointmentCard({
 
                         {appointment.status !== "cancelled" && (
                             <button
-                                className="btn"
+                                className="btn admin-action-neutral"
                                 type="button"
                                 onClick={() => handleRealtyCancel(appointment.id)}
                             >
@@ -200,7 +204,7 @@ function RealtyAppointmentCard({
 
                         {appointment.status !== "archived" && (
                             <button
-                                className="btn"
+                                className="btn admin-action-archive"
                                 type="button"
                                 onClick={() => handleRealtyArchive(appointment.id)}
                             >
@@ -209,7 +213,7 @@ function RealtyAppointmentCard({
                         )}
 
                         <button
-                            className="btn"
+                            className="btn admin-action-danger"
                             type="button"
                             onClick={() => handleRealtyDelete(appointment.id)}
                         >
@@ -217,12 +221,12 @@ function RealtyAppointmentCard({
                         </button>
 
                         <a
-                            className="btn admin-wide-action"
+                            className="btn admin-action-calendar"
                             href={getRealtyGoogleCalendarLink(appointment)}
                             target="_blank"
                             rel="noopener noreferrer"
                         >
-                            Add to Calendar
+                            Calendar
                         </a>
                     </div>
                 </>
