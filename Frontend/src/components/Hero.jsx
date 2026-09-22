@@ -7,10 +7,10 @@ function Hero() {
       <div className="container hero-content">
         <p className="tag">19+ Years Serving Maplewood, NJ</p>
 
-        <h1>DPS Professional Tax Services and Business Services </h1>
+        <h1>DPS Professional Tax Services and Realty Managements </h1>
 
         <p className="lead">
-          For over 19 years, DPS has provided trusted tax preparation, document support, form preparation support, insurance services, and essential business services to individuals, families, and small businesses throughout New Jersey and the Tri-State area.
+          For over 19 years, DPS has provided trusted tax preparation and essential business services to individuals, families, and small businesses throughout New Jersey and the Tri-State area.
 
         </p>
 
@@ -28,7 +28,7 @@ function Hero() {
 
         <p className="irs-note">
           <FaAward />
-          <span>IRS e-file Authorized Agent</span>
+          <span>IRS e-file Authorized </span>
         </p>
       </div>
     </section>
