@@ -83,23 +83,23 @@ function Services() {
           </Link>
 
           <Link to="/immigration" className="card service-preview-card">
-            <img
-              src="/transla2.jpg"
-              alt="Immigration services"
-              className="service-card-image"
-            />
-            <div className="service-preview-content">
-              <div className="service-badge">
-                <FaPassport />
-                <span>Support</span>
-              </div>
-              <h3>Immigration Services</h3>
-              <p>
-                Help organizing and preparing immigration-related forms and
-                supporting documents.
-              </p>
-            </div>
-          </Link>
+  <img
+    src="/transla2.jpg"
+    alt="Form preparation support"
+    className="service-card-image"
+  />
+  <div className="service-preview-content">
+    <div className="service-badge">
+      <FaPassport />
+      <span>Support</span>
+    </div>
+    <h3>Form Preparation Support</h3>
+    <p>
+      Help organizing documents and preparing forms based on information you provide.
+    </p>
+  </div>
+</Link>
+
 
           <Link to="/copy-fax" className="card service-preview-card">
             <img

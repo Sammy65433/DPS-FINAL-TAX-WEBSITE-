@@ -39,8 +39,9 @@ function Stats() {
           <div className="stat-icon">
             <FaMapMarkedAlt />
           </div>
-          <div className="stat-num">20+</div>
-          <div className="stat-label">Counties Served</div>
+          <div className="stat-num">Nationwide</div>
+          <div className="stat-label">Serving Clients Across the U.S.</div>
+
         </div>
 
         <div className="stat-card">
