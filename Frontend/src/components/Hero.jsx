@@ -7,7 +7,7 @@ function Hero() {
       <div className="container hero-content">
         <p className="tag">19+ Years Serving Maplewood, NJ</p>
 
-        <h1>DPS Professional Tax Services and Realty Managements </h1>
+        <h1>DPS Professional Tax Services and Realty Management </h1>
 
         <p className="lead">
           For over 19 years, DPS has provided trusted tax preparation and essential business services to individuals, families, and small businesses throughout New Jersey and the Tri-State area.

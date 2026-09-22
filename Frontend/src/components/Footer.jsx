@@ -56,13 +56,13 @@ function Footer() {
 </div>
 
           <div className="footer-card">
-            <h4>Office Hours</h4>
+            <h4>Office Hours for Tax Season</h4>
             <p>
               <FaClock className="footer-icon" />
-              Monday - Friday: 9:00 AM - 6:00 PM
+              Monday - Friday: 9:00 AM - 9:00 PM
             </p>
-            <p>Saturday: By Appointment</p>
-            <p>Sunday: Closed</p>
+            <p>Saturday: 10:00 AM - 7:00 PM</p>
+            <p>Sunday: By Appointment Only</p>
           </div>
 
           <div className="footer-card">

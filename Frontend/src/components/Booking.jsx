@@ -185,7 +185,7 @@ function Booking() {
             <a href="tel:9733272340">(973) 327-2340</a>
           </p>
           <a
-            href="https://dpsprofessionaltaxservices.cchifirm.us"
+            href="https://dpsprofessionaltaxservices.cchifirm.us/2/login/"
             target="_blank"
             rel="noopener noreferrer"
             className="btn"
@@ -244,8 +244,6 @@ function Booking() {
             <option value="Copy & Fax Services">Copy & Fax Services</option>
             <option value="Notary Public">Notary Public</option>
             <option value="Translation Services">Translation Services</option>
-            <option value="Immigration Services">Immigration Services</option>
-            <option value="Insurance Services">Insurance Services</option>
           </select>
 
           <select
