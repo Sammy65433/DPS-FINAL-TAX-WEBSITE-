@@ -78,10 +78,17 @@ function Contact() {
             </div>
           </div>
 
-          <p className="irs-contact-note">
+          <a
+            className="irs-contact-note"
+            href="https://www.irs.gov/"
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Visit the official IRS website"
+          >
             <FaAward className="irs-icon" />
-            IRS e-file Authorized Agent
-          </p>
+            <span>IRS e-file Authorized</span>
+          </a>
+
         </div>
 
         <div className="map-embed" data-aos="fade-left">

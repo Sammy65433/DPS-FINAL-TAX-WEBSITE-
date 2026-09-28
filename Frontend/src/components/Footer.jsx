@@ -26,44 +26,55 @@ function Footer() {
 
         <div className="footer-grid">
           <div className="footer-card">
-  <h4>Contact</h4>
+            <h4>Contact</h4>
 
-  <p>
-    <FaPhoneAlt className="footer-icon" />
-    <a href="tel:+19733272340">(973) 327-2340</a>
-  </p>
+            <p>
+              <FaPhoneAlt className="footer-icon" />
+              <a href="tel:+19733272340">(973) 327-2340</a>
+            </p>
 
-  <p>
-    <FaEnvelope className="footer-icon" />
-    <a href="mailto:info@dpstaxpro.com">info@DPStaxpro.com</a>
-  </p>
+            <p>
+              <FaEnvelope className="footer-icon" />
+              <a href="mailto:info@dpstaxpro.com">info@DPStaxpro.com</a>
+            </p>
 
-  <p>
-    <FaUser className="footer-icon" />
-    <a href="mailto:dpstax1@gmail.com">DpsTax1@gmail.com</a>
-  </p>
+            <p>
+              <FaUser className="footer-icon" />
+              <a href="mailto:dpstax1@gmail.com">DpsTax1@gmail.com</a>
+            </p>
 
-  <p>
-    <FaMapMarkerAlt className="footer-icon" />
-    <a
-      href="https://www.google.com/maps?q=1811+Springfield+Ave,+Maplewood,+NJ+07040"
-      target="_blank"
-      rel="noopener noreferrer"
-    >
-      1811 Springfield Ave, Maplewood, NJ
-    </a>
-  </p>
-</div>
+            <p>
+              <FaMapMarkerAlt className="footer-icon" />
+              <a
+                href="https://www.google.com/maps?q=1811+Springfield+Ave,+Maplewood,+NJ+07040"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                1811 Springfield Ave, Maplewood, NJ
+              </a>
+            </p>
+          </div>
 
           <div className="footer-card">
-            <h4>Office Hours for Tax Season</h4>
+            <h4>Tax Season Hours</h4>
             <p>
               <FaClock className="footer-icon" />
               Monday - Friday: 9:00 AM - 9:00 PM
             </p>
             <p>Saturday: 10:00 AM - 7:00 PM</p>
-            <p>Sunday: By Appointment Only</p>
+            <p>Sunday: By appointment only</p>
           </div>
+
+          <div className="footer-card">
+            <h4>Off-Season Hours</h4>
+            <p>
+              <FaClock className="footer-icon" />
+              Monday - Friday: 10:00 AM - 6:00 PM
+            </p>
+            <p>Saturday: By appointment; Walk-ins welcome</p>
+            <p>Sunday: Contact the office for availability, By appointment only</p>
+          </div>
+
 
           <div className="footer-card">
             <h4>Service Area</h4>

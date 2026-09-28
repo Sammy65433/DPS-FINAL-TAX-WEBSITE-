@@ -26,10 +26,17 @@ function Hero() {
           </a>
         </div>
 
-        <p className="irs-note">
+        <a
+          className="irs-note"
+          href="https://www.irs.gov/"
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Visit the official IRS website"
+        >
           <FaAward />
-          <span>IRS e-file Authorized </span>
-        </p>
+          <span>IRS e-file Authorized</span>
+        </a>
+
       </div>
     </section>
   );
