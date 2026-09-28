@@ -20,7 +20,7 @@ function generateTimeOptions(selectedDate) {
   const options = [];
 
   for (let hour = 9; hour <= closingHour; hour++) {
-    for (let minute = 0; minute < 60; minute += 15) {
+    for (let minute = 0; minute < 60; minute += 30) {
       if (hour === closingHour && minute > 0) break;
 
       const period = hour >= 12 ? "PM" : "AM";
