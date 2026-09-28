@@ -10,10 +10,32 @@ import {
     getAvailability,
     updateAppointment,
 } from "../controllers/appointmentController.js";
+import crypto from "node:crypto";
+
+function requireStaffServiceKey(req, res, next) {
+  const expected = process.env.DPS_STAFF_API_KEY;
+  const supplied = req.get("X-DPS-Staff-Key");
+
+  if (!expected || !supplied) {
+    return res.status(401).json({ message: "Unauthorized." });
+  }
+
+  const expectedBuffer = Buffer.from(expected);
+  const suppliedBuffer = Buffer.from(supplied);
+
+  if (
+    expectedBuffer.length !== suppliedBuffer.length ||
+    !crypto.timingSafeEqual(expectedBuffer, suppliedBuffer)
+  ) {
+    return res.status(401).json({ message: "Unauthorized." });
+  }
+
+  next();
+}
 
 const router = express.Router();
 
-router.get("/", getAppointments);
+router.get("/", requireStaffServiceKey, getAppointments);
 router.get("/availability", getAvailability);
 router.post("/", createAppointment);
 router.get("/:id/confirm", confirmAppointmentFromEmail);
