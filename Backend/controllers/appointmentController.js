@@ -1,3 +1,5 @@
+import crypto from "node:crypto";
+
 import {
     archiveAppointmentService,
     cancelAppointmentService,
@@ -26,22 +28,9 @@ function toMinutes(time) {
 
     const hour = Number(match[1]);
     const minute = Number(match[2]);
-
     if (hour < 1 || hour > 12 || minute > 59) return null;
 
     return ((hour % 12) + (match[3] === "PM" ? 12 : 0)) * 60 + minute;
-}
-
-function isOverlap(requestedStart, requestedDuration, existing) {
-    const existingStart = toMinutes(existing.appointment_time);
-    if (existingStart === null) return true;
-
-    const existingDuration = Number(existing.duration_minutes ?? 30);
-
-    return (
-        requestedStart < existingStart + existingDuration &&
-        existingStart < requestedStart + requestedDuration
-    );
 }
 
 function getDuration(value) {
@@ -52,27 +41,43 @@ function getDuration(value) {
 function formatTime(totalMinutes) {
     const hour24 = Math.floor(totalMinutes / 60);
     const minute = totalMinutes % 60;
-    const period = hour24 >= 12 ? "PM" : "AM";
-    const hour12 = hour24 % 12 || 12;
 
-    return `${hour12}:${String(minute).padStart(2, "0")} ${period}`;
+    return `${hour24 % 12 || 12}:${String(minute).padStart(2, "0")} ${hour24 >= 12 ? "PM" : "AM"
+        }`;
 }
 
-function getTimeRange(date) {
-    if (!/^\d{4}-\d{2}-\d{2}$/.test(date ?? "")) return null;
+function getTimeRange(value) {
+    if (!/^\d{4}-\d{2}-\d{2}$/.test(value ?? "")) return null;
 
-    const parsed = new Date(`${date}T00:00:00`);
-    if (Number.isNaN(parsed.getTime())) return null;
+    const [year, month, day] = value.split("-").map(Number);
+    const date = new Date(year, month - 1, day);
 
-    const day = parsed.getDay();
-    if (day === 0) return null;
+    if (
+        date.getFullYear() !== year ||
+        date.getMonth() !== month - 1 ||
+        date.getDate() !== day ||
+        date.getDay() === 0
+    ) {
+        return null;
+    }
 
-    // Matches the DPS booking form's CURRENT hours.
-    // Update both frontend and backend when seasonal hours are finalized.
+    // These match the current backend rules, not the proposed seasonal hours.
     return {
         opens: 9 * 60,
-        closes: day === 6 ? 18 * 60 : 17 * 60,
+        closes: date.getDay() === 6 ? 18 * 60 : 17 * 60,
     };
+}
+
+function overlaps(requestedStart, requestedDuration, appointment) {
+    const existingStart = toMinutes(appointment.appointment_time);
+    if (existingStart === null) return true;
+
+    const existingDuration = Number(appointment.duration_minutes ?? 30);
+
+    return (
+        requestedStart < existingStart + existingDuration &&
+        existingStart < requestedStart + requestedDuration
+    );
 }
 
 function availableTimesFor(date, duration, appointments) {
@@ -86,14 +91,22 @@ function availableTimesFor(date, duration, appointments) {
         start + duration <= range.closes;
         start += 30
     ) {
-        const blocked = appointments.some((appointment) =>
-            isOverlap(start, duration, appointment)
-        );
-
-        if (!blocked) slots.push(formatTime(start));
+        if (!appointments.some((item) => overlaps(start, duration, item))) {
+            slots.push(formatTime(start));
+        }
     }
 
     return slots;
+}
+
+function safeAppointment(appointment) {
+    const {
+        manage_token_hash: _hash,
+        manage_token_expires_at: _expires,
+        ...safe
+    } = appointment;
+
+    return safe;
 }
 
 export async function getAvailability(req, res) {
@@ -118,9 +131,9 @@ export async function getAvailability(req, res) {
 
         return res.json({
             availableTimes: availableTimesFor(date, duration, appointments),
-            bookedTimes: [...new Set(
-                appointments.map((appointment) => appointment.appointment_time)
-            )],
+            bookedTimes: [
+                ...new Set(appointments.map((item) => item.appointment_time)),
+            ],
         });
     } catch (error) {
         console.error("Error fetching availability:", error);
@@ -136,7 +149,7 @@ export async function getAppointments(req, res) {
             return res.status(500).json({ message: error.message });
         }
 
-        return res.json(data);
+        return res.json((data ?? []).map(safeAppointment));
     } catch (error) {
         console.error("Error fetching appointments:", error);
         return res.status(500).json({ message: "Error fetching appointments." });
@@ -160,8 +173,15 @@ export async function createAppointment(req, res) {
     const start = toMinutes(appointment_time);
 
     if (
-        !first_name || !last_name || !phone || !email || !service ||
-        !tax_preparer || !appointment_date || !duration || start === null
+        !first_name ||
+        !last_name ||
+        !phone ||
+        !email ||
+        !service ||
+        !tax_preparer ||
+        !appointment_date ||
+        !duration ||
+        start === null
     ) {
         return res.status(400).json({
             message: "Complete all required fields and choose a valid duration.",
@@ -192,6 +212,16 @@ export async function createAppointment(req, res) {
             });
         }
 
+        const manageToken = crypto.randomBytes(32).toString("hex");
+        const manageTokenHash = crypto
+            .createHash("sha256")
+            .update(manageToken)
+            .digest("hex");
+
+        const manageTokenExpiresAt = new Date(
+            Date.now() + 7 * 24 * 60 * 60 * 1000
+        ).toISOString();
+
         const { data, error } = await createAppointmentService({
             first_name,
             last_name,
@@ -203,6 +233,8 @@ export async function createAppointment(req, res) {
             appointment_time,
             duration_minutes: duration,
             message,
+            manage_token_hash: manageTokenHash,
+            manage_token_expires_at: manageTokenExpiresAt,
         });
 
         if (error) {
@@ -211,18 +243,22 @@ export async function createAppointment(req, res) {
         }
 
         const newAppointment = data?.[0];
+
         if (!newAppointment) {
-            return res.status(500).json({ message: "Appointment was not returned." });
+            return res.status(500).json({
+                message: "Appointment was not returned.",
+            });
         }
 
         try {
+            // Do not email manageToken until the manage endpoints are tested.
             await sendTaxAppointmentRequestEmail(newAppointment);
             await sendTaxOfficeNotificationEmail(newAppointment);
         } catch (emailError) {
             console.error("Appointment email error:", emailError);
         }
 
-        return res.status(201).json(newAppointment);
+        return res.status(201).json(safeAppointment(newAppointment));
     } catch (error) {
         console.error("Error creating appointment:", error);
         return res.status(500).json({ message: "Error creating appointment." });
@@ -233,8 +269,13 @@ export async function confirmAppointmentFromEmail(req, res) {
     try {
         const { data, error } = await confirmAppointmentService(req.params.id);
 
-        if (error) return res.status(500).send("<h2>Error confirming appointment.</h2>");
-        if (!data?.length) return res.status(404).send("<h2>Appointment not found.</h2>");
+        if (error) {
+            return res.status(500).send("<h2>Error confirming appointment.</h2>");
+        }
+
+        if (!data?.length) {
+            return res.status(404).send("<h2>Appointment not found.</h2>");
+        }
 
         return res.send(`
       <div style="font-family:Arial,sans-serif;padding:30px">
@@ -253,8 +294,13 @@ export async function cancelAppointmentFromEmail(req, res) {
     try {
         const { data, error } = await cancelAppointmentService(req.params.id);
 
-        if (error) return res.status(500).send("<h2>Error cancelling appointment.</h2>");
-        if (!data?.length) return res.status(404).send("<h2>Appointment not found.</h2>");
+        if (error) {
+            return res.status(500).send("<h2>Error cancelling appointment.</h2>");
+        }
+
+        if (!data?.length) {
+            return res.status(404).send("<h2>Appointment not found.</h2>");
+        }
 
         return res.send(`
       <div style="font-family:Arial,sans-serif;padding:30px">
@@ -280,7 +326,7 @@ export async function cancelAppointment(req, res) {
 
         return res.json({
             message: "Appointment cancelled successfully.",
-            appointment: data[0],
+            appointment: safeAppointment(data[0]),
         });
     } catch (error) {
         console.error("Error cancelling appointment:", error);
@@ -299,7 +345,7 @@ export async function archiveAppointment(req, res) {
 
         return res.json({
             message: "Appointment archived successfully.",
-            appointment: data[0],
+            appointment: safeAppointment(data[0]),
         });
     } catch (error) {
         console.error("Error archiving appointment:", error);
@@ -334,12 +380,10 @@ export async function updateAppointment(req, res) {
             status: req.body.status ?? current.status,
         };
 
-        const start = toMinutes(updated.appointment_time);
-
         if (
             !updated.tax_preparer ||
             !updated.duration_minutes ||
-            start === null
+            toMinutes(updated.appointment_time) === null
         ) {
             return res.status(400).json({ message: "Invalid appointment details." });
         }
@@ -353,7 +397,9 @@ export async function updateAppointment(req, res) {
                 });
 
             if (existingError) {
-                return res.status(500).json({ message: "Could not check availability." });
+                return res.status(500).json({
+                    message: "Could not check availability.",
+                });
             }
 
             const allowedTimes = availableTimesFor(
@@ -381,14 +427,15 @@ export async function updateAppointment(req, res) {
         if (
             String(current.appointment_date) !== String(saved.appointment_date) ||
             String(current.appointment_time) !== String(saved.appointment_time) ||
-            Number(current.duration_minutes ?? 30) !== Number(saved.duration_minutes)
+            Number(current.duration_minutes ?? 30) !==
+            Number(saved.duration_minutes)
         ) {
             await sendAppointmentUpdateEmail(saved);
         }
 
         return res.json({
             message: "Appointment updated successfully.",
-            appointment: saved,
+            appointment: safeAppointment(saved),
         });
     } catch (error) {
         console.error("Error updating appointment:", error);
@@ -407,7 +454,7 @@ export async function deleteAppointment(req, res) {
 
         return res.json({
             message: "Appointment deleted successfully.",
-            appointment: data[0],
+            appointment: safeAppointment(data[0]),
         });
     } catch (error) {
         console.error("Error deleting appointment:", error);

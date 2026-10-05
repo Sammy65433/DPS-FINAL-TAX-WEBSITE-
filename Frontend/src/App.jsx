@@ -21,6 +21,9 @@ import TaxpayerResourcesPage from "./pages/TaxpayerResourcesPage";
 import ClientFeedbackPage from "./pages/ClientFeedbackPage";
 import BusinessServicesPage from "./pages/BusinessServicesPage";
 import PaymentsPage from "./pages/PaymentsPage";
+import ManageAppointment from "./pages/ManageAppointment";
+
+
 
 
 function App() {
@@ -49,6 +52,7 @@ function App() {
         <Route path="/client-feedback" element={<ClientFeedbackPage />} />
         <Route path="/business-services" element={<BusinessServicesPage />} />
         <Route path="/payments" element={<PaymentsPage />} />
+        <Route path="/manage-appointment" element={<ManageAppointment />} />
 
       </Routes>
     </>

@@ -3,14 +3,16 @@ import { supabase } from "../config/supabase.js";
 export async function getAppointmentsService() {
   return supabase
     .from("appointments")
-    .select("*")
+    .select(
+      "id, first_name, last_name, phone, email, service, tax_preparer, appointment_date, appointment_time, duration_minutes, message, status, created_at"
+    )
     .order("created_at", { ascending: false });
 }
 
 export async function getAvailabilityService(date, preparer) {
   return supabase
     .from("appointments")
-    .select("appointment_time, duration_minutes")
+    .select("id, appointment_time, duration_minutes")
     .eq("appointment_date", date)
     .eq("tax_preparer", preparer)
     .in("status", ["booked", "confirmed"]);

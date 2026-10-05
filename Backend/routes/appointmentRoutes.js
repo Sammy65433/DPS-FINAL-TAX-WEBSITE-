@@ -1,16 +1,25 @@
 import express from "express";
-import {
-    archiveAppointment,
-    cancelAppointment,
-    cancelAppointmentFromEmail,
-    confirmAppointmentFromEmail,
-    createAppointment,
-    deleteAppointment,
-    getAppointments,
-    getAvailability,
-    updateAppointment,
-} from "../controllers/appointmentController.js";
 import crypto from "node:crypto";
+
+import {
+  archiveAppointment,
+  cancelAppointment,
+  createAppointment,
+  deleteAppointment,
+  getAppointments,
+  getAvailability,
+  updateAppointment,
+} from "../controllers/appointmentController.js";
+
+import {
+  getManagedAppointment,
+  getManagedAvailability,
+  rescheduleManagedAppointment,
+  cancelManagedAppointment,
+} from "../controllers/manageAppointmentController.js";
+
+
+const router = express.Router();
 
 function requireStaffServiceKey(req, res, next) {
   const expected = process.env.DPS_STAFF_API_KEY;
@@ -33,16 +42,23 @@ function requireStaffServiceKey(req, res, next) {
   next();
 }
 
-const router = express.Router();
-
+// Staff appointment list
 router.get("/", requireStaffServiceKey, getAppointments);
+
+// Public booking
 router.get("/availability", getAvailability);
 router.post("/", createAppointment);
-router.get("/:id/confirm", confirmAppointmentFromEmail);
-router.get("/:id/cancel-from-email", cancelAppointmentFromEmail);
-router.patch("/:id/cancel", cancelAppointment);
-router.patch("/:id/archive", archiveAppointment);
-router.patch("/:id", updateAppointment);
-router.delete("/:id", deleteAppointment);
+
+router.get("/manage", getManagedAppointment);
+router.get("/manage/availability", getManagedAvailability);
+router.patch("/manage/reschedule", rescheduleManagedAppointment);
+router.patch("/manage/cancel", cancelManagedAppointment);
+
+
+// Staff-only changes
+router.patch("/:id/cancel", requireStaffServiceKey, cancelAppointment);
+router.patch("/:id/archive", requireStaffServiceKey, archiveAppointment);
+router.patch("/:id", requireStaffServiceKey, updateAppointment);
+router.delete("/:id", requireStaffServiceKey, deleteAppointment);
 
 export default router;
