@@ -243,8 +243,15 @@ export async function rescheduleManagedAppointment(req, res) {
       .select()
       .maybeSingle();
 
-    if (error) throw error;
-    if (!data) {
+if (error?.code === "23P01") {
+  return res.status(409).json({
+    message: "That time overlaps another appointment.",
+  });
+}
+
+if (error) throw error;
+if (!data) {
+
       return res.status(409).json({ message: "Appointment was not updated." });
     }
 

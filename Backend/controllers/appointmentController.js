@@ -237,6 +237,12 @@ export async function createAppointment(req, res) {
             manage_token_expires_at: manageTokenExpiresAt,
         });
 
+        if (error?.code === "23P01") {
+            return res.status(409).json({
+                message: "That time overlaps another appointment.",
+            });
+        }
+
         if (error) {
             console.error("Create appointment error:", error);
             return res.status(500).json({ message: "Could not create appointment." });
@@ -244,7 +250,7 @@ export async function createAppointment(req, res) {
 
         const newAppointment = data?.[0];
 
-        
+
         if (!newAppointment) {
             return res.status(500).json({
                 message: "Appointment was not returned.",
@@ -364,6 +370,16 @@ export async function updateAppointment(req, res) {
             return res.status(404).json({ message: "Appointment not found." });
         }
 
+        const staffDuration = Number(
+            req.body.duration_minutes ?? current.duration_minutes
+        );
+
+        if (![15, 30, 60].includes(staffDuration)) {
+            return res.status(400).json({
+                message: "Choose 15, 30, or 60 minutes.",
+            });
+        }
+
         const updated = {
             first_name: req.body.first_name ?? current.first_name,
             last_name: req.body.last_name ?? current.last_name,
@@ -373,16 +389,13 @@ export async function updateAppointment(req, res) {
             tax_preparer: req.body.tax_preparer ?? current.tax_preparer,
             appointment_date: req.body.appointment_date ?? current.appointment_date,
             appointment_time: req.body.appointment_time ?? current.appointment_time,
-            duration_minutes: getDuration(
-                req.body.duration_minutes ?? current.duration_minutes
-            ),
+            duration_minutes: staffDuration,
             message: req.body.message ?? current.message,
             status: req.body.status ?? current.status,
         };
 
         if (
             !updated.tax_preparer ||
-            !updated.duration_minutes ||
             toMinutes(updated.appointment_time) === null
         ) {
             return res.status(400).json({ message: "Invalid appointment details." });
@@ -417,7 +430,14 @@ export async function updateAppointment(req, res) {
 
         const { data, error } = await updateAppointmentService(id, updated);
 
-        if (error) return res.status(500).json({ message: error.message });
+        if (error?.code === "23P01") {
+            return res.status(409).json({
+                message: "That time overlaps another appointment.",
+            });
+        }
+        if (error) {
+            return res.status(500).json({ message: error.message });
+        }
         if (!data?.length) {
             return res.status(404).json({ message: "Appointment not found." });
         }
@@ -428,7 +448,9 @@ export async function updateAppointment(req, res) {
             String(current.appointment_date) !== String(saved.appointment_date) ||
             String(current.appointment_time) !== String(saved.appointment_time) ||
             Number(current.duration_minutes ?? 30) !==
-            Number(saved.duration_minutes)
+            Number(saved.duration_minutes) ||
+            current.tax_preparer !== saved.tax_preparer ||
+            current.service !== saved.service
         ) {
             await sendAppointmentUpdateEmail(saved);
         }
