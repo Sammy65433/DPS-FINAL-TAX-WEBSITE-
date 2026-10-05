@@ -114,3 +114,39 @@
     grid-template-columns: 1fr;
   }
 }
+.manage-month-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 12px 0;
+}
+
+.manage-calendar {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 6px;
+}
+
+.manage-calendar strong {
+  text-align: center;
+  font-size: 0.8rem;
+}
+
+.manage-calendar button {
+  min-height: 52px;
+  border: 1px solid #b9cfca;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.manage-calendar button.selected {
+  background: #0f5c54;
+  color: #fff;
+}
+
+.manage-calendar button:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

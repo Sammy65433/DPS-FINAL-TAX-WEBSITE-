@@ -34,6 +34,10 @@ export default function ManageAppointment() {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
 
+    const [duration, setDuration] = useState(30);
+    const [month, setMonth] = useState(new Date());
+
+
     useEffect(() => {
         if (!token || !API_URL) {
             setError("This appointment link is missing or unavailable.");
@@ -60,6 +64,9 @@ export default function ManageAppointment() {
                 setTime(data.appointment.appointment_time);
                 setPreparer(data.appointment.tax_preparer);
                 setService(data.appointment.service);
+                setDuration(Number(data.appointment.duration_minutes ?? 30));
+                setMonth(new Date(`${data.appointment.appointment_date}T00:00:00`));
+
             } catch (err) {
                 if (err.name !== "AbortError") setError(err.message);
             } finally {
@@ -90,7 +97,13 @@ export default function ManageAppointment() {
             setAvailableTimes([]);
 
             try {
-                const params = new URLSearchParams({ token, date, preparer });
+                const params = new URLSearchParams({
+                    token,
+                    date,
+                    preparer,
+                    duration_minutes: String(duration),
+                });
+
                 const response = await fetch(
                     `${API_URL}/api/appointments/manage/availability?${params}`,
                     { signal: controller.signal }
@@ -113,7 +126,8 @@ export default function ManageAppointment() {
 
         loadTimes();
         return () => controller.abort();
-    }, [token, date, preparer, appointment?.status]);
+    }, [token, date, preparer, duration, appointment?.status]);
+
 
     async function sendAction(action) {
         setSaving(true);
@@ -134,7 +148,9 @@ export default function ManageAppointment() {
                                 appointment_date: date,
                                 appointment_time: time,
                                 tax_preparer: preparer,
+                                duration_minutes: duration,
                             }
+
                             : { token }
                     ),
                 }
@@ -151,6 +167,8 @@ export default function ManageAppointment() {
             setTime(data.appointment.appointment_time);
             setPreparer(data.appointment.tax_preparer);
             setService(data.appointment.service);
+            setDuration(Number(data.appointment.duration_minutes ?? 30));
+
             setMessage(
                 action === "cancel"
                     ? "Appointment cancelled."
@@ -227,17 +245,82 @@ export default function ManageAppointment() {
                                 </div>
 
                                 <div className="manage-field">
-                                    <label htmlFor="new-date">New date</label>
-                                    <input
-                                        id="new-date"
-                                        type="date"
-                                        value={date}
+                                    <label>New date</label>
+
+                                    <div className="manage-month-controls">
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))
+                                            }
+                                        >
+                                            Previous
+                                        </button>
+                                        <strong>
+                                            {month.toLocaleDateString("en-US", {
+                                                month: "long",
+                                                year: "numeric",
+                                            })}
+                                        </strong>
+                                        <button
+                                            type="button"
+                                            onClick={() =>
+                                                setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))
+                                            }
+                                        >
+                                            Next
+                                        </button>
+                                    </div>
+
+                                    <div className="manage-calendar">
+                                        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((name) => (
+                                            <strong key={name}>{name}</strong>
+                                        ))}
+
+                                        {Array.from({ length: 42 }, (_, index) => {
+                                            const first = new Date(month.getFullYear(), month.getMonth(), 1);
+                                            const start = new Date(first);
+                                            start.setDate(1 - first.getDay() + index);
+
+                                            const value =
+                                                `${start.getFullYear()}-` +
+                                                `${String(start.getMonth() + 1).padStart(2, "0")}-` +
+                                                `${String(start.getDate()).padStart(2, "0")}`;
+
+                                            const unavailable = start.getDay() === 0;
+
+                                            return (
+                                                <button
+                                                    key={value}
+                                                    type="button"
+                                                    disabled={unavailable}
+                                                    className={value === date ? "selected" : ""}
+                                                    onClick={() => {
+                                                        setDate(value);
+                                                        setTime("");
+                                                    }}
+                                                >
+                                                    {start.getDate()}
+                                                </button>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                                <div className="manage-field">
+                                    <label htmlFor="new-duration">Appointment length</label>
+                                    <select
+                                        id="new-duration"
+                                        value={duration}
                                         onChange={(event) => {
-                                            setDate(event.target.value);
+                                            setDuration(Number(event.target.value));
                                             setTime("");
                                         }}
-                                    />
+                                    >
+                                        <option value={30}>30 minutes</option>
+                                        <option value={60}>1 hour</option>
+                                    </select>
                                 </div>
+
 
                                 <div className="manage-field">
                                     <label htmlFor="new-preparer">New preparer</label>

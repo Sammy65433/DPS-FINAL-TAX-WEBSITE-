@@ -154,126 +154,111 @@ export async function getManagedAppointment(req, res) {
 }
 
 export async function getManagedAvailability(req, res) {
-    try {
-        const appointment = await findByToken(req.query.token);
+  try {
+    const appointment = await findByToken(req.query.token);
+    if (!appointment) return res.status(404).json({ message: INVALID_LINK });
 
-        if (!appointment) {
-            return res.status(404).json({ message: INVALID_LINK });
-        }
-
-        if (!["booked", "confirmed"].includes(appointment.status)) {
-            return res.status(409).json({
-                message: "This appointment can no longer be rescheduled.",
-            });
-        }
-
-        const date = req.query.date;
-        const preparer = req.query.preparer;
-
-        if (!PREPARERS.has(preparer)) {
-            return res.status(400).json({ message: "Choose a valid preparer." });
-        }
-
-        if (!openHours(date)) {
-            return res.json({ availableTimes: [] });
-        }
-
-        const bookings = await loadOtherBookings(appointment, date, preparer);
-
-        return res.json({
-            availableTimes: availableTimes(
-                date,
-                Number(appointment.duration_minutes ?? 30),
-                bookings
-            ),
-        });
-    } catch (error) {
-        console.error("Manage availability failed:", error);
-        return res.status(500).json({ message: "Could not load availability." });
+    if (!["booked", "confirmed"].includes(appointment.status)) {
+      return res.status(409).json({
+        message: "This appointment can no longer be changed.",
+      });
     }
+
+    const { date, preparer } = req.query;
+    const duration = Number(req.query.duration_minutes);
+
+    if (!PREPARERS.has(preparer) || ![30, 60].includes(duration)) {
+      return res.status(400).json({
+        message: "Choose a valid preparer and appointment length.",
+      });
+    }
+
+    if (!openHours(date)) return res.json({ availableTimes: [] });
+
+    const bookings = await loadOtherBookings(appointment, date, preparer);
+
+    return res.json({
+      availableTimes: availableTimes(date, duration, bookings),
+    });
+  } catch (error) {
+    console.error("Manage availability failed:", error);
+    return res.status(500).json({ message: "Could not load availability." });
+  }
 }
 
 export async function rescheduleManagedAppointment(req, res) {
-    try {
-        const appointment = await findByToken(req.body?.token);
+  try {
+    const appointment = await findByToken(req.body?.token);
+    if (!appointment) return res.status(404).json({ message: INVALID_LINK });
 
-        if (!appointment) {
-            return res.status(404).json({ message: INVALID_LINK });
-        }
-
-        if (!["booked", "confirmed"].includes(appointment.status)) {
-            return res.status(409).json({
-                message: "This appointment can no longer be rescheduled.",
-            });
-        }
-
-        const preparer = req.body?.tax_preparer;
-        const date = req.body?.appointment_date;
-        const time = req.body?.appointment_time;
-        const service = req.body?.service;
-
-        if (!SERVICES.has(service)) {
-            return res.status(400).json({ message: "Choose a valid service." });
-        }
-
-        if (!PREPARERS.has(preparer)) {
-            return res.status(400).json({ message: "Choose a valid preparer." });
-        }
-
-        if (!openHours(date) || toMinutes(time) === null) {
-            return res.status(400).json({
-                message: "Choose a valid date and time.",
-            });
-        }
-
-        const bookings = await loadOtherBookings(appointment, date, preparer);
-        const slots = availableTimes(
-            date,
-            Number(appointment.duration_minutes ?? 30),
-            bookings
-        );
-
-        if (!slots.includes(time)) {
-            return res.status(409).json({
-                message: "That time is no longer available.",
-            });
-        }
-
-        const { data, error } = await supabase
-            .from("appointments")
-            .update({
-                appointment_date: date,
-                appointment_time: time,
-                tax_preparer: preparer,
-                service,
-            })
-            .eq("id", appointment.id)
-            .eq("manage_token_hash", appointment.manage_token_hash)
-            .gt("manage_token_expires_at", new Date().toISOString())
-            .in("status", ["booked", "confirmed"])
-            .select()
-            .maybeSingle();
-
-        if (error) throw error;
-
-        if (!data) {
-            return res.status(409).json({
-                message: "Appointment was not updated.",
-            });
-        }
-        try {
-            await sendCustomerRescheduleEmail(data, req.body.token);
-        } catch (emailError) {
-            console.error("Could not send reschedule confirmation:", emailError);
-        }
-
-        return res.json({ appointment: publicAppointment(data) });
-    } catch (error) {
-        console.error("Manage reschedule failed:", error);
-        return res.status(500).json({
-            message: "Could not reschedule appointment.",
-        });
+    if (!["booked", "confirmed"].includes(appointment.status)) {
+      return res.status(409).json({
+        message: "This appointment can no longer be changed.",
+      });
     }
+
+    const {
+      service,
+      tax_preparer: preparer,
+      appointment_date: date,
+      appointment_time: time,
+    } = req.body;
+
+    const duration = Number(req.body.duration_minutes);
+
+    if (
+      !SERVICES.has(service) ||
+      !PREPARERS.has(preparer) ||
+      ![30, 60].includes(duration) ||
+      !openHours(date) ||
+      toMinutes(time) === null
+    ) {
+      return res.status(400).json({
+        message: "Choose a valid service, preparer, length, date, and time.",
+      });
+    }
+
+    const bookings = await loadOtherBookings(appointment, date, preparer);
+    const slots = availableTimes(date, duration, bookings);
+
+    if (!slots.includes(time)) {
+      return res.status(409).json({
+        message: "That time is no longer available.",
+      });
+    }
+
+    const { data, error } = await supabase
+      .from("appointments")
+      .update({
+        service,
+        tax_preparer: preparer,
+        appointment_date: date,
+        appointment_time: time,
+        duration_minutes: duration,
+      })
+      .eq("id", appointment.id)
+      .eq("manage_token_hash", appointment.manage_token_hash)
+      .gt("manage_token_expires_at", new Date().toISOString())
+      .in("status", ["booked", "confirmed"])
+      .select()
+      .maybeSingle();
+
+    if (error) throw error;
+    if (!data) {
+      return res.status(409).json({ message: "Appointment was not updated." });
+    }
+
+    try {
+      await sendCustomerRescheduleEmail(data, req.body.token);
+    } catch (emailError) {
+      console.error("Could not send update email:", emailError);
+    }
+
+    return res.json({ appointment: publicAppointment(data) });
+  } catch (error) {
+    console.error("Manage reschedule failed:", error);
+    return res.status(500).json({ message: "Could not update appointment." });
+  }
 }
 
 export async function cancelManagedAppointment(req, res) {
