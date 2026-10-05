@@ -3,18 +3,28 @@ import { useSearchParams } from "react-router-dom";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
+const PREPARERS = [
+    "Pierre Polidor",
+    "Dalia Pierre",
+    "Severe Jacquet",
+    "Jean P Cifrant",
+    "Ricot Casimir",
+];
+
 export default function ManageAppointment() {
     const [searchParams] = useSearchParams();
     const token = searchParams.get("token");
 
     const [appointment, setAppointment] = useState(null);
-    const [availableTimes, setAvailableTimes] = useState([]);
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
+    const [preparer, setPreparer] = useState("");
+    const [availableTimes, setAvailableTimes] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [loadingTimes, setLoadingTimes] = useState(false);
     const [saving, setSaving] = useState(false);
-    const [message, setMessage] = useState("");
     const [error, setError] = useState("");
+    const [message, setMessage] = useState("");
 
     useEffect(() => {
         if (!token || !API_URL) {
@@ -40,6 +50,7 @@ export default function ManageAppointment() {
                 setAppointment(data.appointment);
                 setDate(data.appointment.appointment_date);
                 setTime(data.appointment.appointment_time);
+                setPreparer(data.appointment.tax_preparer);
             } catch (err) {
                 if (err.name !== "AbortError") setError(err.message);
             } finally {
@@ -52,16 +63,20 @@ export default function ManageAppointment() {
     }, [token]);
 
     useEffect(() => {
-        if (!token || !date || !appointment || appointment.status === "cancelled") {
+        if (!token || !date || !preparer || !appointment ||
+            !["booked", "confirmed"].includes(appointment.status)) {
             setAvailableTimes([]);
             return;
         }
 
         const controller = new AbortController();
 
-        async function loadAvailability() {
+        async function loadTimes() {
+            setLoadingTimes(true);
+            setAvailableTimes([]);
+
             try {
-                const params = new URLSearchParams({ token, date });
+                const params = new URLSearchParams({ token, date, preparer });
                 const response = await fetch(
                     `${API_URL}/api/appointments/manage/availability?${params}`,
                     { signal: controller.signal }
@@ -72,15 +87,19 @@ export default function ManageAppointment() {
                     throw new Error(data.message || "Could not load available times.");
                 }
 
-                setAvailableTimes(data.availableTimes);
+                if (!controller.signal.aborted) {
+                    setAvailableTimes(data.availableTimes);
+                }
             } catch (err) {
                 if (err.name !== "AbortError") setError(err.message);
+            } finally {
+                if (!controller.signal.aborted) setLoadingTimes(false);
             }
         }
 
-        loadAvailability();
+        loadTimes();
         return () => controller.abort();
-    }, [token, date, appointment?.status]);
+    }, [token, date, preparer, appointment?.status]);
 
     async function sendAction(action) {
         setSaving(true);
@@ -95,7 +114,12 @@ export default function ManageAppointment() {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(
                         action === "reschedule"
-                            ? { token, appointment_date: date, appointment_time: time }
+                            ? {
+                                token,
+                                appointment_date: date,
+                                appointment_time: time,
+                                tax_preparer: preparer,
+                            }
                             : { token }
                     ),
                 }
@@ -107,6 +131,9 @@ export default function ManageAppointment() {
             }
 
             setAppointment(data.appointment);
+            setDate(data.appointment.appointment_date);
+            setTime(data.appointment.appointment_time);
+            setPreparer(data.appointment.tax_preparer);
             setMessage(
                 action === "cancel"
                     ? "Appointment cancelled."
@@ -136,9 +163,10 @@ export default function ManageAppointment() {
                     <p><strong>Length:</strong> {appointment.duration_minutes} minutes</p>
                     <p><strong>Status:</strong> {appointment.status}</p>
 
-                    {appointment.status !== "cancelled" && (
-                        <>
+                    {["booked", "confirmed"].includes(appointment.status) && (
+                        <section>
                             <h2>Reschedule</h2>
+
                             <label htmlFor="new-date">New date</label>
                             <input
                                 id="new-date"
@@ -149,6 +177,21 @@ export default function ManageAppointment() {
                                     setTime("");
                                 }}
                             />
+
+                            <label htmlFor="new-preparer">New preparer</label>
+                            <select
+                                id="new-preparer"
+                                value={preparer}
+                                onChange={(event) => {
+                                    setPreparer(event.target.value);
+                                    setTime("");
+                                    setAvailableTimes([]);
+                                }}
+                            >
+                                {PREPARERS.map((name) => (
+                                    <option key={name} value={name}>{name}</option>
+                                ))}
+                            </select>
 
                             <label htmlFor="new-time">New time</label>
                             <select
@@ -162,9 +205,14 @@ export default function ManageAppointment() {
                                 ))}
                             </select>
 
+                            {loadingTimes && <p>Loading available times...</p>}
+
                             <button
                                 type="button"
-                                disabled={saving || !date || !time || !availableTimes.includes(time)}
+                                disabled={
+                                    saving || loadingTimes || !time ||
+                                    !availableTimes.includes(time)
+                                }
                                 onClick={() => sendAction("reschedule")}
                             >
                                 Save New Time
@@ -177,7 +225,7 @@ export default function ManageAppointment() {
                             >
                                 Cancel Appointment
                             </button>
-                        </>
+                        </section>
                     )}
                 </>
             )}
