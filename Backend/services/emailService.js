@@ -277,3 +277,26 @@ export async function sendCustomerRescheduleEmail(appointment, manageToken) {
     console.error("Reschedule email failed:", result.error);
   }
 }
+export async function sendAppointmentCancellationEmail(appointment) {
+  const result = await resend.emails.send({
+    from: "appointments@dpstaxpro.com",
+    to: appointment.email,
+    subject: "Your DPS Appointment Was Cancelled",
+    html: `
+      <div style="font-family:Arial,sans-serif;line-height:1.6">
+        <h2>Appointment Cancelled</h2>
+        <p>Hello ${appointment.first_name},</p>
+        <p>Your appointment has been cancelled.</p>
+        <p><strong>Service:</strong> ${appointment.service}</p>
+        <p><strong>Preparer:</strong> ${appointment.tax_preparer}</p>
+        <p><strong>Date:</strong> ${appointment.appointment_date}</p>
+        <p><strong>Time:</strong> ${appointment.appointment_time}</p>
+        <p><strong>Length:</strong> ${appointment.duration_minutes ?? 30} minutes</p>
+        <p>If this was a mistake, call (973) 327-2340.</p>
+      </div>
+    `,
+  });
+
+  if (result.error) throw result.error;
+  return result;
+}
