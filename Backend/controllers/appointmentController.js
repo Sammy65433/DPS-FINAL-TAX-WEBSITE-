@@ -244,6 +244,7 @@ export async function createAppointment(req, res) {
 
         const newAppointment = data?.[0];
 
+        
         if (!newAppointment) {
             return res.status(500).json({
                 message: "Appointment was not returned.",
@@ -251,8 +252,7 @@ export async function createAppointment(req, res) {
         }
 
         try {
-            // Do not email manageToken until the manage endpoints are tested.
-            await sendTaxAppointmentRequestEmail(newAppointment);
+            await sendTaxAppointmentRequestEmail(newAppointment, manageToken);
             await sendTaxOfficeNotificationEmail(newAppointment);
         } catch (emailError) {
             console.error("Appointment email error:", emailError);

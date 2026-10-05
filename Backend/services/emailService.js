@@ -7,7 +7,9 @@ export function buildEmailTemplate({
   tax_preparer,
   appointment_date,
   appointment_time,
+  manageLink,
 }) {
+
   return `
     <div style="font-family:Arial,sans-serif;line-height:1.6;color:#1a1a1a;">
       <h2 style="color:#0f5c54;">Appointment Request Received</h2>
@@ -28,6 +30,8 @@ export function buildEmailTemplate({
         Use our secure client portal for document uploads.
       </p>
       <p>Thank you,<br />DPS Professional Tax Services</p>
+      <p><a href="${manageLink}">Manage My Appointment</a></p>
+
     </div>
   `;
 }
@@ -125,8 +129,11 @@ export async function sendRealtyUpdateEmail(appointment) {
   }
 }
 
-export async function sendTaxAppointmentRequestEmail(appointment) {
+export async function sendTaxAppointmentRequestEmail(appointment, manageToken) {
   try {
+    const manageLink =
+      `${env.FRONTEND_URL}/manage-appointment?token=${encodeURIComponent(manageToken)}`;
+
     const emailResult = await resend.emails.send({
       from: "appointments@dpstaxpro.com",
       to: appointment.email,
@@ -137,6 +144,7 @@ export async function sendTaxAppointmentRequestEmail(appointment) {
         tax_preparer: appointment.tax_preparer,
         appointment_date: appointment.appointment_date,
         appointment_time: appointment.appointment_time,
+        manageLink,
       }),
     });
 
@@ -145,6 +153,7 @@ export async function sendTaxAppointmentRequestEmail(appointment) {
     console.error("Error sending tax confirmation email:", emailError);
   }
 }
+
 
 export async function sendTaxOfficeNotificationEmail(appointment) {
   try {
