@@ -1,6 +1,7 @@
 import crypto from "node:crypto";
 import { supabase } from "../config/supabase.js";
 import { getAvailabilityService } from "../services/appointmentService.js";
+import { sendCustomerRescheduleEmail } from "../services/emailService.js";
 
 const INVALID_LINK = "This appointment link is invalid or expired.";
 
@@ -11,6 +12,13 @@ const PREPARERS = new Set([
     "Jean P Cifrant",
     "Ricot Casimir",
 ]);
+const SERVICES = new Set([
+    "Tax Preparation",
+    "Copy & Fax Services",
+    "Notary Public",
+    "Translation Services",
+]);
+
 
 function tokenHash(token) {
     return crypto.createHash("sha256").update(token).digest("hex");
@@ -202,6 +210,11 @@ export async function rescheduleManagedAppointment(req, res) {
         const preparer = req.body?.tax_preparer;
         const date = req.body?.appointment_date;
         const time = req.body?.appointment_time;
+        const service = req.body?.service;
+
+        if (!SERVICES.has(service)) {
+            return res.status(400).json({ message: "Choose a valid service." });
+        }
 
         if (!PREPARERS.has(preparer)) {
             return res.status(400).json({ message: "Choose a valid preparer." });
@@ -232,6 +245,7 @@ export async function rescheduleManagedAppointment(req, res) {
                 appointment_date: date,
                 appointment_time: time,
                 tax_preparer: preparer,
+                service,
             })
             .eq("id", appointment.id)
             .eq("manage_token_hash", appointment.manage_token_hash)
@@ -246,6 +260,11 @@ export async function rescheduleManagedAppointment(req, res) {
             return res.status(409).json({
                 message: "Appointment was not updated.",
             });
+        }
+        try {
+            await sendCustomerRescheduleEmail(data, req.body.token);
+        } catch (emailError) {
+            console.error("Could not send reschedule confirmation:", emailError);
         }
 
         return res.json({ appointment: publicAppointment(data) });

@@ -11,6 +11,13 @@ const PREPARERS = [
     "Ricot Casimir",
 ];
 
+const SERVICES = [
+    "Tax Preparation",
+    "Copy & Fax Services",
+    "Notary Public",
+    "Translation Services",
+];
+
 export default function ManageAppointment() {
     const [searchParams] = useSearchParams();
     const token = searchParams.get("token");
@@ -19,6 +26,7 @@ export default function ManageAppointment() {
     const [date, setDate] = useState("");
     const [time, setTime] = useState("");
     const [preparer, setPreparer] = useState("");
+    const [service, setService] = useState("");
     const [availableTimes, setAvailableTimes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadingTimes, setLoadingTimes] = useState(false);
@@ -51,6 +59,7 @@ export default function ManageAppointment() {
                 setDate(data.appointment.appointment_date);
                 setTime(data.appointment.appointment_time);
                 setPreparer(data.appointment.tax_preparer);
+                setService(data.appointment.service);
             } catch (err) {
                 if (err.name !== "AbortError") setError(err.message);
             } finally {
@@ -63,8 +72,13 @@ export default function ManageAppointment() {
     }, [token]);
 
     useEffect(() => {
-        if (!token || !date || !preparer || !appointment ||
-            !["booked", "confirmed"].includes(appointment.status)) {
+        if (
+            !token ||
+            !date ||
+            !preparer ||
+            !appointment ||
+            !["booked", "confirmed"].includes(appointment.status)
+        ) {
             setAvailableTimes([]);
             return;
         }
@@ -116,6 +130,7 @@ export default function ManageAppointment() {
                         action === "reschedule"
                             ? {
                                 token,
+                                service,
                                 appointment_date: date,
                                 appointment_time: time,
                                 tax_preparer: preparer,
@@ -126,6 +141,7 @@ export default function ManageAppointment() {
             );
 
             const data = await response.json();
+
             if (!response.ok) {
                 throw new Error(data.message || "Could not update appointment.");
             }
@@ -134,10 +150,11 @@ export default function ManageAppointment() {
             setDate(data.appointment.appointment_date);
             setTime(data.appointment.appointment_time);
             setPreparer(data.appointment.tax_preparer);
+            setService(data.appointment.service);
             setMessage(
                 action === "cancel"
                     ? "Appointment cancelled."
-                    : "Appointment rescheduled."
+                    : "Appointment updated. Check your email for the new details."
             );
         } catch (err) {
             setError(err.message);
@@ -146,89 +163,149 @@ export default function ManageAppointment() {
         }
     }
 
-    if (loading) return <main><p>Loading appointment...</p></main>;
+    if (loading) {
+        return (
+            <main className="manage-page">
+                <div className="manage-card">
+                    <p>Loading appointment...</p>
+                </div>
+            </main>
+        );
+    }
 
     return (
-        <main className="container" style={{ padding: "40px 16px" }}>
-            <h1>Manage My Appointment</h1>
-            {error && <p role="alert">{error}</p>}
-            {message && <p role="status">{message}</p>}
+        <main className="manage-page">
+            <div className="manage-card">
+                <h1>Manage My Appointment</h1>
 
-            {appointment && (
-                <>
-                    <p><strong>Service:</strong> {appointment.service}</p>
-                    <p><strong>Preparer:</strong> {appointment.tax_preparer}</p>
-                    <p><strong>Date:</strong> {appointment.appointment_date}</p>
-                    <p><strong>Time:</strong> {appointment.appointment_time}</p>
-                    <p><strong>Length:</strong> {appointment.duration_minutes} minutes</p>
-                    <p><strong>Status:</strong> {appointment.status}</p>
+                {error && (
+                    <p className="manage-error" role="alert">
+                        {error}
+                    </p>
+                )}
+                {message && (
+                    <p className="manage-success" role="status">
+                        {message}
+                    </p>
+                )}
 
-                    {["booked", "confirmed"].includes(appointment.status) && (
-                        <section>
-                            <h2>Reschedule</h2>
+                {appointment && (
+                    <>
+                        <div className="manage-details">
+                            {[
+                                ["Service", appointment.service],
+                                ["Preparer", appointment.tax_preparer],
+                                ["Date", appointment.appointment_date],
+                                ["Time", appointment.appointment_time],
+                                ["Length", `${appointment.duration_minutes} minutes`],
+                                ["Status", appointment.status],
+                            ].map(([label, value]) => (
+                                <div className="manage-detail" key={label}>
+                                    <strong>{label}</strong>
+                                    <span>{value}</span>
+                                </div>
+                            ))}
+                        </div>
 
-                            <label htmlFor="new-date">New date</label>
-                            <input
-                                id="new-date"
-                                type="date"
-                                value={date}
-                                onChange={(event) => {
-                                    setDate(event.target.value);
-                                    setTime("");
-                                }}
-                            />
+                        {["booked", "confirmed"].includes(appointment.status) && (
+                            <section className="manage-form">
+                                <h2>Change Appointment</h2>
 
-                            <label htmlFor="new-preparer">New preparer</label>
-                            <select
-                                id="new-preparer"
-                                value={preparer}
-                                onChange={(event) => {
-                                    setPreparer(event.target.value);
-                                    setTime("");
-                                    setAvailableTimes([]);
-                                }}
-                            >
-                                {PREPARERS.map((name) => (
-                                    <option key={name} value={name}>{name}</option>
-                                ))}
-                            </select>
+                                <div className="manage-field">
+                                    <label htmlFor="new-service">Service</label>
+                                    <select
+                                        id="new-service"
+                                        value={service}
+                                        onChange={(event) => setService(event.target.value)}
+                                    >
+                                        {SERVICES.map((item) => (
+                                            <option key={item} value={item}>
+                                                {item}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
 
-                            <label htmlFor="new-time">New time</label>
-                            <select
-                                id="new-time"
-                                value={time}
-                                onChange={(event) => setTime(event.target.value)}
-                            >
-                                <option value="">Choose a time</option>
-                                {availableTimes.map((slot) => (
-                                    <option key={slot} value={slot}>{slot}</option>
-                                ))}
-                            </select>
+                                <div className="manage-field">
+                                    <label htmlFor="new-date">New date</label>
+                                    <input
+                                        id="new-date"
+                                        type="date"
+                                        value={date}
+                                        onChange={(event) => {
+                                            setDate(event.target.value);
+                                            setTime("");
+                                        }}
+                                    />
+                                </div>
 
-                            {loadingTimes && <p>Loading available times...</p>}
+                                <div className="manage-field">
+                                    <label htmlFor="new-preparer">New preparer</label>
+                                    <select
+                                        id="new-preparer"
+                                        value={preparer}
+                                        onChange={(event) => {
+                                            setPreparer(event.target.value);
+                                            setTime("");
+                                            setAvailableTimes([]);
+                                        }}
+                                    >
+                                        {PREPARERS.map((name) => (
+                                            <option key={name} value={name}>
+                                                {name}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
 
-                            <button
-                                type="button"
-                                disabled={
-                                    saving || loadingTimes || !time ||
-                                    !availableTimes.includes(time)
-                                }
-                                onClick={() => sendAction("reschedule")}
-                            >
-                                Save New Time
-                            </button>
+                                <div className="manage-field">
+                                    <label htmlFor="new-time">New time</label>
+                                    <select
+                                        id="new-time"
+                                        value={time}
+                                        onChange={(event) => setTime(event.target.value)}
+                                    >
+                                        <option value="">Choose a time</option>
+                                        {availableTimes.map((slot) => (
+                                            <option key={slot} value={slot}>
+                                                {slot}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </div>
 
-                            <button
-                                type="button"
-                                disabled={saving}
-                                onClick={() => sendAction("cancel")}
-                            >
-                                Cancel Appointment
-                            </button>
-                        </section>
-                    )}
-                </>
-            )}
+                                {loadingTimes && <p>Loading available times...</p>}
+
+                                <div className="manage-actions">
+                                    <button
+                                        className="manage-save"
+                                        type="button"
+                                        disabled={
+                                            saving ||
+                                            loadingTimes ||
+                                            !service ||
+                                            !time ||
+                                            !availableTimes.includes(time)
+                                        }
+                                        onClick={() => sendAction("reschedule")}
+                                    >
+                                        {saving ? "Saving..." : "Save Changes"}
+                                    </button>
+
+                                    <button
+                                        className="manage-cancel"
+                                        type="button"
+                                        disabled={saving}
+                                        onClick={() => sendAction("cancel")}
+                                    >
+                                        Cancel Appointment
+                                    </button>
+                                </div>
+                            </section>
+                        )}
+                    </>
+                )}
+            </div>
         </main>
     );
 }
