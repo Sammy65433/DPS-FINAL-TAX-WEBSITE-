@@ -200,17 +200,28 @@ export async function createAppointment(req, res) {
             return res.status(500).json({ message: "Could not check availability." });
         }
 
-        const allowedTimes = availableTimesFor(
-            appointment_date,
-            duration,
-            existing ?? []
-        );
+        const start = toMinutes(updated.appointment_time);
+        const range = getTimeRange(updated.appointment_date);
 
-        if (!allowedTimes.includes(appointment_time)) {
-            return res.status(409).json({
-                message: "That time is unavailable or outside booking hours.",
+        if (
+            start === null ||
+            !range ||
+            start < range.opens ||
+            start + updated.duration_minutes > range.closes
+        ) {
+            return res.status(400).json({
+                message: "Choose a time within booking hours.",
             });
         }
+
+        if ((existing ?? []).some((item) =>
+            overlaps(start, updated.duration_minutes, item)
+        )) {
+            return res.status(409).json({
+                message: "That time overlaps another appointment.",
+            });
+        }
+
 
         const manageToken = crypto.randomBytes(32).toString("hex");
         const manageTokenHash = crypto
