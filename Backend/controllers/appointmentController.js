@@ -342,11 +342,11 @@ export async function updateAppointment(req, res) {
       req.body.duration_minutes ?? current.duration_minutes
     );
 
-    if (![15, 30, 60].includes(staffDuration)) {
-      return res.status(400).json({
-        message: "Choose 15, 30, or 60 minutes.",
-      });
-    }
+    if (![10, 15, 30, 60].includes(staffDuration)) {
+  return res.status(400).json({
+    message: "Choose 10, 15, 30, or 60 minutes.",
+  });
+}
 
     const updated = {
       first_name: req.body.first_name ?? current.first_name,
@@ -468,5 +468,104 @@ export async function deleteAppointment(req, res) {
   } catch (error) {
     console.error("Error deleting appointment:", error);
     return res.status(500).json({ message: "Error deleting appointment." });
+  }
+}
+const STAFF_DURATIONS = [10, 15, 30, 60];
+
+export async function getStaffAvailability(req, res) {
+  const { date, preparer } = req.query;
+  const duration = Number(req.query.duration_minutes);
+  const range = getTimeRange(date);
+
+  if (!preparer || !range || !STAFF_DURATIONS.includes(duration)) {
+    return res.status(400).json({ message: "Invalid staff availability request." });
+  }
+
+  try {
+    const { data, error } = await getAvailabilityService(date, preparer);
+    if (error) throw error;
+
+    const availableTimes = [];
+    for (let start = range.opens; start + duration <= range.closes; start += 5) {
+      if (!(data ?? []).some((item) => overlaps(start, duration, item))) {
+        availableTimes.push(formatTime(start));
+      }
+    }
+
+    return res.json({ availableTimes });
+  } catch (error) {
+    console.error("Staff availability failed:", error);
+    return res.status(500).json({ message: "Could not load availability." });
+  }
+}
+
+export async function createStaffAppointment(req, res) {
+  const {
+    first_name, last_name, phone, email, service, tax_preparer,
+    appointment_date, appointment_time, visit_format, message,
+  } = req.body;
+
+  const duration = Number(req.body.duration_minutes);
+  const start = toMinutes(appointment_time);
+  const range = getTimeRange(appointment_date);
+
+  if (
+    !first_name || !last_name || !phone || !email || !service ||
+    !tax_preparer || !VISIT_FORMATS.has(visit_format) ||
+    !STAFF_DURATIONS.includes(duration) || start === null ||
+    !range || start < range.opens || start + duration > range.closes ||
+    start % 5 !== 0
+  ) {
+    return res.status(400).json({ message: "Invalid staff booking details." });
+  }
+
+  try {
+    const { data: existing, error: lookupError } =
+      await findExistingAppointmentSlotService({
+        appointment_date,
+        tax_preparer,
+      });
+    if (lookupError) throw lookupError;
+
+    if ((existing ?? []).some((item) => overlaps(start, duration, item))) {
+      return res.status(409).json({ message: "That time overlaps another appointment." });
+    }
+
+    const manageToken = crypto.randomBytes(32).toString("hex");
+    const manageTokenHash = crypto
+      .createHash("sha256")
+      .update(manageToken)
+      .digest("hex");
+
+    const { data, error } = await createAppointmentService({
+      first_name, last_name, phone, email, service, tax_preparer,
+      appointment_date, appointment_time, visit_format,
+      duration_minutes: duration,
+      message: message || "",
+      manage_token_hash: manageTokenHash,
+      manage_token_expires_at: new Date(
+        Date.now() + 7 * 24 * 60 * 60 * 1000
+      ).toISOString(),
+    });
+
+    if (error?.code === "23P01") {
+      return res.status(409).json({ message: "That time overlaps another appointment." });
+    }
+    if (error) throw error;
+
+    const appointment = data?.[0];
+    if (!appointment) throw new Error("Appointment was not returned.");
+
+    try {
+      await sendTaxAppointmentRequestEmail(appointment, manageToken);
+      await sendTaxOfficeNotificationEmail(appointment);
+    } catch (emailError) {
+      console.error("Staff booking email failed:", emailError);
+    }
+
+    return res.status(201).json(safeAppointment(appointment));
+  } catch (error) {
+    console.error("Staff booking failed:", error);
+    return res.status(500).json({ message: "Could not create appointment." });
   }
 }

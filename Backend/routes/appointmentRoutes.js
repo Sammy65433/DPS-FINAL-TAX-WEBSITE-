@@ -5,9 +5,11 @@ import {
   archiveAppointment,
   cancelAppointment,
   createAppointment,
+  createStaffAppointment,
   deleteAppointment,
   getAppointments,
   getAvailability,
+  getStaffAvailability,
   updateAppointment,
 } from "../controllers/appointmentController.js";
 
@@ -54,6 +56,8 @@ router.get("/manage/availability", getManagedAvailability);
 router.patch("/manage/reschedule", rescheduleManagedAppointment);
 router.patch("/manage/cancel", cancelManagedAppointment);
 
+router.get("/staff/availability", requireStaffServiceKey, getStaffAvailability);
+router.post("/staff", requireStaffServiceKey, createStaffAppointment);
 
 // Staff-only changes
 router.patch("/:id/cancel", requireStaffServiceKey, cancelAppointment);
