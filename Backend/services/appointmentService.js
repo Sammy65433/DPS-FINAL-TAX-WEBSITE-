@@ -4,8 +4,9 @@ export async function getAppointmentsService() {
   return supabase
     .from("appointments")
     .select(
-      "id, first_name, last_name, phone, email, service, tax_preparer, appointment_date, appointment_time, duration_minutes, message, status, created_at"
+      "id, first_name, last_name, phone, email, service, tax_preparer, appointment_date, appointment_time, duration_minutes, visit_format, message, status, created_at"
     )
+
     .order("created_at", { ascending: false });
 }
 
