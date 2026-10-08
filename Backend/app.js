@@ -16,6 +16,8 @@ app.use(
             "https://dpstaxpro.com",
             "https://www.dpstaxpro.com",
             "https://dps-final-taxwebsite.onrender.com",
+            "https://dps-textellent-frontend.onrender.com",
+
         ],
         methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
         allowedHeaders: ["Content-Type"],
