@@ -276,7 +276,7 @@ function Booking() {
           </select>
 
           <label htmlFor="visit-format" className="booking-label">
-            Visit format
+            How would you like to meet
           </label>
           <select
             id="visit-format"
