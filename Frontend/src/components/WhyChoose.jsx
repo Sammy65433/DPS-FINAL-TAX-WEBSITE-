@@ -11,14 +11,11 @@ function WhyChoose() {
     <section className="section why-choose-section" data-aos="fade-up">
       <div className="container">
         <div className="why-choose-heading">
-          <p className="eyebrow">
-            Why Choose DPS Professional Tax & Professional Support Services?
-          </p>
-          <h2 className="h2-sub">19+ Years of Trusted Service</h2>
+          <p className="eyebrow">Why Choose DPS?</p>
+          <h2 className="h2-sub">Experience, Access, and Personal Support</h2>
           <p className="section-text">
-            With over 19 years of experience, we have served more than 2,000
-            clients throughout New Jersey and the Tri-State area with trusted tax
-            preparation and professional support services.
+            Learn about our approach, explore our services, and find the
+            support that fits your needs.
           </p>
         </div>
 
@@ -29,10 +26,10 @@ function WhyChoose() {
         </div>
 
         <div className="card-grid why-choose-grid">
-          <div className="card why-choose-card">
+          <Link to="/about" className="card why-choose-card">
             <img
               src="/pro2.jpg"
-              alt="Professional experience"
+              alt="Documents being reviewed"
               className="service-card-image"
             />
             <div className="why-choose-card-content">
@@ -40,18 +37,18 @@ function WhyChoose() {
                 <FaAward />
                 <span>Experience</span>
               </div>
-              <h3>19+ Years of Experience</h3>
-              <p>
-                Long-standing knowledge of tax law and what local families and
-                businesses actually need.
-              </p>
+              <h3>Get to Know DPS</h3>
+              <p>Learn about our team and how we support clients.</p>
+              <span className="card-link">
+                About DPS <FaArrowRight />
+              </span>
             </div>
-          </div>
+          </Link>
 
-          <div className="card why-choose-card">
+          <article className="card why-choose-card">
             <img
               src="/officelocation-1.jpg"
-              alt="DPS office location in Maplewood"
+              alt="DPS office location"
               className="service-card-image"
             />
             <div className="why-choose-card-content">
@@ -59,27 +56,23 @@ function WhyChoose() {
                 <FaMapMarkerAlt />
                 <span>Location</span>
               </div>
-              <h3>One Convenient Location</h3>
-              <p>
-                Visit us for tax, document, and support services at our Maplewood
-                office.
-              </p>
+              <h3>Visit Our Maplewood Office</h3>
+              <p>Find directions and contact details before your visit.</p>
               <a
                 href="https://www.google.com/maps/search/1811+Springfield+Ave+Maplewood+NJ+07040"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="card-link"
               >
-                1811 Springfield Ave, Maplewood, NJ 07040
-                <FaArrowRight />
+                Get Directions <FaArrowRight />
               </a>
             </div>
-          </div>
+          </article>
 
-          <div className="card why-choose-card">
+          <Link to="/client-feedback" className="card why-choose-card">
             <img
               src="/trusted-com1.jpg"
-              alt="Trusted community support"
+              alt="People discussing documents"
               className="service-card-image"
             />
             <div className="why-choose-card-content">
@@ -87,12 +80,13 @@ function WhyChoose() {
                 <FaUsers />
                 <span>Community</span>
               </div>
-              <h3>Trusted in Maplewood</h3>
-              <p>
-                A familiar name for residents who keep coming back year after year.
-              </p>
+              <h3>Hear From Our Clients</h3>
+              <p>Read feedback shared by people who have worked with DPS.</p>
+              <span className="card-link">
+                Client Feedback <FaArrowRight />
+              </span>
             </div>
-          </div>
+          </Link>
         </div>
       </div>
     </section>

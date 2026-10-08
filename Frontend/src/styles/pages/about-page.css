@@ -1,11 +1,209 @@
-.about-page-content {
-  max-width: 800px;
-  margin: 0 auto;
-  text-align: center;
+.about-page {
+  background: #f3f7f6;
 }
 
-.about-page-content p {
-  color: var(--muted);
-  font-size: 1rem;
+.about-hero {
+  position: relative;
+  background:
+    linear-gradient(120deg, rgba(15, 92, 84, 0.78), rgba(49, 22, 97, 0.66)),
+    url("/tax-desktop.jpg") center / cover no-repeat;
+}
+
+.about-hero-card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: clamp(2rem, 5vw, 4rem);
+  text-align: center;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.13);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  border-radius: 28px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+}
+
+.about-hero-card .eyebrow {
+  color: #f3e8ff;
+}
+
+.about-hero-card h1 {
+  color: #fff;
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  line-height: 1.1;
+  margin-bottom: 1rem;
+}
+
+.about-hero-card > p:last-of-type {
+  max-width: 720px;
+  margin: 0 auto;
+  color: #f4fffc;
+  font-size: 1.08rem;
+  line-height: 1.9;
+}
+
+.about-actions {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1.8rem;
+}
+
+.about-actions .btn,
+.about-visit-card .btn {
+  text-decoration: none;
+}
+
+.about-actions .btn-outline {
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  color: #fff;
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.about-actions .btn-outline:hover {
+  background: #fff;
+  color: #0f5c54;
+}
+
+.about-intro .container,
+.about-approach .container,
+.about-visit .container {
+  max-width: 1100px;
+}
+
+.about-intro-card {
+  max-width: 900px;
+  margin: 0 auto 2rem;
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: #fff;
+  border: 1px solid #dce9e7;
+  border-radius: 24px;
+  box-shadow: 0 14px 34px rgba(15, 92, 84, 0.08);
+}
+
+.about-intro-card h2,
+.about-approach-card h2,
+.about-visit-card h2 {
+  color: #0f5c54;
+}
+
+.about-intro-card p,
+.about-service-card p,
+.about-approach-card p,
+.about-visit-card p {
   line-height: 1.8;
+}
+
+.about-service-grid,
+.about-approach-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1.2rem;
+}
+
+.about-service-card,
+.about-approach-card {
+  display: flex;
+  flex-direction: column;
+  padding: 1.8rem;
+  background: #fff;
+  border: 1px solid #dce9e7;
+  border-radius: 22px;
+  box-shadow: 0 12px 28px rgba(15, 92, 84, 0.08);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.about-service-card:hover,
+.about-approach-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 36px rgba(15, 92, 84, 0.14);
+}
+
+.about-icon-wrap {
+  width: 58px;
+  height: 58px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  border-radius: 17px;
+  background: linear-gradient(135deg, #e4f6ef, #eee9ff);
+  color: #0f5c54;
+  font-size: 1.4rem;
+}
+
+.about-service-card h3 {
+  margin: 1rem 0 0.5rem;
+  color: #0f5c54;
+}
+
+.about-service-card p,
+.about-approach-card p {
+  color: #52636a;
+}
+
+.about-card-link,
+.about-approach-card a {
+  margin-top: auto;
+  padding-top: 1rem;
+  color: #0f5c54;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.about-card-link:hover,
+.about-approach-card a:hover {
+  text-decoration: underline;
+}
+
+.about-approach-grid {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.about-approach-card > svg {
+  color: #0f5c54;
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.about-visit {
+  background: linear-gradient(135deg, #e8f5f1, #f1edff);
+}
+
+.about-visit-card {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  padding: clamp(1.5rem, 4vw, 2.3rem);
+  background: rgba(255, 255, 255, 0.93);
+  border: 1px solid #fff;
+  border-radius: 24px;
+  box-shadow: 0 16px 36px rgba(15, 92, 84, 0.1);
+}
+
+.about-visit-card > div {
+  flex: 1 1 280px;
+}
+
+.about-visit-card a:not(.btn) {
+  color: #0f5c54;
+  font-weight: 700;
+}
+
+@media (max-width: 800px) {
+  .about-service-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .about-service-grid,
+  .about-approach-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .about-hero-card {
+    border-radius: 20px;
+  }
 }

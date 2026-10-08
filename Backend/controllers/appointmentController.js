@@ -20,6 +20,13 @@ import {
   sendTaxOfficeNotificationEmail,
 } from "../services/emailService.js";
 
+const VISIT_FORMATS = new Set(["in_person", "phone", "virtual"]);
+
+function validVisitFormat(value) {
+  return value == null || VISIT_FORMATS.has(value);
+}
+
+
 function toMinutes(time) {
   if (typeof time !== "string") return null;
   const match = /^(\d{1,2}):(\d{2}) (AM|PM)$/.exec(time);
@@ -40,9 +47,8 @@ function getPublicDuration(value) {
 function formatTime(totalMinutes) {
   const hour24 = Math.floor(totalMinutes / 60);
   const minute = totalMinutes % 60;
-  return `${hour24 % 12 || 12}:${String(minute).padStart(2, "0")} ${
-    hour24 >= 12 ? "PM" : "AM"
-  }`;
+  return `${hour24 % 12 || 12}:${String(minute).padStart(2, "0")} ${hour24 >= 12 ? "PM" : "AM"
+    }`;
 }
 
 function getTimeRange(value) {
@@ -165,8 +171,10 @@ export async function createAppointment(req, res) {
     tax_preparer,
     appointment_date,
     appointment_time,
+    visit_format,
     message,
   } = req.body;
+
 
   const duration = getPublicDuration(req.body.duration_minutes);
   const start = toMinutes(appointment_time);
@@ -186,6 +194,10 @@ export async function createAppointment(req, res) {
       message: "Complete all required fields and choose a valid duration.",
     });
   }
+  if (!validVisitFormat(visit_format)) {
+    return res.status(400).json({ message: "Invalid visit format." });
+  }
+
 
   try {
     const { data: existing, error: existingError } =
@@ -234,6 +246,8 @@ export async function createAppointment(req, res) {
       message,
       manage_token_hash: manageTokenHash,
       manage_token_expires_at: manageTokenExpiresAt,
+      visit_format: visit_format ?? null,
+
     });
 
     if (error?.code === "23P01") {
@@ -320,6 +334,9 @@ export async function updateAppointment(req, res) {
     if (currentError || !current) {
       return res.status(404).json({ message: "Appointment not found." });
     }
+    if (!validVisitFormat(req.body.visit_format)) {
+      return res.status(400).json({ message: "Invalid visit format." });
+    }
 
     const staffDuration = Number(
       req.body.duration_minutes ?? current.duration_minutes
@@ -343,6 +360,8 @@ export async function updateAppointment(req, res) {
       duration_minutes: staffDuration,
       message: req.body.message ?? current.message,
       status: req.body.status ?? current.status,
+      visit_format: req.body.visit_format ?? current.visit_format,
+
     };
 
     if (!updated.tax_preparer) {
@@ -410,9 +429,11 @@ export async function updateAppointment(req, res) {
       String(current.appointment_date) !== String(saved.appointment_date) ||
       String(current.appointment_time) !== String(saved.appointment_time) ||
       Number(current.duration_minutes ?? 30) !==
-        Number(saved.duration_minutes) ||
+      Number(saved.duration_minutes) ||
       current.tax_preparer !== saved.tax_preparer ||
-      current.service !== saved.service
+      current.service !== saved.service ||
+      current.visit_format !== saved.visit_format
+
     ) {
       try {
         await sendAppointmentUpdateEmail(saved);

@@ -5,145 +5,160 @@ import {
   FaPhoneAlt,
   FaCalendarAlt,
   FaClock,
-  FaMoneyCheckAlt,
-  FaVenusDouble,
 } from "react-icons/fa";
 
-function generateTimeOptions(selectedDate) {
-  if (!selectedDate) return [];
-  const date = new Date(`${selectedDate}T00:00:00`);
-  const day = date.getDay();
+const API_URL = import.meta.env.VITE_API_URL;
 
-  if (day === 0) return [];
+const EMPTY_FORM = {
+  first_name: "",
+  last_name: "",
+  phone: "",
+  email: "",
+  service: "",
+  tax_preparer: "",
+  appointment_date: "",
+  appointment_time: "",
+  duration_minutes: 30,
+  visit_format: "",
+  message: "",
+};
 
-  const closingHour = day === 6 ? 18 : 17;
-  const options = [];
-
-  for (let hour = 9; hour <= closingHour; hour++) {
-    for (let minute = 0; minute < 60; minute += 30) {
-      if (hour === closingHour && minute > 0) break;
-
-      const period = hour >= 12 ? "PM" : "AM";
-      const displayHour = hour % 12 === 0 ? 12 : hour % 12;
-      const displayMinute = minute.toString().padStart(2, "0");
-      options.push(`${displayHour}:${displayMinute} ${period}`);
-    }
-  }
-
-  return options;
+function isSunday(value) {
+  if (!value) return false;
+  return new Date(`${value}T00:00:00`).getDay() === 0;
 }
 
 function Booking() {
-  const [formData, setFormData] = useState({
-    first_name: "",
-    last_name: "",
-    phone: "",
-    email: "",
-    service: "",
-    tax_preparer: "",
-    appointment_date: "",
-    appointment_time: "",
-    message: "",
-  });
-
-  const [bookedTimes, setBookedTimes] = useState([]);
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [availableTimes, setAvailableTimes] = useState([]);
+  const [loadingTimes, setLoadingTimes] = useState(false);
+  const [availabilityError, setAvailabilityError] = useState("");
   const [status, setStatus] = useState({ message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const location = useLocation();
 
-  const timeOptions = generateTimeOptions(formData.appointment_date);
-
   useEffect(() => {
-    if (location.hash === "#payment" || location.hash === "#irs-links") {
-      const id = location.hash.replace("#", "");
-      const el = document.getElementById(id);
+    if (location.hash !== "#irs-links") {
 
-      if (el) {
-        setTimeout(() => {
-          el.scrollIntoView({ behavior: "smooth", block: "start" });
-        }, 100);
-      }
     }
-  }, [location]);
+
+    const id = location.hash.slice(1);
+    const timer = setTimeout(() => {
+      document
+        .getElementById(id)
+        ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+
+    return () => clearTimeout(timer);
+  }, [location.hash]);
 
   useEffect(() => {
+    setAvailableTimes([]);
+    setAvailabilityError("");
+
+    if (!formData.appointment_date || !formData.tax_preparer) return;
+    if (isSunday(formData.appointment_date)) return;
+
+    if (!API_URL) {
+      setAvailabilityError("Booking server is not configured.");
+      return;
+    }
+
+    const controller = new AbortController();
+
     async function fetchAvailability() {
-      if (!formData.appointment_date || !formData.tax_preparer) {
-        setBookedTimes([]);
-        return;
-      }
+      setLoadingTimes(true);
 
       try {
+        const params = new URLSearchParams({
+          date: formData.appointment_date,
+          preparer: formData.tax_preparer,
+          duration_minutes: String(formData.duration_minutes),
+        });
+
         const response = await fetch(
-          `${import.meta.env.VITE_API_URL}/api/appointments/availability?date=${encodeURIComponent(
-            formData.appointment_date
-          )}&preparer=${encodeURIComponent(formData.tax_preparer)}`
+          `${API_URL}/api/appointments/availability?${params}`,
+          { signal: controller.signal }
         );
+
+        if (!response.ok) {
+          throw new Error("Could not load available times.");
+        }
+
         const data = await response.json();
-        setBookedTimes(data.bookedTimes || []);
+
+        if (!Array.isArray(data.availableTimes)) {
+          throw new Error("Unexpected availability response.");
+        }
+
+        if (!controller.signal.aborted) {
+          setAvailableTimes(data.availableTimes);
+        }
       } catch (error) {
-        console.error("Error fetching availability:", error);
-        setBookedTimes([]);
+        if (error.name !== "AbortError") {
+          setAvailabilityError(error.message);
+        }
+      } finally {
+        if (!controller.signal.aborted) setLoadingTimes(false);
       }
     }
 
     fetchAvailability();
-  }, [formData.appointment_date, formData.tax_preparer]);
+    return () => controller.abort();
+  }, [
+    formData.appointment_date,
+    formData.tax_preparer,
+    formData.duration_minutes,
+  ]);
 
-  const availableTimes = timeOptions.filter((time) => !bookedTimes.includes(time));
+  function handleChange(event) {
+    const { name, value } = event.target;
 
-  function handleChange(e) {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
+    setFormData((current) => ({
+      ...current,
       [name]: value,
+      ...(name === "appointment_date" || name === "tax_preparer"
+        ? { appointment_time: "" }
+        : {}),
     }));
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
+  async function handleSubmit(event) {
+    event.preventDefault();
+
+    if (!availableTimes.includes(formData.appointment_time)) {
+      setStatus({
+        message: "Choose an available appointment time.",
+        type: "error",
+      });
+      return;
+    }
+
     setIsSubmitting(true);
     setStatus({ message: "Sending...", type: "sending" });
 
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api/appointments`, {
+      const response = await fetch(`${API_URL}/api/appointments`, {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(formData),
       });
 
       const data = await response.json();
 
-      if (response.ok) {
-        setStatus({
-          message: "Thank you. Your appointment request has been sent.",
-          type: "success",
-        });
-
-        setFormData({
-          first_name: "",
-          last_name: "",
-          phone: "",
-          email: "",
-          service: "",
-          tax_preparer: "",
-          appointment_date: "",
-          appointment_time: "",
-          message: "",
-        });
-
-        setBookedTimes([]);
-      } else {
-        setStatus({
-          message: data.message || "Something went wrong. Please try again.",
-          type: "error",
-        });
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong. Please try again.");
       }
+
+      setStatus({
+        message: "Thank you. Your appointment request has been sent.",
+        type: "success",
+      });
+      setFormData({ ...EMPTY_FORM });
+      setAvailableTimes([]);
     } catch (error) {
       setStatus({
-        message: "Could not connect to booking server.",
+        message: error.message || "Could not connect to booking server.",
         type: "error",
       });
     } finally {
@@ -158,8 +173,8 @@ function Booking() {
           <p className="eyebrow">Schedule Your Visit</p>
           <h2 className="h2-sub">Book Your Appointment</h2>
           <p className="section-text">
-            Fill out the form below, choose your service and preferred preparer,
-            and we will contact you to confirm your appointment.
+            Fill out the form below, choose your service and preferred
+            preparer, and we will contact you to confirm your appointment.
           </p>
         </div>
 
@@ -170,19 +185,19 @@ function Booking() {
           <h3>Secure Document Upload Portal</h3>
           <p>
             Clients can safely upload tax documents, download completed files,
-            and share information with our office using the secure CCH iFirm portal.
+            and share information with our office using the secure CCH iFirm
+            portal.
           </p>
           <p>
             You can upload W-2s, 1099s, IDs, proof of address, direct deposit
             information, and other requested documents.
           </p>
           <p>
-            If you need portal access, please contact our office first so we can
-            send you the secure upload link.
+            If you need portal access, please contact our office first so we
+            can send you the secure upload link.
           </p>
           <p className="booking-inline-contact">
-            <FaPhoneAlt />
-            <a href="tel:9733272340">(973) 327-2340</a>
+            <FaPhoneAlt /> <a href="tel:9733272340">(973) 327-2340</a>
           </p>
           <a
             href="https://dpsprofessionaltaxservices.cchifirm.us/2/login/"
@@ -222,7 +237,6 @@ function Booking() {
             value={formData.phone}
             onChange={handleChange}
           />
-
           <input
             type="email"
             name="email"
@@ -249,6 +263,7 @@ function Booking() {
           <select
             id="preparer-select"
             name="tax_preparer"
+            required
             value={formData.tax_preparer}
             onChange={handleChange}
           >
@@ -260,11 +275,26 @@ function Booking() {
             <option value="Ricot Casimir">Ricot Casimir</option>
           </select>
 
+          <label htmlFor="visit-format" className="booking-label">
+            Visit format
+          </label>
+          <select
+            id="visit-format"
+            name="visit_format"
+            required
+            value={formData.visit_format}
+            onChange={handleChange}
+          >
+            <option value="">Select how you’ll meet</option>
+            <option value="in_person">In person</option>
+            <option value="phone">Over the phone</option>
+            <option value="virtual">Virtual/online</option>
+          </select>
+
           <div className="booking-label">
             <FaCalendarAlt />
             <label htmlFor="appointment-date">Preferred Date</label>
           </div>
-
           <input
             id="appointment-date"
             type="date"
@@ -278,15 +308,22 @@ function Booking() {
             <FaClock />
             <label htmlFor="appointment-time">Preferred Time</label>
           </div>
-
           <select
             id="appointment-time"
             name="appointment_time"
             required
             value={formData.appointment_time}
             onChange={handleChange}
+            disabled={
+              loadingTimes ||
+              !formData.appointment_date ||
+              !formData.tax_preparer ||
+              isSunday(formData.appointment_date)
+            }
           >
-            <option value="">Select a Time</option>
+            <option value="">
+              {loadingTimes ? "Loading times..." : "Select a Time"}
+            </option>
             {availableTimes.map((time) => (
               <option key={time} value={time}>
                 {time}
@@ -294,74 +331,32 @@ function Booking() {
             ))}
           </select>
 
-          {formData.appointment_date && timeOptions.length === 0 && (
+          {availabilityError && (
+            <p className="form-status error" role="alert">
+              {availabilityError}
+            </p>
+          )}
+
+          {isSunday(formData.appointment_date) && (
             <div className="sunday-note">
-              <p>
-                Sunday is by appointment only. Please call our office to schedule.
-              </p>
+              <p>Sunday is by appointment only. Please call our office to schedule.</p>
               <a href="tel:9733272340" className="btn btn-outline-light">
-                <FaPhoneAlt />
-                <span>Call the Office</span>
+                <FaPhoneAlt /> <span>Call the Office</span>
               </a>
             </div>
           )}
 
           {formData.appointment_date &&
             formData.tax_preparer &&
-            timeOptions.length > 0 &&
+            !isSunday(formData.appointment_date) &&
+            !loadingTimes &&
+            !availabilityError &&
             availableTimes.length === 0 && (
               <p className="form-status error">
-                No appointment times are currently available for this date and preparer.
+                No appointment times are currently available for this date
+                and preparer.
               </p>
             )}
-
-          <section className="card payment-card" id="payment">
-            <div className="payment-card-header">
-              <div className="booking-card-icon small">
-                <FaMoneyCheckAlt />
-              </div>
-              <div>
-                <h3>Payment Options</h3>
-                <p>Please include your last name and tax year in the payment note.</p>
-              </div>
-            </div>
-
-            <div className="payment-list">
-              <p>
-                <strong>Venmo:</strong>
-                <a
-                  href="https://venmo.com/u/DPSTax"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="payment-link"
-                >
-                  @DPSTax
-                </a>
-              </p>
-              <p>
-                <strong>Cash App:</strong>
-                <span>$DPSTAX1811</span>
-              </p>
-              <p>
-                <strong>Zelle:</strong>
-                <a href="tel:8627661725" className="payment-link">
-                  862-766-1725
-                </a>
-              </p>
-              <p>
-                <strong>Apple Pay:</strong>
-                <a href="tel:8627661725" className="payment-link">
-                  862-766-1725
-                </a>
-              </p>
-              <p>
-                <strong>Phone:</strong>
-                <a href="tel:9733272340" className="payment-link">
-                  (973) 327-2340
-                </a>
-              </p>
-            </div>
-          </section>
 
           <textarea
             name="message"
@@ -369,16 +364,30 @@ function Booking() {
             value={formData.message}
             onChange={handleChange}
           />
+<a
+  href="https://www.irs.gov/"
+  target="_blank"
+  rel="noopener noreferrer"
+  className="btn btn-outline-light"
+>
+  Visit the Official IRS Website
+</a>
 
           <p className="form-note">
-            <strong>Important Security Notice:</strong> For your privacy and protection,
-            do not submit <strong>Social Security numbers</strong>, <strong>tax IDs</strong>,
-            <strong> banking details</strong>, <strong>driver’s license numbers</strong>,
-            or other <strong>sensitive tax documents</strong> through this form.
-            Please use our secure <strong>CCH iFirm portal</strong> for document uploads.
+            <strong>Important Security Notice:</strong> For your privacy and
+            protection, do not submit <strong>Social Security numbers</strong>,
+            <strong> tax IDs</strong>, <strong>banking details</strong>,
+            <strong> driver’s license numbers</strong>, or other{" "}
+            <strong>sensitive tax documents</strong> through this form. Please
+            use our secure <strong>CCH iFirm portal</strong> for document
+            uploads.
           </p>
 
-          <button type="submit" className="btn booking-submit-btn" disabled={isSubmitting}>
+          <button
+            type="submit"
+            className="btn booking-submit-btn"
+            disabled={isSubmitting || loadingTimes}
+          >
             {isSubmitting ? "Sending..." : "Book Your Appointment"}
           </button>
 
