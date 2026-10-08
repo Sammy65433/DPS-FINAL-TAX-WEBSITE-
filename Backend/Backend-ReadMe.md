@@ -7,7 +7,7 @@ This backend is built with Express and uses Supabase as the database, Resend for
 
 ## Overview
 
-The backend supports:
+The backend support:
 
 - tax appointment booking
 - realty appointment booking
@@ -539,6 +539,8 @@ Fix:
 ```bash
 Backend/public/DPS Client List.xls
 ```
+
+
 
 ## Dependencies
 
