@@ -18,11 +18,11 @@ function HomePage() {
       <Header />
       <Hero />
       <Stats />
-      <Services />
-      <WhyChoose />
-      <HowItWorks />
-      <FAQ />
-      <Testimonials />
+      {/* <Services /> */}
+      {/* <WhyChoose /> */}
+      {/* <HowItWorks /> */}
+      {/* <FAQ /> */}
+      {/* <Testimonials /> */}
       <Contact />
       <Footer />
     </>

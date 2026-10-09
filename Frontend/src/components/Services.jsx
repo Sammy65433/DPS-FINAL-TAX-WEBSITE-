@@ -7,177 +7,116 @@ import {
   FaCopy,
   FaShieldAlt,
   FaHome,
-  FaArrowRight,
   FaBriefcase,
+  FaEnvelope,
+  FaArrowRight,
 } from "react-icons/fa";
+
+const services = [
+  {
+    title: "Tax Preparation",
+    description: "Tax filing support for individuals, families, and businesses.",
+    image: "/tax-prep2.jpg",
+    alt: "Tax preparation documents",
+    icon: FaFileInvoiceDollar,
+    to: "/tax-preparation",
+  },
+  {
+    title: "Notary Public",
+    description: "Notarization for important personal and business documents.",
+    image: "/notaary4.jpg",
+    alt: "Notary public service",
+    icon: FaStamp,
+    to: "/notary",
+  },
+  {
+    title: "Translation",
+    description: "Multilingual document support for important paperwork.",
+    image: "/transla1.jpg",
+    alt: "Translation service",
+    icon: FaLanguage,
+    to: "/translation",
+  },
+  {
+    title: "Form Preparation Support",
+    description: "Help organizing documents and forms using information you provide.",
+    image: "/transla2.jpg",
+    alt: "Document preparation support",
+    icon: FaPassport,
+    to: "/immigration",
+  },
+  {
+    title: "Copy & Fax",
+    description: "Convenient in-office copying and faxing.",
+    image: "/copy2.jpg",
+    alt: "Copy and fax services",
+    icon: FaCopy,
+    to: "/copy-fax",
+  },
+  {
+    title: "Insurance Services",
+    description: "Explore available coverage options for everyday needs.",
+    image: "/insurance2.jpg",
+    alt: "Insurance services",
+    icon: FaShieldAlt,
+    to: "/insurance-services",
+  },
+  {
+    title: "Business Services",
+    description: "Practical support for small-business records and service needs.",
+    image: "/pro2.jpg",
+    alt: "Business services",
+    icon: FaBriefcase,
+    to: "/business-services",
+  },
+  {
+    title: "Real Estate",
+    description: "Connect with our trusted partner for buying, selling, or renting.",
+    image: "/real-estate.jpg",
+    alt: "Real estate service",
+    icon: FaHome,
+    to: "/real-estate-booking",
+  },
+];
 
 function Services() {
   return (
-    <section className="section services-section" id="services" data-aos="fade-down">
+    <section className="section services-section" id="services">
       <div className="container">
         <div className="services-heading">
           <p className="eyebrow">What we do</p>
           <h2>Services</h2>
           <p className="section-text">
-            Reliable, professional support for individuals, families, and small
-            businesses.
+            Practical support for individuals, families, and small businesses.
           </p>
         </div>
 
-        <div className="card-grid services-grid">
-          <Link to="/tax-preparation" className="card service-preview-card">
-            <img
-              src="/tax-prep2.jpg"
-              alt="Tax preparation service"
-              className="service-card-image"
-            />
-            <div className="service-preview-content">
-              <div className="service-badge">
-                <FaFileInvoiceDollar />
-                <span>Tax</span>
+        <div className="services-grid">
+          {services.map(({ title, description, image, alt, icon: Icon, to }) => (
+            <Link to={to} className="service-preview-card" key={title}>
+              <img src={image} alt={alt} className="service-card-image" loading="lazy" />
+              <div className="service-preview-content">
+                <div className="service-card-title">
+                  <Icon aria-hidden="true" />
+                  <h3>{title}</h3>
+                </div>
+                <p>{description}</p>
+                <span className="service-card-link">
+                  Learn more <FaArrowRight aria-hidden="true" />
+                </span>
               </div>
-              <h3>Tax Preparation</h3>
-              <p>
-                Reliable tax filing support for individuals, families, and
-                businesses.
-              </p>
-            </div>
-          </Link>
+            </Link>
+          ))}
+        </div>
 
-          <Link to="/notary" className="card service-preview-card">
-            <img
-              src="/notaary4.jpg"
-              alt="Notary public service"
-              className="service-card-image"
-            />
-            <div className="service-preview-content">
-              <div className="service-badge">
-                <FaStamp />
-                <span>Notary</span>
-              </div>
-              <h3>Notary Public</h3>
-              <p>
-                Fast, professional notarization for important personal and
-                business documents.
-              </p>
-            </div>
-          </Link>
-
-          <Link to="/translation" className="card service-preview-card">
-            <img
-              src="/transla1.jpg"
-              alt="Translation service"
-              className="service-card-image"
-            />
-            <div className="service-preview-content">
-              <div className="service-badge">
-                <FaLanguage />
-                <span>Language</span>
-              </div>
-              <h3>Translation</h3>
-              <p>
-                Clear multilingual document support to help clients complete and
-                understand important paperwork.
-              </p>
-            </div>
-          </Link>
-
-          <Link to="/immigration" className="card service-preview-card">
-  <img
-    src="/transla2.jpg"
-    alt="Form preparation support"
-    className="service-card-image"
-  />
-  <div className="service-preview-content">
-    <div className="service-badge">
-      <FaPassport />
-      <span>Support</span>
-    </div>
-    <h3>Form Preparation Support</h3>
-    <p>
-      Help organizing documents and preparing forms based on information you provide.
-    </p>
-  </div>
-</Link>
-
-
-          <Link to="/copy-fax" className="card service-preview-card">
-            <img
-              src="/copy2.jpg"
-              alt="Copy and fax services"
-              className="service-card-image"
-            />
-            <div className="service-preview-content">
-              <div className="service-badge">
-                <FaCopy />
-                <span>Office</span>
-              </div>
-              <h3>Copy & Fax</h3>
-              <p>
-                Convenient in-office document copying and faxing when you need it
-                most.
-              </p>
-            </div>
-          </Link>
-
-          <Link to="/insurance-services" className="card service-preview-card">
-            <img
-              src="/insurance2.jpg"
-              alt="Insurance services"
-              className="service-card-image"
-            />
-            <div className="service-preview-content">
-              <div className="service-badge">
-                <FaShieldAlt />
-                <span>Coverage</span>
-              </div>
-              <h3>Insurance Services</h3>
-              <p>
-                Helpful guidance for life, auto, health, and other everyday
-                insurance needs.
-              </p>
-            </div>
-          </Link>
-
-          <Link to="/business-services" className="card service-preview-card">
-            <img
-              src="/pro2.jpg"
-              alt="Business services"
-              className="service-card-image"
-            />
-            <div className="service-preview-content">
-              <div className="service-badge">
-                <FaBriefcase />
-                <span>Business</span>
-              </div>
-              <h3>Business Services</h3>
-              <p>
-                Professional support for small businesses, records, consultations,
-                and filing guidance.
-              </p>
-            </div>
-          </Link>
-
-          <Link to="/real-estate-booking" className="card service-preview-card">
-            <img
-              src="/real-estate.jpg"
-              alt="Real estate service"
-              className="service-card-image"
-            />
-            <div className="service-preview-content">
-              <div className="service-badge">
-                <FaHome />
-                <span>Real Estate</span>
-              </div>
-              <h3>Real Estate</h3>
-              <p>
-                Buying, selling, renting, or investing with support from our
-                trusted partner.
-              </p>
-              <span className="card-link">
-                Need Help? <FaArrowRight />
-              </span>
-            </div>
+        <div className="services-contact">
+          <div>
+            <h2>Contact Us</h2>
+            <p>Not sure which service fits your needs? Reach out to our team.</p>
+          </div>
+          <Link to="/contact" className="services-contact-button">
+            <FaEnvelope aria-hidden="true" />
+            Contact DPS
           </Link>
         </div>
       </div>

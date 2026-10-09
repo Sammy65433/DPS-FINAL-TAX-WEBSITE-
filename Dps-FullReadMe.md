@@ -264,7 +264,7 @@ BASE_URL=http://localhost:5001
 ## Frontend `.env`
 ```env
 VITE_API_URL=http://localhost:5001
-VITE_ADMIN_PASSWORD=your_admin_password
+VITE_ADMIN_PASSWORD=
 ```
 
 ## Local Development

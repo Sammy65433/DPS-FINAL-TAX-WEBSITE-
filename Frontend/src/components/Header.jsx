@@ -1,86 +1,84 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
-import {
-  FaHome,
-  FaBriefcase,
-  FaQuestionCircle,
-  FaEnvelope,
-  FaCalendarCheck,
-  FaCreditCard,
-  FaPhoneAlt,
-  FaChevronDown,
-  FaBullseye,
-  FaFileAlt,
-} from "react-icons/fa";
+import { Link, useLocation } from "react-router-dom";
+import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
 function Header() {
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
-  const [learnOpen, setLearnOpen] = useState(false);
+  const [resourcesOpen, setResourcesOpen] = useState(false);
+  const location = useLocation();
+
+  function closeMenu() {
+    setMenuOpen(false);
+    setAboutOpen(false);
+    setServicesOpen(false);
+    setResourcesOpen(false);
+  }
+
+  function toggleDropdown(name) {
+    setAboutOpen(name === "about" ? !aboutOpen : false);
+    setServicesOpen(name === "services" ? !servicesOpen : false);
+    setResourcesOpen(name === "resources" ? !resourcesOpen : false);
+  }
 
   return (
     <header className="header">
-      <div className="container nav">
-        <div className="logo-wrap">
-          <img
-            src="/DPS-LOGO1.png"
-            alt="DPS Professional Tax Services logo"
-            className="site-logo"
-          />
-          <div className="logo-text">
-            DPS Professional Tax Services
-            <span>Maplewood, NJ · IRS e-file Authorized</span>
-          </div>
+      <div className="container header-inner">
+        <div className="header-brand-row">
+          <Link to="/" className="logo-wrap" onClick={closeMenu}>
+            <img
+              src="/DPS-LOGO1.png"
+              alt="DPS Professional Tax Services logo"
+              className="site-logo"
+            />
+            <span className="logo-text">
+              DPS Professional Tax Services
+              <span className="logo-subtitle">
+                Maplewood, NJ · <em>Est. 2007</em>
+              </span>
+            </span>
+          </Link>
+
+          <button
+            type="button"
+            className="mobile-menu-button"
+            aria-expanded={menuOpen}
+            aria-controls="site-navigation"
+            onClick={() => setMenuOpen((open) => !open)}
+          >
+            {menuOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
+            <span>Menu</span>
+          </button>
         </div>
 
-        <nav className="links">
-          <Link to="/">
-            <FaHome />
-            <span>Home</span>
+        <nav
+          id="site-navigation"
+          className={`header-nav${menuOpen ? " header-nav-open" : ""}`}
+          aria-label="Main navigation"
+        >
+          <Link
+            to="/"
+            className={location.pathname === "/" ? "active" : ""}
+            onClick={closeMenu}
+          >
+            Home
           </Link>
 
           <div className="simple-dropdown">
             <button
               type="button"
               className="simple-dropdown-button"
-              onClick={() => {
-                setServicesOpen((prev) => !prev);
-                setLearnOpen(false);
-              }}
+              aria-expanded={aboutOpen}
+              onClick={() => toggleDropdown("about")}
             >
-              <FaBriefcase />
-              <span>Services</span>
-              <FaChevronDown className={servicesOpen ? "caret-open" : ""} />
+              About
+              <FaChevronDown aria-hidden="true" className={aboutOpen ? "caret-open" : ""} />
             </button>
-
-            {servicesOpen && (
+            {aboutOpen && (
               <div className="simple-dropdown-menu">
-                <Link to="/services" onClick={() => setServicesOpen(false)}>
-                  All Services
-                </Link>
-                <Link to="/tax-preparation" onClick={() => setServicesOpen(false)}>
-                  Tax Preparation
-                </Link>
-                <Link to="/notary" onClick={() => setServicesOpen(false)}>
-                  Notary Public
-                </Link>
-                <Link to="/translation" onClick={() => setServicesOpen(false)}>
-                  Translation
-                </Link>
-                <Link to="/immigration" onClick={() => setServicesOpen(false)}>
-                  Form Preparation Support 
-                </Link>
-                <Link to="/copy-fax" onClick={() => setServicesOpen(false)}>
-                  Copy & Fax
-                </Link>
-                <Link to="/insurance-services" onClick={() => setServicesOpen(false)}>
-                  Insurance Services
-                </Link>
-                <Link to="/business-services" onClick={() => setServicesOpen(false)}>
-                  Business Services
-                </Link>
-                <Link to="/real-estate-booking" onClick={() => setServicesOpen(false)}>
-                  Real Estate
-                </Link>
+                <Link to="/about" onClick={closeMenu}>About Us</Link>
+                <Link to="/purpose" onClick={closeMenu}>Our Purpose</Link>
               </div>
             )}
           </div>
@@ -89,50 +87,57 @@ function Header() {
             <button
               type="button"
               className="simple-dropdown-button"
-              onClick={() => {
-                setLearnOpen((prev) => !prev);
-                setServicesOpen(false);
-              }}
+              aria-expanded={servicesOpen}
+              onClick={() => toggleDropdown("services")}
             >
-              <FaQuestionCircle />
-              <span>Learn</span>
-              <FaChevronDown className={learnOpen ? "caret-open" : ""} />
+              Services
+              <FaChevronDown aria-hidden="true" className={servicesOpen ? "caret-open" : ""} />
             </button>
-
-            {learnOpen && (
-  <div className="simple-dropdown-menu">
-    <Link to="/purpose" onClick={() => setLearnOpen(false)}>
-      Purpose
-    </Link>
-    <Link to="/faq" onClick={() => setLearnOpen(false)}>
-      FAQ
-    </Link>
-    <Link to="/taxpayer-resources" onClick={() => setLearnOpen(false)}>
-      Taxpayer Resources
-    </Link>
-    <Link to="/moments" onClick={() => setLearnOpen(false)}>
-      Moments
-    </Link>
-    <Link to="/client-feedback" onClick={() => setLearnOpen(false)}>
-      Client Feedback
-    </Link>
-    <Link to="/contact" onClick={() => setLearnOpen(false)}>
-      Contact
-    </Link>
-    <Link to="/payments" onClick={() => setLearnOpen(false)}>
-      Payments
-    </Link>
-  </div>
-)}
-
+            {servicesOpen && (
+              <div className="simple-dropdown-menu">
+                <Link to="/services" onClick={closeMenu}>All Services</Link>
+                <Link to="/tax-preparation" onClick={closeMenu}>Tax Preparation</Link>
+                <Link to="/notary" onClick={closeMenu}>Notary Public</Link>
+                <Link to="/translation" onClick={closeMenu}>Translation</Link>
+                <Link to="/immigration" onClick={closeMenu}>Form Preparation Support</Link>
+                <Link to="/copy-fax" onClick={closeMenu}>Copy &amp; Fax</Link>
+                <Link to="/insurance-services" onClick={closeMenu}>Insurance Services</Link>
+                <Link to="/business-services" onClick={closeMenu}>Business Services</Link>
+                <Link to="/real-estate-booking" onClick={closeMenu}>Real Estate</Link>
+              </div>
+            )}
           </div>
 
-          <Link to="/booking" className="nav-pill nav-pill-primary">
-            <FaCalendarCheck />
-            <span>Book</span>
+          <Link
+            to="/pricing"
+            className={location.pathname === "/pricing" ? "active" : ""}
+            onClick={closeMenu}
+          >
+            Pricing
           </Link>
 
+          <div className="simple-dropdown">
+            <button
+              type="button"
+              className="simple-dropdown-button"
+              aria-expanded={resourcesOpen}
+              onClick={() => toggleDropdown("resources")}
+            >
+              Resources
+              <FaChevronDown aria-hidden="true" className={resourcesOpen ? "caret-open" : ""} />
+            </button>
+            {resourcesOpen && (
+              <div className="simple-dropdown-menu">
+                <Link to="/faq" onClick={closeMenu}>What to Bring &amp; FAQ</Link>
+                <Link to="/taxpayer-resources" onClick={closeMenu}>Taxpayer Resources</Link>
+                <Link to="/moments" onClick={closeMenu}>Moments</Link>
+                <Link to="/client-feedback" onClick={closeMenu}>Client Feedback</Link>
+              </div>
+            )}
+          </div>
 
+          <Link to="/booking" onClick={closeMenu}>Book Appointment</Link>
+          <Link to="/contact" onClick={closeMenu}>Contact Us</Link>
         </nav>
       </div>
     </header>

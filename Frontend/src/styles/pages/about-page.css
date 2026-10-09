@@ -1,209 +1,442 @@
 .about-page {
-  background: #f3f7f6;
+  background: #f6f7f6;
+  color: #243331;
 }
 
-.about-hero {
-  position: relative;
-  background:
-    linear-gradient(120deg, rgba(15, 92, 84, 0.78), rgba(49, 22, 97, 0.66)),
-    url("/tax-desktop.jpg") center / cover no-repeat;
+.about-main {
+  padding: clamp(3.5rem, 6vw, 5.5rem) 0;
 }
 
-.about-hero-card {
-  max-width: 900px;
-  margin: 0 auto;
-  padding: clamp(2rem, 5vw, 4rem);
-  text-align: center;
-  color: #fff;
-  background: rgba(255, 255, 255, 0.13);
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  border-radius: 28px;
-  backdrop-filter: blur(10px);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.18);
+.about-container {
+  max-width: 1120px;
 }
 
-.about-hero-card .eyebrow {
-  color: #f3e8ff;
+.about-heading {
+  max-width: 780px;
+  margin-bottom: 2.5rem;
 }
 
-.about-hero-card h1 {
-  color: #fff;
-  font-size: clamp(2.3rem, 5vw, 4rem);
-  line-height: 1.1;
-  margin-bottom: 1rem;
+.about-heading .eyebrow,
+.about-contact-cta .eyebrow {
+  margin: 0 0 0.6rem;
+  color: #167b79;
+  font-size: 0.8rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
 }
 
-.about-hero-card > p:last-of-type {
-  max-width: 720px;
-  margin: 0 auto;
-  color: #f4fffc;
-  font-size: 1.08rem;
-  line-height: 1.9;
+.about-heading h1 {
+  margin: 0 0 0.85rem;
+  color: #273b39;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(2.8rem, 5vw, 4.5rem);
+  line-height: 1.12;
+}
+
+.about-lead {
+  margin: 0;
+  color: #4d5c59;
+  font-size: clamp(1.05rem, 1.7vw, 1.2rem);
+  line-height: 1.7;
+}
+
+.about-story-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(280px, 0.85fr);
+  align-items: center;
+  gap: clamp(1.5rem, 4vw, 3.5rem);
+}
+
+.about-story h2 {
+  margin: 0 0 1rem;
+  color: #273b39;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(1.6rem, 2.7vw, 2.15rem);
+  line-height: 1.3;
+}
+
+.about-story p,
+.about-detail-card p {
+  color: #475754;
+  line-height: 1.8;
+}
+
+.about-story p {
+  margin: 0 0 1rem;
 }
 
 .about-actions {
   display: flex;
-  justify-content: center;
   flex-wrap: wrap;
-  gap: 0.85rem;
-  margin-top: 1.8rem;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
 }
 
-.about-actions .btn,
-.about-visit-card .btn {
-  text-decoration: none;
-}
-
-.about-actions .btn-outline {
-  border: 1px solid rgba(255, 255, 255, 0.8);
-  color: #fff;
-  background: rgba(255, 255, 255, 0.08);
-}
-
-.about-actions .btn-outline:hover {
-  background: #fff;
-  color: #0f5c54;
-}
-
-.about-intro .container,
-.about-approach .container,
-.about-visit .container {
-  max-width: 1100px;
-}
-
-.about-intro-card {
-  max-width: 900px;
-  margin: 0 auto 2rem;
-  padding: clamp(1.5rem, 4vw, 2.5rem);
-  background: #fff;
-  border: 1px solid #dce9e7;
-  border-radius: 24px;
-  box-shadow: 0 14px 34px rgba(15, 92, 84, 0.08);
-}
-
-.about-intro-card h2,
-.about-approach-card h2,
-.about-visit-card h2 {
-  color: #0f5c54;
-}
-
-.about-intro-card p,
-.about-service-card p,
-.about-approach-card p,
-.about-visit-card p {
-  line-height: 1.8;
-}
-
-.about-service-grid,
-.about-approach-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 1.2rem;
-}
-
-.about-service-card,
-.about-approach-card {
-  display: flex;
-  flex-direction: column;
-  padding: 1.8rem;
-  background: #fff;
-  border: 1px solid #dce9e7;
-  border-radius: 22px;
-  box-shadow: 0 12px 28px rgba(15, 92, 84, 0.08);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-}
-
-.about-service-card:hover,
-.about-approach-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 18px 36px rgba(15, 92, 84, 0.14);
-}
-
-.about-icon-wrap {
-  width: 58px;
-  height: 58px;
+.about-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  flex-shrink: 0;
-  border-radius: 17px;
-  background: linear-gradient(135deg, #e4f6ef, #eee9ff);
-  color: #0f5c54;
-  font-size: 1.4rem;
-}
-
-.about-service-card h3 {
-  margin: 1rem 0 0.5rem;
-  color: #0f5c54;
-}
-
-.about-service-card p,
-.about-approach-card p {
-  color: #52636a;
-}
-
-.about-card-link,
-.about-approach-card a {
-  margin-top: auto;
-  padding-top: 1rem;
-  color: #0f5c54;
+  gap: 0.55rem;
+  min-height: 46px;
+  padding: 0.7rem 1.1rem;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  font-size: 0.9rem;
   font-weight: 700;
   text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease;
 }
 
-.about-card-link:hover,
-.about-approach-card a:hover {
-  text-decoration: underline;
+.about-button:hover {
+  transform: translateY(-2px);
 }
 
-.about-approach-grid {
+.about-button-primary {
+  background: #146d73;
+  color: #fff;
+}
+
+.about-button-primary:hover {
+  background: #10575c;
+  color: #fff;
+}
+
+.about-button-outline {
+  border-color: #146d73;
+  background: transparent;
+  color: #146d73;
+}
+
+.about-button-outline:hover {
+  background: #e9f4f2;
+}
+
+.about-photo-card {
+  overflow: hidden;
+  border: 1px solid #e1e8e5;
+  border-radius: 18px;
+  background: #fff;
+  box-shadow: 0 16px 35px rgba(25, 47, 43, 0.09);
+}
+
+.about-photo {
+  display: block;
+  width: 100%;
+  height: 370px;
+  object-fit: cover;
+}
+
+.about-photo-card p {
+  margin: 0;
+  padding: 0.9rem 1.2rem;
+  color: #42524f;
+  font-size: 0.88rem;
+  font-weight: 700;
+}
+
+.about-details-grid {
+  display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1.25rem;
+  margin-top: 3rem;
 }
 
-.about-approach-card > svg {
-  color: #0f5c54;
-  font-size: 1.8rem;
+.about-detail-card {
+  min-width: 0;
+  padding: 1.5rem;
+  border: 1px solid #e1e8e5;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(25, 47, 43, 0.05);
+}
+
+.about-card-heading {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
   margin-bottom: 1rem;
 }
 
-.about-visit {
-  background: linear-gradient(135deg, #e8f5f1, #f1edff);
+.about-card-heading svg {
+  flex-shrink: 0;
+  color: #146d73;
+  font-size: 1.2rem;
 }
 
-.about-visit-card {
+.about-card-heading h2 {
+  margin: 0;
+  color: #273b39;
+  font-size: 1.25rem;
+}
+
+.about-hours-list {
+  margin: 0;
+}
+
+.about-hours-row {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 1.2rem;
-  padding: clamp(1.5rem, 4vw, 2.3rem);
-  background: rgba(255, 255, 255, 0.93);
-  border: 1px solid #fff;
-  border-radius: 24px;
-  box-shadow: 0 16px 36px rgba(15, 92, 84, 0.1);
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.7rem 0;
+  border-bottom: 1px solid #e9eeeb;
 }
 
-.about-visit-card > div {
-  flex: 1 1 280px;
+.about-hours-row:last-child {
+  border-bottom: 0;
 }
 
-.about-visit-card a:not(.btn) {
-  color: #0f5c54;
+.about-hours-row dt {
   font-weight: 700;
 }
 
-@media (max-width: 800px) {
-  .about-service-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
+.about-hours-row dd {
+  margin: 0;
+  text-align: right;
 }
 
-@media (max-width: 600px) {
-  .about-service-grid,
-  .about-approach-grid {
+.about-hours-note {
+  margin: 1rem 0 0;
+  font-size: 0.85rem;
+}
+
+.about-detail-card > p {
+  margin: 0 0 0.75rem;
+}
+
+.about-detail-card a,
+.about-directions {
+  color: #146d73;
+  font-weight: 700;
+}
+
+.about-directions {
+  display: inline-block;
+  margin-top: 0.5rem;
+  text-decoration: none;
+}
+
+.about-directions:hover {
+  text-decoration: underline;
+}
+
+.about-contact-cta {
+  padding: 2.5rem 0;
+  background: linear-gradient(115deg, #126b68, #452a72);
+  color: #fff;
+}
+
+.about-contact-inner {
+  max-width: 1120px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+}
+
+.about-contact-cta .eyebrow {
+  color: #e6d3ff;
+}
+
+.about-contact-cta h2 {
+  margin: 0 0 0.45rem;
+  color: #fff;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(1.5rem, 2.5vw, 2rem);
+}
+
+.about-contact-cta p:last-child {
+  margin: 0;
+  color: #edf7f5;
+  line-height: 1.6;
+}
+
+.about-button-light {
+  flex-shrink: 0;
+  background: #fff;
+  color: #403070;
+}
+
+.about-button-light:hover {
+  background: #f4edff;
+  color: #403070;
+}
+
+@media (max-width: 760px) {
+  .about-story-grid,
+  .about-details-grid {
     grid-template-columns: 1fr;
   }
 
-  .about-hero-card {
-    border-radius: 20px;
+  .about-photo {
+    height: 300px;
   }
+
+  .about-contact-inner {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .about-hours-row {
+    flex-direction: column;
+    gap: 0.15rem;
+  }
+
+  .about-hours-row dd {
+    text-align: left;
+  }
+
+  .about-photo {
+    height: 240px;
+  }
+}
+.about-page {
+  background:
+    linear-gradient(
+      120deg,
+      rgba(15, 92, 84, 0.78),
+      rgba(66, 37, 105, 0.76)
+    ),
+    url("/tax-desktop.jpg") center / cover no-repeat;
+}
+
+/* About heading */
+.about-heading .eyebrow {
+  color: #f5e7c0;
+  font-size: clamp(1.35rem, 2.4vw, 1.9rem);
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.about-heading h1 {
+  color: #fff;
+  font-family: "Open Sans", Arial, sans-serif;
+  font-size: clamp(2.7rem, 5vw, 4rem);
+  font-weight: 800;
+}
+
+.about-lead {
+  color: #f1f7f6;
+}
+
+/* Glass boxes */
+.about-story,
+.about-photo-card,
+.about-detail-card {
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 16px 35px rgba(18, 27, 39, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.about-story {
+  padding: clamp(1.35rem, 2.5vw, 2rem);
+}
+
+.about-story h2,
+.about-story p,
+.about-detail-card h2,
+.about-detail-card p,
+.about-hours-row {
+  color: #fff;
+}
+
+.about-story h2 {
+  font-family: "Open Sans", Arial, sans-serif;
+  font-weight: 800;
+}
+
+.about-photo-card {
+  overflow: hidden;
+}
+
+.about-photo-card p {
+  color: #fff;
+}
+
+.about-detail-card {
+  padding: 1.5rem;
+}
+
+.about-card-heading svg,
+.about-detail-card a,
+.about-directions {
+  color: #f5d36c;
+}
+
+.about-hours-row {
+  border-bottom-color: rgba(255, 255, 255, 0.22);
+}
+
+.about-hours-note {
+  color: #edf7f5 !important;
+}
+
+/* Buttons in logo-inspired colors */
+.about-button-primary {
+  background: #146d73;
+  color: #fff;
+}
+
+.about-button-outline {
+  border-color: #fff;
+  color: #fff;
+}
+
+.about-button-outline:hover {
+  background: rgba(255, 255, 255, 0.18);
+  color: #fff;
+}
+.about-heading {
+  max-width: 820px;
+  margin: 0 auto 2.5rem;
+  text-align: center;
+}
+
+.about-heading .eyebrow {
+  font-size: clamp(1.5rem, 2.6vw, 2rem);
+}
+.about-heading h1,
+.about-story h2,
+.about-contact-cta h2 {
+  font-family: "Libre Baskerville", Georgia, serif;
+  letter-spacing: normal;
+}
+
+.about-page {
+  font-family: "Open Sans", Arial, sans-serif;
+}
+
+.about-heading h1,
+.about-story h2 {
+  letter-spacing: -0.03em;
+}
+.about-heading {
+  max-width: 820px;
+  margin: 0 auto 2.5rem;
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.15);
+  box-shadow: 0 16px 35px rgba(18, 27, 39, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  text-align: center;
+}
+
+.about-heading .eyebrow {
+  color: #f5e7c0;
+}
+
+.about-heading h1 {
+  color: #fff;
+  font-family: "Libre Baskerville", Georgia, serif;
+}
+
+.about-heading .about-lead {
+  color: #f1f7f6;
 }
