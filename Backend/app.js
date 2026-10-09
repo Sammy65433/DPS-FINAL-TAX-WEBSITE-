@@ -3,8 +3,11 @@ import cors from "cors";
 import appointmentRoutes from "./routes/appointmentRoutes.js";
 import realtyAppointmentRoutes from "./routes/realtyAppointmentRoutes.js";
 import emailRoutes from "./routes/emailRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
 
 const app = express();
+
+
 
 app.use(
     cors({
@@ -25,6 +28,9 @@ app.use(
 );
 
 app.use(express.json());
+// After app.use(express.json()) and CORS setup:
+app.use("/api/contact", contactRoutes);
+
 
 app.get("/", (req, res) => {
     res.json({ message: "DPS Tax API is running" });
