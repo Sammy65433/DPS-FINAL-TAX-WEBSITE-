@@ -6,7 +6,7 @@ const contactPhotos = [
   { src: "/purpose-2.jpg", alt: "Client service" },
   { src: "/notary-1.jpg", alt: "Notary service" },
   { src: "/tax-prep1.jpg", alt: "Tax preparation consultation" },
-  { src: "/wespeakallflags.jpg", alt: "Multilingual support" },
+  { src: "/WeSpeakAllFlags.jpg", alt: "Multilingual support" },
   { src: "/trusted-com1.jpg", alt: "Client support" },
   { src: "/transla2.jpg", alt: "Document preparation" },
   { src: "/tax-prep2.jpg", alt: "Tax preparation" },
