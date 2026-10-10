@@ -4,6 +4,9 @@ import appointmentRoutes from "./routes/appointmentRoutes.js";
 import realtyAppointmentRoutes from "./routes/realtyAppointmentRoutes.js";
 import emailRoutes from "./routes/emailRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
+import customerRoutes from "./routes/customerRoutes.js";
+
+// After app.use(express.json()):
 
 const app = express();
 
@@ -23,13 +26,15 @@ app.use(
 
         ],
         methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type"],
+        allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
 
 app.use(express.json());
-// After app.use(express.json()) and CORS setup:
+
 app.use("/api/contact", contactRoutes);
+app.use("/api/customer", customerRoutes);
+
 
 
 app.get("/", (req, res) => {

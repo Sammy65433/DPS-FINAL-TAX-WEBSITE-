@@ -39,6 +39,8 @@
 @import "./pages/payments-page.css";
 @import "./pages/manageAppointment.css";
 @import "./pages/about-page.css";
+@import "./pages/client-auth.css";
+
 
 body {
   font-family: "Open Sans", Arial, sans-serif;

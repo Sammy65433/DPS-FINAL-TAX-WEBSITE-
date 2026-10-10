@@ -1,0 +1,88 @@
+.client-auth-page {
+  min-height: 70vh;
+  display: grid;
+  place-items: center;
+  padding: 3rem 1rem;
+  background:
+    linear-gradient(120deg, rgba(15, 92, 84, 0.8), rgba(49, 22, 97, 0.72)),
+    url("/tax-desktop.jpg") center / cover no-repeat;
+}
+
+.client-auth-card {
+  width: min(100%, 520px);
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 16px 35px rgba(18, 27, 39, 0.16);
+}
+
+.client-auth-eyebrow {
+  color: #146d73;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.client-auth-card h1 {
+  color: #263b38;
+  font-family: "Libre Baskerville", Georgia, serif;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+}
+
+.client-auth-card form {
+  display: grid;
+  gap: 0.7rem;
+  margin: 1.5rem 0;
+}
+
+.client-auth-card label {
+  font-weight: 700;
+}
+
+.client-auth-card input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid #b8c8c4;
+  border-radius: 8px;
+  font: inherit;
+}
+
+.client-auth-card button,
+.client-portal-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0.7rem 1rem;
+  border: 0;
+  border-radius: 8px;
+  background: #4c287f;
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.client-auth-card button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.client-auth-error {
+  color: #991b1b;
+}
+
+.client-portal-actions {
+  display: grid;
+  gap: 0.7rem;
+  margin: 1.5rem 0;
+}
+
+.client-auth-card a:focus-visible,
+.client-auth-card button:focus-visible,
+.client-auth-card input:focus-visible {
+  outline: 3px solid #f5d36c;
+  outline-offset: 2px;
+}

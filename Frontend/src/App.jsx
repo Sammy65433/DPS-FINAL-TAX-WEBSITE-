@@ -23,12 +23,18 @@ import ClientFeedbackPage from "./pages/ClientFeedbackPage";
 import BusinessServicesPage from "./pages/BusinessServicesPage";
 import PaymentsPage from "./pages/PaymentsPage";
 import ManageAppointment from "./pages/ManageAppointment";
+import ClientLogin from "./pages/ClientLogin";
+import ClientPortal from "./pages/ClientPortal";
 
 function App() {
   return (
     <>
       <ScrollToTop />
       <Routes>
+        <Route path="/client-login" element={<ClientLogin />} />
+<Route path="/client-portal" element={<ClientPortal />} />
+
+
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/contact" element={<ContactPage />} />
