@@ -1,673 +1,346 @@
+
+
 ```md
-DPS Tax Frontend
+# DPS Professional Tax Services Website
 
-DPS Tax Frontend is the client-facing React application for DPS Professional Tax Services and DPS Realty. It powers the public website, appointment booking experience, service pages, resource pages, admin interface, and supporting navigation for clients seeking tax, document, language, insurance, and real estate support.
+A full-stack business website and appointment platform for DPS Professional Tax Services in Maplewood, New Jersey.
 
-This frontend is designed to present the business professionally while connecting users to the backend API for appointment creation, appointment management, and service-related workflows.
+**Live site:** https://www.dpstaxpro.com  
+**Built by:** Samuel Jacquet
 
-## Overview
+## Project Overview
 
-This application is built with React, React Router, Vite, and modular CSS. It works together with the DPS backend API to provide:
+DPS Professional Tax Services needed more than a brochure website. Clients needed a way to understand the services available, prepare for a visit, request appointments, and find reliable tax resources. The business also needed a way to review and manage requests without relying entirely on phone calls or scattered messages.
 
-- tax appointment booking
-- real estate appointment booking
-- appointment availability checks
-- admin dashboard management
-- official taxpayer resource access
-- payment guidance
-- public service information
-- community, FAQ, and process pages
+I built a responsive React frontend and connected it to an Express backend. The application supports tax and real estate appointment requests, an administrative appointment interface, general contact inquiries, and email notifications. It also presents service, pricing, FAQ, contact, and official IRS resource pages in one cohesive experience.
+
+The frontend is organized into reusable components, dedicated pages, and modular CSS. The visual design uses the business’s teal and purple brand colors, glass-style cards, consistent typography, and responsive layouts.
+
+## My Role
+
+I worked on the website’s design, frontend implementation, backend integration, and deployment workflow. My responsibilities included:
+
+- Translating business requirements into pages, forms, navigation, and user flows
+- Building reusable React components and dedicated service pages
+- Creating responsive layouts for desktop and mobile
+- Connecting booking and contact forms to Express API endpoints
+- Displaying appointment availability returned by the backend
+- Building staff-facing appointment management views
+- Integrating official IRS resources and clear document-security guidance
+- Testing local and deployed frontend-to-backend requests
+- Configuring the frontend to use different API URLs in development and production
+- Updating page content and navigation based on feedback from the business
+
+This was a practical client project: content, service descriptions, office hours, and pricing were revised as I received feedback.
+
+## The Problem
+
+The business offers several services, and visitors may arrive with very different needs. A client might want to book tax preparation, ask about a document, contact the office, or connect with a real estate partner.
+
+The site needed to make those paths easy to find while supporting the business behind the scenes:
+
+1. **Clients need clarity.** They should be able to understand available services and what to bring.
+2. **Appointments need structure.** Requests should capture useful details and show tax booking availability.
+3. **Staff need visibility.** Appointment records should be accessible from a management interface.
+4. **Communication matters.** Clients and the office should receive relevant email notifications.
+5. **Sensitive information requires care.** Public forms should not invite clients to submit Social Security numbers or tax documents.
+
+## The Solution
+
+I organized the site around three main visitor actions:
+
+- **Explore:** Browse services, pricing, FAQs, business information, and community pages.
+- **Prepare:** Review document checklists, general filing-date information, and official IRS links.
+- **Connect:** Book a tax appointment, request real estate support, call the office, or send a general inquiry.
+
+Behind those public flows, the frontend sends requests to the backend API. The backend handles validation, appointment records, availability checks, and email delivery.
 
 ## Tech Stack
 
-- React
-- Vite
-- React Router DOM
-- CSS
-- React Icons
-- AOS if enabled in the project
+| Area | Technology | Purpose |
+| --- | --- | --- |
+| Frontend | React | Component-based user interface |
+| Build tool | Vite | Local development and production builds |
+| Routing | React Router DOM | Dedicated pages and client-side navigation |
+| Styling | Modular CSS | Responsive layouts and reusable visual patterns |
+| Icons | React Icons | Navigation, service, and action icons |
+| Backend | Node.js and Express | API routes and request handling |
+| Database | Supabase | Appointment data storage |
+| Email | Resend | Appointment and contact notifications |
+| Hosting | Render | Deployed frontend and backend services |
 
-## Main Goals
+## Core Features
 
-The frontend was built to:
+### Responsive Public Website
 
-- create a clean and professional online presence for DPS
-- allow clients to book appointments online
-- make services easier to understand
-- connect clients with real estate support
-- provide trusted official taxpayer resource links
-- let admin users manage bookings in one place
-- organize content into reusable components and dedicated pages
+The website includes a homepage with clear paths to services, booking, resources, and contact information. Dedicated pages provide room for more detailed information without making the homepage difficult to navigate.
 
-## Key Features
+The header has desktop navigation and a compact mobile menu. Services, About, and Resources are grouped into dropdowns. Pricing and Book Appointment remain easy to find.
 
-### Public Website
-- homepage with hero, stats, services, process preview, testimonials preview, contact, and realty preview
-- dedicated service pages
-- purpose page
-- FAQ page
-- client feedback page
-- moments/community page
-- process page
-- taxpayer resources page
+The design is consistent across pages:
 
-### Booking
-- tax appointment booking form
-- live availability by date and tax preparer
-- duplicate booking prevention through backend logic
-- payment options section
-- secure document portal guidance
-- important security notice for sensitive tax information
+- Teal and purple colors inspired by the DPS brand
+- Glass-style cards over photographic backgrounds
+- Responsive image grids and service cards
+- Reusable calls to action
+- Clear focus states on interactive elements
 
-### Realty
-- dedicated real estate page
-- real estate intro section
-- real estate booking form
-- RC Realty Group referral support
-- partner contact details and office location
+### Tax Appointment Booking
 
-### Admin
-- admin login using frontend env password
-- tax appointment list
-- realty appointment list
-- search and filter controls
-- edit, cancel, archive, and delete actions
-- export archived appointments to JSON and CSV
-- Google Calendar links for bookings
+The tax booking flow lets clients enter their contact information, choose a service and preparer, select a date, review available times, and submit an appointment request.
 
-### Resource Pages
-- official taxpayer resources page
-- full FAQ page
-- full client feedback page
-- full how-it-works page
-- full purpose page
-- full contact page
+The frontend requests availability from the backend using the selected date and preparer. The backend is responsible for checking conflicts and preventing duplicate bookings for the same slot.
 
-## How It Works
+The booking page also points clients toward appropriate tax resources and warns them not to send sensitive tax documents through unsecured public forms.
 
-### 1. Client Visits the Website
-A visitor lands on the homepage and can browse:
+### Real Estate Appointment Requests
 
-- services
-- process overview
-- FAQ preview
-- client feedback preview
-- contact details
-- real estate support preview
+A separate real estate page introduces DPS’s independent real estate partner and provides a request form. Clients can select the type of support they need, provide contact details, and optionally indicate a preferred date and time.
 
-### 2. Client Navigates to a Dedicated Page
-The site uses React Router to route users to pages such as:
+The page clearly states that real estate services are provided by the partner, not by DPS as a brokerage.
 
-- `/booking`
-- `/real-estate-booking`
-- `/faq`
-- `/how-it-works`
-- `/client-feedback`
-- `/taxpayer-resources`
-- `/contact`
+### General Contact Form
 
-This makes the site easier to explore and keeps the homepage from becoming overloaded.
+The contact form submits general questions to `POST /api/contact`. The frontend handles loading, success, and error states. The backend validates submissions and uses Resend to notify the office.
 
-### 3. Client Books an Appointment
-On the booking page, the user can:
+The form includes a hidden honeypot field to help filter simple bot submissions. It also warns visitors not to include Social Security numbers, tax documents, or other sensitive information.
 
-- enter first and last name
-- provide phone and email
-- select a tax service
-- select a tax preparer
-- choose a date
-- view available times
-- add a message
-- submit the request
+### Appointment Management
 
-On the real estate page, the user can:
+The staff-facing admin interface provides tools to review tax and real estate requests. Depending on the appointment type, staff can search and filter records, edit details, change status, archive or delete records, and export archived data.
 
-- enter contact details
-- choose the type of real estate support
-- optionally choose date and time
-- submit a request
+**Security limitation:** The current admin password is configured through a Vite environment variable. Values prefixed with `VITE_` are included in the browser build, so this is **not secure production authentication**. Backend-enforced authentication and authorization are required before treating the admin interface as a secure staff portal.
 
-### 4. Frontend Sends Request to Backend
-The frontend uses the backend API base URL from:
+### Pricing and Payments
 
-```env
-VITE_API_URL
+The `/pricing` page groups starting rates by service type and displays payment options. It tells visitors to confirm the final price with the office before sending payment because tax preparation fees can vary by filing complexity.
+
+The previous `/payments` path redirects to `/pricing`.
+
+### FAQ and Taxpayer Resources
+
+The `/faq` page includes:
+
+- Common appointment questions
+- A list of documents clients may need to bring
+- General federal filing dates for the displayed tax years
+- Links to official IRS information
+- A reminder that deadlines can vary by entity classification, tax year, or IRS relief
+
+The `/taxpayer-resources` page links directly to official IRS pages for refund status, payments, transcripts, and phishing guidance. The site does not collect IRS account credentials.
+
+### Service and Community Pages
+
+Dedicated pages describe tax preparation, notary, form preparation support, copy and fax, business services, and other services. The site also includes About, Purpose, Moments, and Client Feedback pages.
+
+Service copy was updated as business requirements changed. For example, an earlier insurance-focused page was revised into a general **Other Services** page rather than continuing to advertise unconfirmed insurance offerings.
+
+## How the Application Works
+
+### Tax Booking Flow
+
+```text
+Client selects service, preparer, and date
+             ↓
+Frontend requests available times
+             ↓
+Client selects a time and submits the form
+             ↓
+Express API validates the request and checks conflicts
+             ↓
+Appointment is stored in Supabase
+             ↓
+Email notifications are attempted through Resend
+             ↓
+Frontend displays the API result
 ```
 
-Examples:
-- `POST /api/appointments`
-- `POST /api/realty-appointments`
-- `GET /api/appointments/availability`
+### Contact Flow
 
-### 5. Backend Responds
-The backend:
+```text
+Visitor completes the general inquiry form
+             ↓
+Frontend sends POST /api/contact
+             ↓
+Backend validates fields and checks the honeypot
+             ↓
+Resend sends the message to the configured office inbox
+             ↓
+Frontend displays success or error feedback
+```
 
-- validates data
-- checks appointment conflicts
-- writes to Supabase
-- sends emails when configured
-- returns JSON responses
+The frontend uses `VITE_API_URL` as the backend base URL rather than hard-coding separate local and production addresses.
 
-### 6. Admin Reviews and Manages Appointments
-An admin visits `/admin`, enters the admin password, and can:
+## Routes
 
-- view all bookings
-- manage tax appointments
-- manage realty appointments
-- edit status and details
-- export archived records
+| Route | Purpose |
+| --- | --- |
+| `/` | Homepage |
+| `/about` | Business information |
+| `/purpose` | Mission, vision, and commitment |
+| `/moments` | Community photo gallery |
+| `/services` | Services overview |
+| `/tax-preparation` | Tax preparation information |
+| `/notary` | Notary information |
+| `/immigration` | Form preparation support |
+| `/copy-fax` | Copy and fax information |
+| `/business-services` | Small-business support |
+| `/other-services` | General inquiries about additional services |
+| `/pricing` | Starting prices and payment options |
+| `/booking` | Tax appointment booking |
+| `/real-estate-booking` | Real estate partner information and request form |
+| `/faq` | What to bring, dates, and common questions |
+| `/taxpayer-resources` | Official IRS resource links |
+| `/client-feedback` | Client feedback page |
+| `/contact` | Office details and general inquiry form |
+| `/admin` | Appointment management interface |
 
-## Project Structure
+Legacy URLs redirect to the newer names:
 
-```bash
+- `/payments` → `/pricing`
+- `/insurance-services` → `/other-services`
+
+## Frontend Architecture
+
+The frontend separates shared components from route-level pages.
+
+```text
 Frontend/
-├── public/
-│   ├── DPS-LOGO1.png
-│   ├── tax-desktop.jpg
-│   ├── real-estate.jpg
-│   ├── real-estate-keys2.jpg
-│   ├── office-pics/
-│   └── ...
+├── public/                 Static images and logo
 ├── src/
-│   ├── components/
-│   │   ├── admin/
-│   │   │   ├── AdminAppointments.jsx
-│   │   │   ├── AdminLogin.jsx
-│   │   │   ├── AdminToolbar.jsx
-│   │   │   ├── RealtyAppointmentCard.jsx
-│   │   │   ├── TaxAppointmentCard.jsx
-│   │   │   ├── adminConstants.js
-│   │   │   └── adminUtils.js
-│   │   ├── Booking.jsx
-│   │   ├── Contact.jsx
-│   │   ├── FAQ.jsx
-│   │   ├── Footer.jsx
-│   │   ├── FullContact.jsx
-│   │   ├── FullFAQ.jsx
-│   │   ├── FullHowItWorks.jsx
-│   │   ├── FullPurpose.jsx
-│   │   ├── FullTestimonials.jsx
-│   │   ├── Gallery.jsx
-│   │   ├── Header.jsx
-│   │   ├── Hero.jsx
-│   │   ├── HowItWorks.jsx
-│   │   ├── IRSLinksBox.jsx
-│   │   ├── Languages.jsx
-│   │   ├── Layout.jsx
-│   │   ├── RealtyBookingForm.jsx
-│   │   ├── RealtyIntro.jsx
-│   │   ├── RealtyPreview.jsx
-│   │   ├── ScrollToTop.jsx
-│   │   ├── Services.jsx
-│   │   ├── Stats.jsx
-│   │   ├── Testimonials.jsx
-│   │   ├── TopBar.jsx
-│   │   └── WhyChoose.jsx
-│   ├── pages/
-│   │   ├── AboutPage.jsx
-│   │   ├── AdminPage.jsx
-│   │   ├── BookingPage.jsx
-│   │   ├── ClientFeedbackPage.jsx
-│   │   ├── ContactPage.jsx
-│   │   ├── CopyFax.jsx
-│   │   ├── FAQPage.jsx
-│   │   ├── HomePage.jsx
-│   │   ├── HowItWorksPage.jsx
-│   │   ├── Immigration.jsx
-│   │   ├── InsuranceServices.jsx
-│   │   ├── MomentsPage.jsx
-│   │   ├── Notary.jsx
-│   │   ├── PurposePage.jsx
-│   │   ├── RealEstateBookingPage.jsx
-│   │   ├── ServicesPage.jsx
-│   │   ├── TaxPayerResourcesPage.jsx
-│   │   ├── TaxPrep.jsx
-│   │   └── Translation.jsx
+│   ├── components/         Shared UI, forms, navigation, and page sections
+│   │   └── admin/          Appointment management components
+│   ├── pages/              Components rendered by React Router
 │   ├── styles/
-│   │   ├── base/
-│   │   │   ├── global.css
-│   │   │   ├── reset.css
-│   │   │   ├── utilities.css
-│   │   │   └── variables.css
-│   │   ├── components/
-│   │   │   ├── booking.css
-│   │   │   ├── buttons.css
-│   │   │   ├── cards.css
-│   │   │   ├── contact.css
-│   │   │   ├── faq.css
-│   │   │   ├── footer.css
-│   │   │   ├── gallery.css
-│   │   │   ├── header.css
-│   │   │   ├── hero.css
-│   │   │   ├── how-it-works.css
-│   │   │   ├── irs-links.css
-│   │   │   ├── languages.css
-│   │   │   ├── purpose.css
-│   │   │   ├── realty.css
-│   │   │   ├── services.css
-│   │   │   ├── stats.css
-│   │   │   ├── testimonials.css
-│   │   │   └── topbar.css
-│   │   ├── pages/
-│   │   │   ├── admin-page.css
-│   │   │   ├── taxprep-page.css
-│   │   │   └── taxpayer-resources-page.css
-│   │   └── index.css
-│   ├── App.jsx
-│   └── main.jsx
-├── .env
+│   │   ├── base/           Variables, reset, and global styles
+│   │   ├── components/     Shared component styles
+│   │   ├── pages/          Page-specific styles
+│   │   └── index.css       Stylesheet imports
+│   ├── App.jsx             Route definitions
+│   └── main.jsx            Application entry point
 ├── .env.example
-├── package.json
-└── vite.config.js
+└── package.json
 ```
 
-## Routing
+Examples of reusable components include `Header`, `Footer`, `Contact`, `Services`, `RealtyBookingForm`, and the admin appointment components.
 
-Main routes:
+The dedicated page components compose these pieces rather than placing the entire application in one file.
 
-- `/`
-- `/about`
-- `/contact`
-- `/services`
-- `/tax-preparation`
-- `/notary`
-- `/insurance-services`
-- `/copy-fax`
-- `/immigration`
-- `/translation`
-- `/booking`
-- `/real-estate-booking`
-- `/purpose`
-- `/faq`
-- `/moments`
-- `/how-it-works`
-- `/client-feedback`
-- `/taxpayer-resources`
-- `/admin`
+## API Integration
 
-## Environment Variables
+The frontend communicates with the Express backend. Important requests include:
 
-Create a `.env` file in the frontend root.
+| Request | Purpose |
+| --- | --- |
+| `GET /api/appointments/availability` | Retrieve booked tax appointment times |
+| `POST /api/appointments` | Submit a tax appointment request |
+| `POST /api/realty-appointments` | Submit a real estate request |
+| `POST /api/contact` | Submit a general contact message |
+| Appointment management requests | Update, cancel, archive, or delete records |
 
-Example:
+The API base URL is supplied through a frontend environment variable:
 
 ```env
 VITE_API_URL=http://localhost:5001
-VITE_ADMIN_PASSWORD=your_admin_password
 ```
 
-Production example:
+For the deployed frontend, `VITE_API_URL` points to the production backend. The frontend must be rebuilt after changing a Vite environment variable.
 
-```env
-VITE_API_URL=https://dps-final-tax-website.onrender.com
-VITE_ADMIN_PASSWORD=your_admin_password
-```
+## Running Locally
 
-Example `.env.example`:
-
-```env
-VITE_API_URL=http://localhost:5001
-VITE_ADMIN_PASSWORD=your_admin_password
-```
-
-## Installation
-
-1. Go to the frontend directory
-2. Install dependencies
+Install frontend dependencies:
 
 ```bash
+cd Frontend
 npm install
 ```
 
-## Run the Frontend
+Create `Frontend/.env`:
+
+```env
+VITE_API_URL=http://localhost:5001
+```
+
+Start the frontend:
 
 ```bash
 npm run dev
 ```
 
-Vite usually runs on:
+The Vite development server normally runs at `http://localhost:5173`.
 
-```txt
-http://localhost:5173
-```
+The booking and contact forms require the backend to be running separately. See the backend README for its setup, environment variables, database tables, and email configuration.
 
-## Backend Connection
+## Deployment
 
-The frontend depends on the DPS backend API.
-
-Important routes used by the frontend include:
-
-### General
-- `GET /health`
-
-### Tax Appointments
-- `GET /api/appointments`
-- `GET /api/appointments/availability`
-- `POST /api/appointments`
-- `PATCH /api/appointments/:id`
-- `PATCH /api/appointments/:id/cancel`
-- `PATCH /api/appointments/:id/archive`
-- `DELETE /api/appointments/:id`
-
-### Realty Appointments
-- `GET /api/realty-appointments`
-- `POST /api/realty-appointments`
-- `PATCH /api/realty-appointments/:id`
-- `PATCH /api/realty-appointments/:id/confirm`
-- `PATCH /api/realty-appointments/:id/cancel`
-- `PATCH /api/realty-appointments/:id/archive`
-- `DELETE /api/realty-appointments/:id`
-
-## Important Components
-
-### `Layout`
-Shared wrapper used by many pages.
-
-Includes:
-- `TopBar`
-- `Header`
-- `Footer`
-
-### `Header`
-Contains:
-- main navigation
-- booking shortcut
-- call action
-- resource navigation
-
-### `Hero`
-Homepage hero section with:
-- business positioning
-- CTA buttons
-- office trust signals
-
-### `Booking`
-Tax appointment form with:
-- availability fetching
-- form submission
-- payment section
-- secure upload information
-- security notice
-
-### `RealtyIntro`
-Provides the informational top section for the real estate page.
+The frontend is deployed as a static Vite application on Render, while the Express API runs as a separate backend service.
 
-### `RealtyBookingForm`
-Handles the real estate appointment request form.
+Production setup requires:
 
-### `FAQ`
-Short homepage FAQ preview cards.
+- `VITE_API_URL` pointing to the deployed backend
+- Backend CORS allowing the frontend domain
+- Backend database and Resend environment variables
+- A React Router rewrite from `/*` to `/index.html` on static hosting
+- Verification that deep links such as `/pricing` and `/contact` load directly
 
-### `FullFAQ`
-Detailed FAQ page content.
+Secrets such as the Supabase service key and Resend API key belong on the backend and must not be stored in frontend environment variables.
 
-### `HowItWorks`
-Homepage process preview cards.
+## Challenges and Decisions
 
-### `FullHowItWorks`
-Detailed process page with full descriptions and disclaimer.
+### Keeping a Multi-Service Site Understandable
 
-### `Testimonials`
-Homepage client feedback preview cards.
+The business offers several kinds of support. Putting every detail on the homepage made navigation harder, so I used short previews with links to dedicated pages. This gave visitors a quick overview while keeping detailed information available when needed.
 
-### `FullTestimonials`
-Dedicated client feedback page.
+### Connecting Forms to a Separate API
 
-### `FullContact`
-Expanded contact page with a more descriptive and polished presentation.
+The frontend and backend deploy independently. Using `VITE_API_URL` kept API requests consistent between local development and production. Testing both environments helped identify configuration errors rather than assuming a form that worked locally would also work after deployment.
 
-### `AdminAppointments`
-Main admin booking management interface.
+### Resolving Contact Email Failures
 
-## CSS Structure
+After deploying the contact endpoint, the live form initially returned an error. Render logs showed first that the sender or recipient environment variable was missing, then that the sender domain was an unverified placeholder. I updated the backend service’s Render configuration to use the sender address already used for appointment emails and retested the live form.
 
-The frontend uses modular CSS separated by responsibility.
+### Revising Services Based on Client Feedback
 
-### Base
-- `variables.css`
-- `reset.css`
-- `global.css`
-- `utilities.css`
+The initial site included insurance-specific copy. After discussing the business’s requirements, I changed the public-facing offering to **Other Services** and removed unconfirmed coverage claims. This reinforced the importance of validating content with the business, not just making the UI look complete.
 
-### Components
-- `topbar.css`
-- `header.css`
-- `hero.css`
-- `buttons.css`
-- `cards.css`
-- `stats.css`
-- `languages.css`
-- `forms.css`
-- `booking.css`
-- `realty.css`
-- `contact.css`
-- `gallery.css`
-- `footer.css`
-- `irs-links.css`
-- `faq.css`
-- `how-it-works.css`
-- `services.css`
-- `testimonials.css`
-- `purpose.css`
-
-### Pages
-- `taxprep-page.css`
-- `admin-page.css`
-- `taxpayer-resources-page.css`
-
-Main stylesheet:
-
-```css
-src/styles/index.css
-```
-
-Imported in:
-
-```jsx
-src/main.jsx
-```
-
-## Dedicated Resource and Content Pages
-
-The frontend has been expanded beyond simple preview sections to include full dedicated pages.
-
-### Full FAQ Page
-The homepage shows short FAQ cards, while `/faq` includes full detailed answers.
-
-### Full How It Works Page
-The homepage gives a short process preview, while `/how-it-works` provides step-by-step explanations and guidance.
-
-### Full Client Feedback Page
-The homepage includes a small client feedback preview, while `/client-feedback` shows the full set of testimonials.
-
-### Full Purpose Page
-The purpose page expands the mission, vision, and commitment into a fuller narrative.
-
-### Full Contact Page
-The contact page includes a longer thank-you message, office details, hours, contact information, and map.
-
-### Taxpayer Resources Page
-The taxpayer resources page provides official IRS links and related guidance in a more professional standalone format.
-
-## Admin Notes
-
-The admin interface currently uses a frontend environment password:
-
-```env
-VITE_ADMIN_PASSWORD=...
-```
-
-This is acceptable for simple internal access during development and light internal use, but it is not secure enough for a production-grade admin system on its own.
-
-For stronger security in the future:
-- move authentication to the backend
-- use a proper auth provider
-- implement role-based access
+### Maintaining a Consistent Design
 
-## Testing Checklist
+As more pages were added, styles began to diverge. I standardized the layout with modular CSS, consistent glass cards, typography, spacing, and mobile breakpoints. I also kept the homepage previews separate from full-page content so changes to one did not unintentionally affect the other.
 
-### Backend Connectivity
-Test in browser or console:
+## Testing Performed
 
-```js
-fetch("http://localhost:5001/health")
-  .then(res => res.json())
-  .then(data => console.log(data));
-```
+I tested the following flows during development:
 
-Expected:
+- Page navigation and direct route loading
+- Tax booking form submission and backend connectivity
+- Real estate request submission
+- Tax appointment availability lookup
+- Contact form submission on the deployed site
+- Contact form success and error feedback
+- Admin appointment display and management actions
+- Mobile menu and responsive layouts
+- Internal navigation to pricing, FAQ, services, and contact pages
+- Official IRS external links
 
-```json
-{ "ok": true }
-```
+A successful form response should also be checked against its expected outcome, such as a stored appointment or an email arriving in the office inbox.
 
-### Appointment Read
-```js
-fetch("http://localhost:5001/api/appointments")
-  .then(res => res.json())
-  .then(data => console.log(data));
-```
+## Current Limitations and Next Steps
 
-### Appointment Create
-Successful booking should:
-- submit from UI
-- return success message
-- insert into database
-- appear in admin
+- Replace frontend-only admin password handling with backend-enforced authentication and role-based authorization.
+- Add rate limiting or CAPTCHA to public forms to reduce spam.
+- Confirm that office hours, starting prices, and service descriptions match current business information across all pages.
+- Review published tax deadlines against current IRS guidance each tax year.
+- Publish client testimonials and photos only with appropriate permission.
+- Improve accessibility testing, including keyboard navigation and screen-reader review.
+- Add monitoring and more comprehensive automated tests.
 
-### Frontend Flow Testing
-- submit tax appointment from UI
-- submit realty appointment from UI
-- verify duplicate booking protection
-- test admin edit, cancel, archive, delete
-- test full FAQ page
-- test full How It Works page
-- test full Client Feedback page
-- test real estate page
-- test Taxpayer Resources page
-- test contact page
-- test mobile responsiveness
+## What This Project Demonstrates
 
-## Deployment Checklist
+This project gave me experience turning a real business’s needs into a deployed full-stack application. It demonstrates React component design, responsive CSS, API integration, form state and feedback, client-side routing, deployment configuration, and debugging production issues using logs.
 
-Before deployment:
-
-- set `VITE_API_URL` to the production backend URL
-- set `VITE_ADMIN_PASSWORD`
-- confirm backend CORS allows the production frontend domain
-- confirm all CSS files exist and import correctly
-- confirm `main.jsx` imports `./styles/index.css`
-- confirm all routes render
-- confirm booking and admin pages work
-- verify assets in `public/` exist
-- verify React Router routes work in production
-
-## React Router Production Note
-
-Because this project uses React Router, production hosting must be configured to route unknown paths back to `index.html`.
-
-If using Render static hosting:
-- Source: `/*`
-- Destination: `/index.html`
-- Action: `Rewrite`
-
-If using Netlify:
-- use a redirect/rewrite rule so React routes resolve properly
-
-## Common Issues
-
-### `Cannot use import.meta outside a module`
-This happens if you try to use `import.meta.env` directly in the browser console.
-
-Use direct URLs in browser console tests instead.
-
-### Vite CSS import errors
-If using `src/styles/index.css`, imports inside that file should look like:
-
-```css
-@import "./base/variables.css";
-```
-
-not:
-
-```css
-@import "./styles/base/variables.css";
-```
-
-### Missing CSS file error
-If you import:
-
-```css
-@import "./components/testimonials.css";
-```
-
-then this file must exist exactly at:
-
-```txt
-src/styles/components/testimonials.css
-```
-
-### Admin folder import errors
-If `AdminAppointments.jsx` is inside `src/components/admin/`, imports should look like:
-
-```jsx
-import AdminLogin from "./AdminLogin";
-```
-
-not:
-
-```jsx
-import AdminLogin from "./admin/AdminLogin";
-```
-
-### Undefined API URL
-If frontend calls look like:
-
-```txt
-undefined/api/appointments
-```
-
-then `VITE_API_URL` is missing or not loaded.
-
-Fix:
-- update frontend `.env`
-- restart Vite
-
-## Scripts
-
-Typical Vite scripts:
-
-```json
-{
-  "dev": "vite",
-  "build": "vite build",
-  "preview": "vite preview"
-}
-```
-
-## Current Status
-
-Current frontend status:
-
-- routes set up
-- booking form connected to backend
-- real estate booking connected to backend
-- admin interface modularized
-- full FAQ page added
-- full How It Works page added
-- full Client Feedback page added
-- full Contact page added
-- full Purpose page added
-- real estate page separated into intro and booking form
-- taxpayer resources separated into dedicated page
-- CSS modularized into styles folders
-- backend connectivity confirmed
-- appointment creation confirmed
-- production backend reachable
-- frontend deployment configured
+It also taught me that building software for a real client requires more than writing code. The site has to reflect accurate business information, communicate clearly with users, and handle sensitive workflows responsibly.
 
 ## Author
 
-Samuel Jacquet  
-DPS Tax Frontend
+Samuel Jacquet
 ```
