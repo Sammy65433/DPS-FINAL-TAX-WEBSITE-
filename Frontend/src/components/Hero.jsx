@@ -23,6 +23,9 @@ const heroPhotos = [
   })),
 ];
 
+
+
+
 function Hero() {
   const [activePhoto, setActivePhoto] = useState(0);
 
