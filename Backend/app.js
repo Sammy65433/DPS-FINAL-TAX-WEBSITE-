@@ -5,6 +5,7 @@ import realtyAppointmentRoutes from "./routes/realtyAppointmentRoutes.js";
 import emailRoutes from "./routes/emailRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
+import customerDocumentRoutes from "./routes/customerDocumentRoutes.js";
 
 // After app.use(express.json()):
 
@@ -29,12 +30,11 @@ app.use(
         allowedHeaders: ["Content-Type", "Authorization"],
     })
 );
-
 app.use(express.json());
 
 app.use("/api/contact", contactRoutes);
+app.use("/api/customer/documents", customerDocumentRoutes);
 app.use("/api/customer", customerRoutes);
-
 
 
 app.get("/", (req, res) => {

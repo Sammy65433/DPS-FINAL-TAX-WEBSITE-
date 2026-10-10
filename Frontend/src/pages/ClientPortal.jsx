@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
 import { supabase } from "../lib/supabase";
+import CustomerDocuments from "../components/CustomerDocuments";
 
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
@@ -77,6 +78,8 @@ export default function ClientPortal() {
                                 CCH iFirm portal. Your DPS website login does not automatically
                                 sign you in to CCH iFirm.
                             </p>
+                            <CustomerDocuments />
+
                             <div className="client-portal-actions">
                                 <a
                                     href="https://dpsprofessionaltaxservices.cchifirm.us/2/login/"

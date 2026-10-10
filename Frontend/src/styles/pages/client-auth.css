@@ -86,3 +86,40 @@
   outline: 3px solid #f5d36c;
   outline-offset: 2px;
 }
+.client-documents {
+  margin: 1.5rem 0;
+  padding: 1.25rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.client-documents h2 {
+  margin-top: 0;
+  font-size: 1.25rem;
+}
+
+.client-documents form {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.client-documents input[type="file"] {
+  width: 100%;
+}
+
+.client-documents button {
+  justify-self: start;
+}
+
+.client-documents li {
+  overflow-wrap: anywhere;
+}
+
+.client-documents-status--error {
+  color: #991b1b;
+}
+
+.client-documents-status--success {
+  color: #166534;
+}
