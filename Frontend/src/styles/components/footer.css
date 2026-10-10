@@ -1,7 +1,7 @@
 .footer {
-  background: linear-gradient(135deg, var(--header, #173f3a), #123c38);
-  color: #dcece8;
   padding: 1.5rem 0 0.65rem;
+  background: linear-gradient(120deg, #0f5c54 0%, #245b68 52%, #4c287f 100%);
+  color: #e8f5f2;
   font-size: 0.82rem;
 }
 
@@ -16,16 +16,15 @@
   align-items: center;
   justify-content: center;
   gap: 0.7rem;
-  text-align: left;
 }
 
 .footer-logo {
   width: 46px;
   height: 46px;
-  object-fit: contain;
-  background: #fff;
-  border-radius: 50%;
   padding: 4px;
+  border-radius: 50%;
+  background: #fff;
+  object-fit: contain;
 }
 
 .footer-brand-text h3 {
@@ -36,7 +35,7 @@
 
 .footer-brand-text p {
   margin: 0;
-  color: #cfe3df;
+  color: #d9ece9;
 }
 
 .footer-grid {
@@ -47,15 +46,16 @@
 
 .footer-card {
   min-width: 0;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
   border-radius: 10px;
-  padding: 0.8rem;
+  background: rgba(255, 255, 255, 0.09);
+  box-shadow: 0 8px 20px rgba(14, 30, 40, 0.12);
 }
 
 .footer-card h4 {
-  color: #fff;
   margin: 0 0 0.45rem;
+  color: #fff;
   font-size: 0.9rem;
 }
 
@@ -69,15 +69,15 @@
 }
 
 .footer-icon {
-  color: #d6b3ff;
-  margin-top: 0.15rem;
   flex-shrink: 0;
+  margin-top: 0.15rem;
+  color: #e7c7ff;
 }
 
 .footer a {
-  color: #f3e8ff;
-  text-decoration: none;
+  color: #f7eaff;
   font-weight: 600;
+  text-decoration: none;
 }
 
 .footer a:hover {
@@ -88,7 +88,7 @@
 .footer-socials {
   display: flex;
   gap: 0.7rem;
-  margin-top: 0.5rem;
+  margin-top: 0.55rem;
 }
 
 .footer-socials a {
@@ -97,14 +97,24 @@
 }
 
 .footer-bottom {
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
-  padding-top: 0.6rem;
+  padding-top: 0.65rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  color: #e1efec;
   text-align: center;
-  color: #cfe3df;
 }
 
 .footer-bottom p {
   margin: 0;
+  line-height: 1.5;
+}
+
+.footer-established {
+  display: inline-block;
+  margin-left: 0.45rem;
+  color: #f5e7c0;
+  font-family: "Brush Script MT", "Segoe Script", cursive;
+  font-size: 1rem;
+  white-space: nowrap;
 }
 
 @media (max-width: 900px) {
@@ -118,15 +128,15 @@
     padding-top: 1.25rem;
   }
 
-  .footer-brand {
-    text-align: center;
-  }
-
   .footer-grid {
     grid-template-columns: 1fr;
   }
 
   .footer-card {
-    padding: 0.7rem 0.85rem;
+    padding: 0.75rem 0.85rem;
+  }
+
+  .footer-brand {
+    text-align: center;
   }
 }

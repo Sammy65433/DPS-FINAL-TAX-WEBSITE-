@@ -1,136 +1,151 @@
-import Layout from "../components/Layout";
+import { Link } from "react-router-dom";
 import {
+  FaCalendarCheck,
+  FaCheckCircle,
+  FaClipboardList,
   FaFileAlt,
   FaFolderOpen,
-  FaLanguage,
-  FaCheckCircle,
   FaHandsHelping,
-  FaClipboardList,
+  FaLanguage,
+  FaPhoneAlt,
 } from "react-icons/fa";
+import Layout from "../components/Layout";
+
+const photos = [
+  { src: "/transla2.jpg", alt: "Documents and paperwork" },
+  { src: "/client-spanish3.jpg", alt: "Client receiving support" },
+  { src: "/contact-us-people.jpg", alt: "Professional client assistance" },
+];
+
+const supportItems = [
+  "Organizing forms and supporting documents",
+  "Reviewing paperwork for completeness",
+  "Preparing forms using information you provide",
+  "Language support when available",
+  "Explaining the document preparation process",
+];
 
 function Immigration() {
   return (
     <Layout>
-      <section className="section immigration-page-section">
+      <main className="section immigration-page-section">
         <div className="container immigration-page">
           <div className="immigration-hero-card">
-            <div className="immigration-text">
-              <p className="eyebrow">Our Services</p>
-              <h1>Form Preparation Support</h1>
-              <p className="section-text">
-                DPS Professional Tax Services provides support for clients who
-                need help organizing, understanding, and preparing important
-                forms and supporting paperwork. We know documents can feel
-                overwhelming, so we aim to make the process clearer, more
-                organized, and less stressful.
-              </p>
-
-              <div className="immigration-hero-badges">
-                <span className="immigration-badge">
-                  <FaFileAlt />
-                  Paperwork Support
-                </span>
-                <span className="immigration-badge">
-                  <FaLanguage />
-                  Language Assistance
-                </span>
-                <span className="immigration-badge">
-                  <FaHandsHelping />
-                  Respectful Guidance
-                </span>
-              </div>
+            <p className="eyebrow">DPS Services</p>
+            <h1>Form Preparation Support</h1>
+            <p>
+              Important paperwork can feel overwhelming. DPS Professional Tax
+              Services helps clients organize documents and prepare forms
+              using the information they provide. Our focus is on clear
+              communication, careful organization, and a respectful experience.
+            </p>
+            <div className="immigration-hero-badges">
+              <span className="immigration-badge">
+                <FaFileAlt aria-hidden="true" /> Paperwork Support
+              </span>
+              <span className="immigration-badge">
+                <FaLanguage aria-hidden="true" /> Language Assistance
+              </span>
+              <span className="immigration-badge">
+                <FaHandsHelping aria-hidden="true" /> Personal Attention
+              </span>
             </div>
           </div>
 
           <div className="immigration-image-row">
-            <img
-              src="/transla2.jpg"
-              alt="Paperwork support services"
-              className="immigration-page-image"
-            />
-            <img
-              src="/client-spanish3.jpg"
-              alt="Client support services"
-              className="immigration-page-image"
-            />
-            <img
-              src="/contact-us-people.jpg"
-              alt="Professional client assistance"
-              className="immigration-page-image"
-            />
+            {photos.map(({ src, alt }) => (
+              <div className="immigration-image-card" key={src}>
+                <img src={src} alt={alt} loading="lazy" />
+              </div>
+            ))}
           </div>
 
-          <div className="service-content immigration-content-card">
-            <div className="immigration-section-block">
+          <div className="immigration-info-grid">
+            <article className="immigration-info-card">
               <div className="immigration-block-title">
-                <FaFolderOpen />
+                <FaFolderOpen aria-hidden="true" />
                 <h2>What We Help With</h2>
               </div>
-
               <p>
-                We assist clients with preparing and organizing important forms
-                and supporting paperwork. Our role is to help make sure documents
-                are easier to understand, properly arranged, and ready for the
-                next step in the process.
+                We can help organize the forms and supporting documents you
+                bring, identify missing information, and prepare paperwork
+                based on the details you provide.
               </p>
-
               <p>
-                We understand that paperwork can carry a lot of importance and
-                urgency. That is why we focus on clear communication, patience,
-                and careful attention to detail when supporting clients.
+                Contact our office before visiting to confirm whether we
+                support the specific form you need and what to bring.
               </p>
-            </div>
+            </article>
 
-            <div className="immigration-section-block">
+            <article className="immigration-info-card">
               <div className="immigration-block-title">
-                <FaClipboardList />
-                <h2>Types of Form Preparation Support</h2>
+                <FaClipboardList aria-hidden="true" />
+                <h2>Types of Support</h2>
               </div>
-
               <ul className="immigration-list">
-                <li>
-                  <FaCheckCircle />
-                  <span>Help organizing important forms</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Support reviewing required documents</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>General assistance preparing paperwork for submission</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Language support when needed</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Help understanding document requirements</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Guidance through document preparation steps</span>
-                </li>
+                {supportItems.map((item) => (
+                  <li key={item}>
+                    <FaCheckCircle aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
-            </div>
+            </article>
 
-            <div className="immigration-section-block">
+            <article className="immigration-info-card">
               <div className="immigration-block-title">
-                <FaHandsHelping />
-                <h2>Why Clients Choose DPS</h2>
+                <FaFileAlt aria-hidden="true" />
+                <h2>Before Your Visit</h2>
               </div>
-
               <p>
-                Clients choose DPS because we provide a professional, respectful,
-                and supportive experience. We know these documents matter, and we
-                work to help clients feel more confident and prepared throughout
-                the process.
+                Bring the form instructions, your identification, and any
+                supporting documents requested by the organization receiving
+                the paperwork. Call first if you are unsure which documents
+                are needed.
               </p>
+              <p>
+                Please use a secure method for sensitive documents rather
+                than sending them through our public contact form.
+              </p>
+            </article>
+
+            <article className="immigration-info-card">
+              <div className="immigration-block-title">
+                <FaHandsHelping aria-hidden="true" />
+                <h2>Our Approach</h2>
+              </div>
+              <p>
+                We aim to provide patient, organized support so clients can
+                better understand the preparation steps. Form preparation
+                support is not legal advice or legal representation.
+              </p>
+              <p>
+                For legal questions or advice about immigration eligibility,
+                contact a licensed attorney or an accredited representative.
+              </p>
+            </article>
+          </div>
+
+          <div className="immigration-cta">
+            <div>
+              <h2>Need Help Getting Started?</h2>
+              <p>
+                Confirm availability, ask about pricing, or book time with
+                our team.
+              </p>
+            </div>
+            <div className="immigration-cta-actions">
+              <Link to="/pricing">View Pricing</Link>
+              <Link to="/booking">
+                <FaCalendarCheck aria-hidden="true" /> Book Appointment
+              </Link>
+              <a href="tel:+19733272340">
+                <FaPhoneAlt aria-hidden="true" /> Call the Office
+              </a>
             </div>
           </div>
         </div>
-      </section>
+      </main>
     </Layout>
   );
 }

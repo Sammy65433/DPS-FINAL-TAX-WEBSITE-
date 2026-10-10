@@ -115,7 +115,7 @@ function Header() {
                 </Link>
                 <Link to="/copy-fax" onClick={closeMenu}>Copy &amp; Fax</Link>
                 <Link to="/insurance-services" onClick={closeMenu}>
-                  Insurance Services
+                  Other Services
                 </Link>
                 <Link to="/business-services" onClick={closeMenu}>
                   Business Services

@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 import {
+  FaArrowRight,
+  FaBriefcase,
+  FaCopy,
+  FaEnvelope,
   FaFileInvoiceDollar,
-  FaStamp,
+  FaHandsHelping,
+  FaHome,
   FaLanguage,
   FaPassport,
-  FaCopy,
-  FaShieldAlt,
-  FaHome,
-  FaBriefcase,
-  FaEnvelope,
-  FaArrowRight,
+  FaStamp,
 } from "react-icons/fa";
 
 const services = [
@@ -39,7 +39,7 @@ const services = [
   },
   {
     title: "Form Preparation Support",
-    description: "Help organizing documents and forms using information you provide.",
+    description: "Help organizing forms using information you provide.",
     image: "/transla2.jpg",
     alt: "Document preparation support",
     icon: FaPassport,
@@ -54,12 +54,12 @@ const services = [
     to: "/copy-fax",
   },
   {
-    title: "Insurance Services",
-    description: "Explore available coverage options for everyday needs.",
-    image: "/insurance2.jpg",
-    alt: "Insurance services",
-    icon: FaShieldAlt,
-    to: "/insurance-services",
+    title: "Other Services",
+    description: "Ask DPS about additional services available at our office.",
+    image: "/trusted-com1.jpg",
+    alt: "Client speaking with a professional",
+    icon: FaHandsHelping,
+    to: "/other-services",
   },
   {
     title: "Business Services",
@@ -94,7 +94,12 @@ function Services() {
         <div className="services-grid">
           {services.map(({ title, description, image, alt, icon: Icon, to }) => (
             <Link to={to} className="service-preview-card" key={title}>
-              <img src={image} alt={alt} className="service-card-image" loading="lazy" />
+              <img
+                src={image}
+                alt={alt}
+                className="service-card-image"
+                loading="lazy"
+              />
               <div className="service-preview-content">
                 <div className="service-card-title">
                   <Icon aria-hidden="true" />

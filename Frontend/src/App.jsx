@@ -1,3 +1,4 @@
+import { Routes, Route, Navigate } from "react-router-dom";
 
 import ScrollToTop from "./components/ScrollToTop";
 import HomePage from "./pages/HomePage";
@@ -22,10 +23,6 @@ import ClientFeedbackPage from "./pages/ClientFeedbackPage";
 import BusinessServicesPage from "./pages/BusinessServicesPage";
 import PaymentsPage from "./pages/PaymentsPage";
 import ManageAppointment from "./pages/ManageAppointment";
-import { Routes, Route, Navigate } from "react-router-dom";
-
-
-
 
 function App() {
   return (
@@ -38,25 +35,42 @@ function App() {
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/tax-preparation" element={<TaxPrep />} />
         <Route path="/notary" element={<Notary />} />
-        <Route path="/insurance-services" element={<InsuranceServices />} />
+        <Route path="/other-services" element={<InsuranceServices />} />
+        <Route
+          path="/insurance-services"
+          element={<Navigate to="/other-services" replace />}
+        />
         <Route path="/copy-fax" element={<CopyFax />} />
         <Route path="/immigration" element={<Immigration />} />
         <Route path="/translation" element={<Translation />} />
         <Route path="/booking" element={<BookingPage />} />
-        <Route path="/real-estate-booking" element={<RealEstateBookingPage />} />
+        <Route
+          path="/real-estate-booking"
+          element={<RealEstateBookingPage />}
+        />
         <Route path="/purpose" element={<PurposePage />} />
         <Route path="/faq" element={<FAQPage />} />
         <Route path="/moments" element={<MomentsPage />} />
         <Route path="/how-it-works" element={<HowItWorksPage />} />
         <Route path="/admin" element={<AdminPage />} />
-        <Route path="/taxpayer-resources" element={<TaxpayerResourcesPage />} />
+        <Route
+          path="/taxpayer-resources"
+          element={<TaxpayerResourcesPage />}
+        />
         <Route path="/client-feedback" element={<ClientFeedbackPage />} />
-        <Route path="/business-services" element={<BusinessServicesPage />} />
+        <Route
+          path="/business-services"
+          element={<BusinessServicesPage />}
+        />
         <Route path="/pricing" element={<PaymentsPage />} />
-        <Route path="/payments" element={<Navigate to="/pricing" replace />} />
-
-        <Route path="/manage-appointment" element={<ManageAppointment />} />
-
+        <Route
+          path="/payments"
+          element={<Navigate to="/pricing" replace />}
+        />
+        <Route
+          path="/manage-appointment"
+          element={<ManageAppointment />}
+        />
       </Routes>
     </>
   );

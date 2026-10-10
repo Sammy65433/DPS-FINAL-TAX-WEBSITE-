@@ -20,7 +20,6 @@
 .full-contact-details,
 .full-contact-hours,
 .full-contact-photo,
-.full-contact-map,
 .full-contact-note {
   border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 18px;
@@ -67,11 +66,11 @@
 .full-contact-intro {
   max-width: 900px;
   margin: 0 auto 1.5rem;
-  padding: 1.5rem;
+  padding: 1.35rem 1.5rem;
 }
 
 .full-contact-intro p {
-  margin: 0 0 0.85rem;
+  margin: 0 0 0.75rem;
 }
 
 .full-contact-intro p:last-child {
@@ -86,12 +85,11 @@
   max-width: 520px;
   margin: 0 auto 1.5rem;
   padding: 1rem 1.25rem;
-  text-align: left;
 }
 
 .full-contact-logo {
-  width: 75px;
-  height: 75px;
+  width: 70px;
+  height: 70px;
   flex-shrink: 0;
   border-radius: 50%;
   background: #fff;
@@ -100,7 +98,7 @@
 
 .full-contact-brand-box strong {
   color: #fff;
-  font-size: 1.25rem;
+  font-size: 1.2rem;
   line-height: 1.3;
 }
 
@@ -125,7 +123,6 @@
   gap: 0.5rem;
   min-height: 44px;
   padding: 0.7rem 1rem;
-  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: 8px;
   background: #fff;
   color: #4c287f;
@@ -139,35 +136,43 @@
 
 .full-contact-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 1rem;
-  max-width: 900px;
-  margin: 0 auto 1.5rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 0.8rem;
+  max-width: 1000px;
+  margin: 0 auto 0.65rem;
 }
 
 .full-contact-details,
 .full-contact-hours {
   min-width: 0;
-  padding: 1.5rem;
+  padding: 1.1rem;
 }
 
 .full-contact-details h2,
 .full-contact-hours h2 {
-  margin: 0 0 1rem;
+  margin: 0 0 0.9rem;
   color: #fff;
   font-family: "Libre Baskerville", Georgia, serif;
-  font-size: 1.3rem;
+  font-size: 1.1rem;
+  line-height: 1.35;
 }
 
 .full-contact-details p,
 .full-contact-hours p {
   display: flex;
   align-items: flex-start;
-  gap: 0.6rem;
-  margin: 0 0 0.75rem;
+  gap: 0.5rem;
+  margin: 0 0 0.55rem;
   color: #edf7f5;
-  line-height: 1.6;
+  font-size: 0.88rem;
+  line-height: 1.55;
   overflow-wrap: anywhere;
+}
+
+.full-contact-details p:last-child,
+.full-contact-hours p:last-child {
+  margin-bottom: 0;
 }
 
 .full-contact-details a {
@@ -177,13 +182,16 @@
 
 .full-contact-icon {
   flex-shrink: 0;
-  margin-top: 0.25rem;
+  margin-top: 0.2rem;
   color: #f5d36c;
 }
 
-.full-contact-hours .full-contact-hours-note {
-  margin: 1rem 0 0;
+.full-contact-hours-note {
+  max-width: 1000px;
+  margin: 0 auto 1.5rem;
+  color: #edf7f5;
   font-size: 0.85rem;
+  text-align: center;
 }
 
 .full-contact-photo-grid {
@@ -208,19 +216,6 @@
   object-position: center;
 }
 
-.full-contact-map {
-  max-width: 900px;
-  margin: 0 auto 1.5rem;
-  overflow: hidden;
-  padding: 6px;
-}
-
-.full-contact-map iframe {
-  display: block;
-  width: 100%;
-  border-radius: 12px;
-}
-
 .full-contact-note {
   max-width: 900px;
   margin: 0 auto;
@@ -240,12 +235,18 @@
   outline-offset: 3px;
 }
 
+@media (max-width: 900px) {
+  .full-contact-grid {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+  }
+}
+
 @media (max-width: 760px) {
   .full-contact-page {
     padding: 3.5rem 0;
   }
 
-  .full-contact-grid,
   .full-contact-photo-grid {
     grid-template-columns: 1fr;
   }
@@ -259,7 +260,7 @@
   }
 
   .full-contact-brand-box {
-    text-align: center;
     flex-direction: column;
+    text-align: center;
   }
 }

@@ -1,143 +1,106 @@
-import Layout from "../components/Layout";
+import { Link } from "react-router-dom";
 import {
-  FaShieldAlt,
-  FaHeart,
-  FaCar,
-  FaUserMd,
+  FaCalendarCheck,
   FaCheckCircle,
+  FaClipboardList,
+  FaEnvelope,
   FaHandsHelping,
+  FaPhoneAlt,
 } from "react-icons/fa";
+import Layout from "../components/Layout";
+
+const photos = [
+  { src: "/trusted-com1.jpg", alt: "Professional client support" },
+  { src: "/contact-us-people.jpg", alt: "People discussing service needs" },
+  { src: "/pro2.jpg", alt: "Business and document support" },
+];
+
+const waysWeHelp = [
+  "Discuss which DPS service may fit your needs",
+  "Help you prepare questions before an appointment",
+  "Explain what information to bring for an initial conversation",
+  "Connect you with the appropriate team member when available",
+];
 
 function InsuranceServices() {
   return (
     <Layout>
-      <section className="section insurance-page-section">
+      <main className="section insurance-page-section">
         <div className="container insurance-page">
           <div className="insurance-hero-card">
-            <div className="insurance-text">
-              <p className="eyebrow">Our Services</p>
-              <h1>Insurance Services</h1>
-              <p className="section-text">
-                DPS Professional Tax Services provides guidance for clients
-                exploring insurance options for everyday personal and family
-                needs. We help clients better understand available coverage and
-                take the next step with confidence.
-              </p>
-
-              <div className="insurance-hero-badges">
-                <span className="insurance-badge">
-                  <FaShieldAlt />
-                  Coverage Guidance
-                </span>
-                <span className="insurance-badge">
-                  <FaHandsHelping />
-                  Supportive Service
-                </span>
-                <span className="insurance-badge">
-                  <FaHeart />
-                  Family-Focused Help
-                </span>
-              </div>
-            </div>
+            <p className="eyebrow">DPS Services</p>
+            <h1>Other Services</h1>
+            <p>
+              Not sure where your request fits? Contact DPS Professional Tax
+              Services to ask about additional support available at our
+              Maplewood office. We’ll help you identify the right next step
+              or let you know if a requested service is available.
+            </p>
           </div>
 
           <div className="insurance-image-row">
-            <img
-              src="/insurance113.jpg"
-              alt="Insurance guidance services"
-              className="insurance-page-image"
-            />
-            <img
-              src="/trusted-com1.jpg"
-              alt="Trusted client support"
-              className="insurance-page-image"
-            />
-            <img
-              src="/insurance112.jpg"
-              alt="Business and personal planning"
-              className="insurance-page-image"
-            />
+            {photos.map(({ src, alt }) => (
+              <div className="insurance-image-card" key={src}>
+                <img src={src} alt={alt} loading="lazy" />
+              </div>
+            ))}
           </div>
 
-          <div className="service-content insurance-content-card">
-            <div className="insurance-section-block">
+          <div className="insurance-info-grid">
+            <article className="insurance-info-card">
               <div className="insurance-block-title">
-                <FaShieldAlt />
-                <h2>What We Help With</h2>
+                <FaHandsHelping aria-hidden="true" />
+                <h2>How We Can Help</h2>
               </div>
-
               <p>
-                We help clients navigate general insurance questions and connect
-                with coverage options that fit their needs. Whether someone is
-                looking for personal coverage or wants to better understand
-                available plans, we provide clear and supportive guidance.
+                Tell us what you’re trying to accomplish. Our team can discuss
+                available DPS services and help you determine whom to contact
+                or which appointment to schedule.
               </p>
-
               <p>
-                Insurance decisions can feel overwhelming, so we focus on helping
-                clients understand their options in a practical, approachable,
-                and professional way.
+                Service availability may vary. Please confirm the details
+                with our office before visiting.
               </p>
-            </div>
+            </article>
 
-            <div className="insurance-section-block">
+            <article className="insurance-info-card">
               <div className="insurance-block-title">
-                <FaHeart />
-                <h2>Types of Insurance Support</h2>
+                <FaClipboardList aria-hidden="true" />
+                <h2>Before You Reach Out</h2>
               </div>
-
               <ul className="insurance-list">
-                <li>
-                  <FaCheckCircle />
-                  <span>General guidance for personal insurance needs</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Support exploring life insurance options</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>
-                    <FaCar className="insurance-inline-icon" />
-                    Auto insurance guidance
-                  </span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>
-                    <FaUserMd className="insurance-inline-icon" />
-                    Health-related coverage guidance
-                  </span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Basic help understanding plan information</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>
-                    Guidance for individuals, families, and small business owners
-                  </span>
-                </li>
+                {waysWeHelp.map((item) => (
+                  <li key={item}>
+                    <FaCheckCircle aria-hidden="true" />
+                    <span>{item}</span>
+                  </li>
+                ))}
               </ul>
-            </div>
+            </article>
+          </div>
 
-            <div className="insurance-section-block">
-              <div className="insurance-block-title">
-                <FaHandsHelping />
-                <h2>Why Clients Choose DPS</h2>
-              </div>
-
+          <div className="insurance-cta">
+            <div>
+              <h2>Let’s Find the Right Next Step</h2>
               <p>
-                Clients choose DPS because we provide patient, professional, and
-                trustworthy support. We aim to make insurance conversations
-                easier to understand so clients can make informed decisions with
-                greater confidence.
+                Send a general question, book a visit, or call to confirm
+                which services are currently available.
               </p>
+            </div>
+            <div className="insurance-cta-actions">
+              <Link to="/contact">
+                <FaEnvelope aria-hidden="true" /> Contact Us
+              </Link>
+              <Link to="/booking">
+                <FaCalendarCheck aria-hidden="true" /> Book Appointment
+              </Link>
+              <a href="tel:+19733272340">
+                <FaPhoneAlt aria-hidden="true" /> Call the Office
+              </a>
             </div>
           </div>
         </div>
-      </section>
+      </main>
     </Layout>
   );
 }

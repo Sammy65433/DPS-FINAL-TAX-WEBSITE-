@@ -33,22 +33,21 @@ function FullContact() {
             <p className="eyebrow">Contact DPS</p>
             <h1>We’re Here to Help</h1>
             <p>
-              Whether you have a question about tax preparation, documents,
-              business services, or your next appointment, we’re ready to help
-              you find the right place to start.
+              Have a question about tax preparation, documents, business
+              services, or an appointment? We’re ready to help you find the
+              right place to start.
             </p>
           </div>
 
           <div className="full-contact-intro">
             <p>
               Every client comes to us with a different situation. Our team
-              takes the time to listen, answer general questions, and help
-              you understand what to bring or how to schedule a visit.
+              listens, answers general questions, and helps you understand
+              what to bring or how to schedule a visit.
             </p>
             <p>
-              You can call, email, or book an appointment. For your privacy,
-              please do not send Social Security numbers, tax documents, or
-              other sensitive information by ordinary email.
+              For your privacy, please do not send Social Security numbers,
+              tax documents, or other sensitive information by ordinary email.
             </p>
           </div>
 
@@ -113,18 +112,29 @@ function FullContact() {
             </div>
 
             <div className="full-contact-hours" id="hours">
-              <h2>Tax Season Office Hours</h2>
+              <h2>Tax Season Hours</h2>
               <p>
                 <FaClock className="full-contact-icon" aria-hidden="true" />
                 <span>Monday - Friday: 9:00 AM - 5:00 PM</span>
               </p>
               <p>Saturday: 9:00 AM - 6:00 PM</p>
-              <p>Sunday: By Appointment Only</p>
-              <p className="full-contact-hours-note">
-                Hours may change. Please call to confirm before visiting.
+              <p>Sunday: By appointment only</p>
+            </div>
+
+            <div className="full-contact-hours">
+              <h2>Off-Season Hours</h2>
+              <p>
+                <FaClock className="full-contact-icon" aria-hidden="true" />
+                <span>Monday - Friday: 10:00 AM - 6:00 PM</span>
               </p>
+              <p>Saturday: By appointment; walk-ins welcome</p>
+              <p>Sunday: By appointment only; call for availability</p>
             </div>
           </div>
+
+          <p className="full-contact-hours-note">
+            Hours may change. Please call before visiting.
+          </p>
 
           <div className="full-contact-photo-grid">
             {photos.map(({ src, alt }) => (
