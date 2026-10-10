@@ -16,6 +16,11 @@ function Header() {
     setResourcesOpen(false);
   }
 
+  function handleHomeClick() {
+    closeMenu();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
+
   function toggleDropdown(name) {
     setAboutOpen(name === "about" ? !aboutOpen : false);
     setServicesOpen(name === "services" ? !servicesOpen : false);
@@ -26,7 +31,7 @@ function Header() {
     <header className="header">
       <div className="container header-inner">
         <div className="header-brand-row">
-          <Link to="/" className="logo-wrap" onClick={closeMenu}>
+          <Link to="/" className="logo-wrap" onClick={handleHomeClick}>
             <img
               src="/DPS-LOGO1.png"
               alt="DPS Professional Tax Services logo"
@@ -64,7 +69,7 @@ function Header() {
           <Link
             to="/"
             className={location.pathname === "/" ? "active" : ""}
-            onClick={closeMenu}
+            onClick={handleHomeClick}
           >
             Home
           </Link>
@@ -114,7 +119,7 @@ function Header() {
                   Form Preparation Support
                 </Link>
                 <Link to="/copy-fax" onClick={closeMenu}>Copy &amp; Fax</Link>
-                <Link to="/insurance-services" onClick={closeMenu}>
+                <Link to="/other-services" onClick={closeMenu}>
                   Other Services
                 </Link>
                 <Link to="/business-services" onClick={closeMenu}>
