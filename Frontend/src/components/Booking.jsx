@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import {
-  FaCloudUploadAlt,
-  FaPhoneAlt,
   FaCalendarAlt,
   FaClock,
+  FaCloudUploadAlt,
+  FaExternalLinkAlt,
+  FaPhoneAlt,
+  FaShieldAlt,
 } from "react-icons/fa";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
 const EMPTY_FORM = {
   first_name: "",
@@ -24,8 +26,7 @@ const EMPTY_FORM = {
 };
 
 function isSunday(value) {
-  if (!value) return false;
-  return new Date(`${value}T00:00:00`).getDay() === 0;
+  return Boolean(value) && new Date(`${value}T00:00:00`).getDay() === 0;
 }
 
 function Booking() {
@@ -38,14 +39,11 @@ function Booking() {
   const location = useLocation();
 
   useEffect(() => {
-    if (location.hash !== "#irs-links") {
+    if (!location.hash) return undefined;
 
-    }
-
-    const id = location.hash.slice(1);
     const timer = setTimeout(() => {
       document
-        .getElementById(id)
+        .getElementById(location.hash.slice(1))
         ?.scrollIntoView({ behavior: "smooth", block: "start" });
     }, 100);
 
@@ -56,12 +54,19 @@ function Booking() {
     setAvailableTimes([]);
     setAvailabilityError("");
 
-    if (!formData.appointment_date || !formData.tax_preparer) return;
-    if (isSunday(formData.appointment_date)) return;
+    if (
+      !formData.appointment_date ||
+      !formData.tax_preparer ||
+      isSunday(formData.appointment_date)
+    ) {
+      setLoadingTimes(false);
+      return undefined;
+    }
 
     if (!API_URL) {
       setAvailabilityError("Booking server is not configured.");
-      return;
+      setLoadingTimes(false);
+      return undefined;
     }
 
     const controller = new AbortController();
@@ -125,6 +130,15 @@ function Booking() {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    if (isSubmitting) return;
+
+    if (!API_URL) {
+      setStatus({
+        message: "Booking server is not configured.",
+        type: "error",
+      });
+      return;
+    }
 
     if (!availableTimes.includes(formData.appointment_time)) {
       setStatus({
@@ -144,10 +158,12 @@ function Booking() {
         body: JSON.stringify(formData),
       });
 
-      const data = await response.json();
+      const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.message || "Something went wrong. Please try again.");
+        throw new Error(
+          data.message || "Something went wrong. Please try again."
+        );
       }
 
       setStatus({
@@ -167,169 +183,207 @@ function Booking() {
   }
 
   return (
-    <section className="section booking-section" id="booking" data-aos="fade-up">
+    <section className="section booking-section" id="booking">
       <div className="container">
         <div className="booking-heading">
           <p className="eyebrow">Schedule Your Visit</p>
           <h2 className="h2-sub">Book Your Appointment</h2>
           <p className="section-text">
-            Fill out the form below, choose your service and preferred
-            preparer, and we will contact you to confirm your appointment.
+            Choose your service, preferred preparer, and an available time.
+            Our team will follow up about your request.
           </p>
         </div>
 
-        <div className="booking-top-card card">
-          <div className="booking-card-icon">
-            <FaCloudUploadAlt />
-          </div>
+        <div className="booking-top-card" id="irs-links">
+          <span className="booking-card-icon">
+            <FaCloudUploadAlt aria-hidden="true" />
+          </span>
           <h3>Secure Document Upload Portal</h3>
           <p>
-            Clients can safely upload tax documents, download completed files,
-            and share information with our office using the secure CCH iFirm
-            portal.
-          </p>
-          <p>
-            You can upload W-2s, 1099s, IDs, proof of address, direct deposit
-            information, and other requested documents.
-          </p>
-          <p>
-            If you need portal access, please contact our office first so we
-            can send you the secure upload link.
+            Use the secure CCH iFirm portal to share requested tax documents
+            with our office. Contact us if you need help getting portal access.
           </p>
           <p className="booking-inline-contact">
-            <FaPhoneAlt /> <a href="tel:9733272340">(973) 327-2340</a>
+            <FaPhoneAlt aria-hidden="true" />
+            <a href="tel:+19733272340">(973) 327-2340</a>
           </p>
-          <a
-            href="https://dpsprofessionaltaxservices.cchifirm.us/2/login/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="btn"
-          >
-            Open Secure CCH iFirm Portal
-          </a>
+          <div className="booking-portal-actions">
+            <a
+              href="https://dpsprofessionaltaxservices.cchifirm.us/2/login/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="booking-portal-link"
+            >
+              Open Secure CCH iFirm Portal
+              <FaExternalLinkAlt aria-hidden="true" />
+            </a>
+            <a
+              href="https://www.irs.gov/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="booking-portal-link booking-portal-link-secondary"
+            >
+              Visit the Official IRS Website
+              <FaExternalLinkAlt aria-hidden="true" />
+            </a>
+          </div>
         </div>
 
-        <form className="contact-form booking-form" onSubmit={handleSubmit}>
+        <form className="booking-form" onSubmit={handleSubmit}>
+          <div className="booking-form-title">
+            <FaCalendarAlt aria-hidden="true" />
+            <h3>Appointment Request</h3>
+          </div>
+
           <div className="name-row">
-            <input
-              type="text"
-              name="first_name"
-              placeholder="First Name"
+            <div className="booking-field">
+              <label htmlFor="booking-first-name">First Name</label>
+              <input
+                id="booking-first-name"
+                type="text"
+                name="first_name"
+                autoComplete="given-name"
+                required
+                value={formData.first_name}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="booking-field">
+              <label htmlFor="booking-last-name">Last Name</label>
+              <input
+                id="booking-last-name"
+                type="text"
+                name="last_name"
+                autoComplete="family-name"
+                required
+                value={formData.last_name}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div className="name-row">
+            <div className="booking-field">
+              <label htmlFor="booking-phone">Phone Number</label>
+              <input
+                id="booking-phone"
+                type="tel"
+                name="phone"
+                autoComplete="tel"
+                required
+                value={formData.phone}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="booking-field">
+              <label htmlFor="booking-email">Email Address</label>
+              <input
+                id="booking-email"
+                type="email"
+                name="email"
+                autoComplete="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </div>
+          </div>
+
+          <div className="name-row">
+            <div className="booking-field">
+              <label htmlFor="service-select">Service</label>
+              <select
+                id="service-select"
+                name="service"
+                required
+                value={formData.service}
+                onChange={handleChange}
+              >
+                <option value="">Select a Service</option>
+                <option value="Tax Preparation">Tax Preparation</option>
+                <option value="Copy & Fax Services">Copy &amp; Fax Services</option>
+                <option value="Notary Public">Notary Public</option>
+                <option value="Translation Services">Translation Services</option>
+              </select>
+            </div>
+            <div className="booking-field">
+              <label htmlFor="preparer-select">Preferred Preparer</label>
+              <select
+                id="preparer-select"
+                name="tax_preparer"
+                required
+                value={formData.tax_preparer}
+                onChange={handleChange}
+              >
+                <option value="">Select a Preparer</option>
+                <option value="Pierre Polidor">Pierre Polidor</option>
+                <option value="Dalia Pierre">Dalia Pierre</option>
+                <option value="Severe Jacquet">Severe Jacquet</option>
+                <option value="Jean P Cifrant">Jean P Cifrant</option>
+                <option value="Ricot Casimir">Ricot Casimir</option>
+              </select>
+            </div>
+          </div>
+
+          <div className="booking-field">
+            <label htmlFor="visit-format">How would you like to meet?</label>
+            <select
+              id="visit-format"
+              name="visit_format"
               required
-              value={formData.first_name}
+              value={formData.visit_format}
               onChange={handleChange}
-            />
-            <input
-              type="text"
-              name="last_name"
-              placeholder="Last Name"
-              required
-              value={formData.last_name}
-              onChange={handleChange}
-            />
+            >
+              <option value="">Select how you’ll meet</option>
+              <option value="in_person">In person</option>
+              <option value="phone">Over the phone</option>
+              <option value="virtual">Virtual/online</option>
+            </select>
           </div>
 
-          <input
-            type="tel"
-            name="phone"
-            placeholder="Phone Number"
-            required
-            value={formData.phone}
-            onChange={handleChange}
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email Address"
-            required
-            value={formData.email}
-            onChange={handleChange}
-          />
-
-          <select
-            id="service-select"
-            name="service"
-            required
-            value={formData.service}
-            onChange={handleChange}
-          >
-            <option value="">Select a Service</option>
-            <option value="Tax Preparation">Tax Preparation</option>
-            <option value="Copy & Fax Services">Copy & Fax Services</option>
-            <option value="Notary Public">Notary Public</option>
-            <option value="Translation Services">Translation Services</option>
-          </select>
-
-          <select
-            id="preparer-select"
-            name="tax_preparer"
-            required
-            value={formData.tax_preparer}
-            onChange={handleChange}
-          >
-            <option value="">Select a Preparer</option>
-            <option value="Pierre Polidor">Pierre Polidor</option>
-            <option value="Dalia Pierre">Dalia Pierre</option>
-            <option value="Severe Jacquet">Severe Jacquet</option>
-            <option value="Jean P Cifrant">Jean P Cifrant</option>
-            <option value="Ricot Casimir">Ricot Casimir</option>
-          </select>
-
-          <label htmlFor="visit-format" className="booking-label">
-            How would you like to meet
-          </label>
-          <select
-            id="visit-format"
-            name="visit_format"
-            required
-            value={formData.visit_format}
-            onChange={handleChange}
-          >
-            <option value="">Select how you’ll meet</option>
-            <option value="in_person">In person</option>
-            <option value="phone">Over the phone</option>
-            <option value="virtual">Virtual/online</option>
-          </select>
-
-          <div className="booking-label">
-            <FaCalendarAlt />
-            <label htmlFor="appointment-date">Preferred Date</label>
+          <div className="name-row">
+            <div className="booking-field">
+              <label htmlFor="appointment-date">
+                <FaCalendarAlt aria-hidden="true" /> Preferred Date
+              </label>
+              <input
+                id="appointment-date"
+                type="date"
+                name="appointment_date"
+                required
+                min={new Date().toLocaleDateString("en-CA")}
+                value={formData.appointment_date}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="booking-field">
+              <label htmlFor="appointment-time">
+                <FaClock aria-hidden="true" /> Preferred Time
+              </label>
+              <select
+                id="appointment-time"
+                name="appointment_time"
+                required
+                value={formData.appointment_time}
+                onChange={handleChange}
+                disabled={
+                  loadingTimes ||
+                  !formData.appointment_date ||
+                  !formData.tax_preparer ||
+                  isSunday(formData.appointment_date)
+                }
+              >
+                <option value="">
+                  {loadingTimes ? "Loading times..." : "Select a Time"}
+                </option>
+                {availableTimes.map((time) => (
+                  <option key={time} value={time}>
+                    {time}
+                  </option>
+                ))}
+              </select>
+            </div>
           </div>
-          <input
-            id="appointment-date"
-            type="date"
-            name="appointment_date"
-            required
-            value={formData.appointment_date}
-            onChange={handleChange}
-          />
-
-          <div className="booking-label">
-            <FaClock />
-            <label htmlFor="appointment-time">Preferred Time</label>
-          </div>
-          <select
-            id="appointment-time"
-            name="appointment_time"
-            required
-            value={formData.appointment_time}
-            onChange={handleChange}
-            disabled={
-              loadingTimes ||
-              !formData.appointment_date ||
-              !formData.tax_preparer ||
-              isSunday(formData.appointment_date)
-            }
-          >
-            <option value="">
-              {loadingTimes ? "Loading times..." : "Select a Time"}
-            </option>
-            {availableTimes.map((time) => (
-              <option key={time} value={time}>
-                {time}
-              </option>
-            ))}
-          </select>
 
           {availabilityError && (
             <p className="form-status error" role="alert">
@@ -339,10 +393,8 @@ function Booking() {
 
           {isSunday(formData.appointment_date) && (
             <div className="sunday-note">
-              <p>Sunday is by appointment only. Please call our office to schedule.</p>
-              <a href="tel:9733272340" className="btn btn-outline-light">
-                <FaPhoneAlt /> <span>Call the Office</span>
-              </a>
+              <p>Sunday appointments must be scheduled by phone.</p>
+              <a href="tel:+19733272340">Call (973) 327-2340</a>
             </div>
           )}
 
@@ -353,48 +405,54 @@ function Booking() {
             !availabilityError &&
             availableTimes.length === 0 && (
               <p className="form-status error">
-                No appointment times are currently available for this date
-                and preparer.
+                No times are currently available for this date and preparer.
               </p>
             )}
 
-          <textarea
-            name="message"
-            placeholder="Write any questions or details here"
-            value={formData.message}
-            onChange={handleChange}
-          />
-<a
-  href="https://www.irs.gov/"
-  target="_blank"
-  rel="noopener noreferrer"
-  className="btn btn-outline-light"
->
-  Visit the Official IRS Website
-</a>
-
-          <p className="form-note">
-            <strong>Important Security Notice:</strong> For your privacy and
-            protection, do not submit <strong>Social Security numbers</strong>,
-            <strong> tax IDs</strong>, <strong>banking details</strong>,
-            <strong> driver’s license numbers</strong>, or other{" "}
-            <strong>sensitive tax documents</strong> through this form. Please
-            use our secure <strong>CCH iFirm portal</strong> for document
-            uploads.
-          </p>
+          <div className="booking-field">
+            <label htmlFor="booking-message">Questions or details (optional)</label>
+            <textarea
+              id="booking-message"
+              name="message"
+              placeholder="Tell us anything helpful for your appointment"
+              value={formData.message}
+              onChange={handleChange}
+            />
+          </div>
 
           <button
             type="submit"
-            className="btn booking-submit-btn"
+            className="booking-submit-btn"
             disabled={isSubmitting || loadingTimes}
           >
             {isSubmitting ? "Sending..." : "Book Your Appointment"}
           </button>
 
           {status.message && (
-            <p className={`form-status ${status.type}`}>{status.message}</p>
+            <p
+              className={`form-status ${status.type}`}
+              role="status"
+              aria-live="polite"
+            >
+              {status.message}
+            </p>
           )}
+
+          <div className="booking-security-note">
+            <FaShieldAlt aria-hidden="true" />
+            <p>
+              <strong>Important Security Notice:</strong> Do not enter Social
+              Security numbers, tax IDs, banking details, driver’s license
+              numbers, or tax documents in this form. Use the secure CCH iFirm
+              portal above for document uploads.
+            </p>
+          </div>
         </form>
+
+        <div className="booking-help">
+          <p>Need help choosing a service or preparing for your visit?</p>
+          <Link to="/faq">See What to Bring &amp; FAQ</Link>
+        </div>
       </div>
     </section>
   );

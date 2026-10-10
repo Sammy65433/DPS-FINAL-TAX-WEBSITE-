@@ -1,4 +1,22 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+
+const contactPhotos = [
+  { src: "/client-all.jpg", alt: "DPS clients and community" },
+  { src: "/purpose-2.jpg", alt: "Client service" },
+  { src: "/notary-1.jpg", alt: "Notary service" },
+  { src: "/tax-prep1.jpg", alt: "Tax preparation consultation" },
+  { src: "/wespeakallflags.jpg", alt: "Multilingual support" },
+  { src: "/trusted-com1.jpg", alt: "Client support" },
+  { src: "/transla2.jpg", alt: "Document preparation" },
+  { src: "/tax-prep2.jpg", alt: "Tax preparation" },
+  { src: "/client-spanish3.jpg", alt: "Client portrait" },
+  { src: "/client4.jpg", alt: "Client portrait" },
+  { src: "/client5.jpg", alt: "Client portrait" },
+  { src: "/client-blk1.jpg", alt: "Client portrait" },
+  { src: "/client-blk2.jpg", alt: "Client portrait" },
+  { src: "/client-blk3.jpg", alt: "Client portrait" },
+];
 
 const initialForm = {
   name: "",
@@ -10,9 +28,25 @@ const initialForm = {
 };
 
 function Contact() {
+  const [activePhoto, setActivePhoto] = useState(0);
   const [form, setForm] = useState(initialForm);
   const [status, setStatus] = useState({ type: "", text: "" });
   const [submitting, setSubmitting] = useState(false);
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActivePhoto((current) => (current + 1) % contactPhotos.length);
+    }, 5000);
+
+    return () => window.clearInterval(timer);
+  }, []);
+
+  function changePhoto(direction) {
+    setActivePhoto(
+      (current) =>
+        (current + direction + contactPhotos.length) % contactPhotos.length
+    );
+  }
 
   function handleChange(event) {
     const { name, value } = event.target;
@@ -65,7 +99,7 @@ function Contact() {
         </div>
 
         <div className="contact-layout">
-          <div className="contact-visual" data-aos="fade-right">
+          <div className="contact-visual">
             <div className="contact-brand-box">
               <img
                 src="/DPS-LOGO1.png"
@@ -78,16 +112,57 @@ function Contact() {
               </strong>
             </div>
 
-            <img
-              src="/client-all.jpg"
-              alt="DPS Professional Tax Services clients"
-              className="contact-photo"
-              loading="lazy"
-            />
+            <div
+              className="contact-slideshow"
+              aria-label="DPS photo gallery"
+              aria-roledescription="carousel"
+            >
+              {contactPhotos.map((photo, index) => (
+                <img
+                  key={photo.src}
+                  src={photo.src}
+                  alt={index === activePhoto ? photo.alt : ""}
+                  aria-hidden={index !== activePhoto}
+                  className={`contact-slide-image${
+                    index === activePhoto ? " is-active" : ""
+                  }`}
+                  loading={index === 0 ? "eager" : "lazy"}
+                />
+              ))}
 
+              <button
+                type="button"
+                className="contact-slide-arrow contact-slide-arrow-prev"
+                onClick={() => changePhoto(-1)}
+                aria-label="Previous photo"
+              >
+                <FaChevronLeft aria-hidden="true" />
+              </button>
+              <button
+                type="button"
+                className="contact-slide-arrow contact-slide-arrow-next"
+                onClick={() => changePhoto(1)}
+                aria-label="Next photo"
+              >
+                <FaChevronRight aria-hidden="true" />
+              </button>
+
+              <div className="contact-slide-dots" aria-label="Choose photo">
+                {contactPhotos.map((photo, index) => (
+                  <button
+                    key={photo.src}
+                    type="button"
+                    className={index === activePhoto ? "active" : ""}
+                    onClick={() => setActivePhoto(index)}
+                    aria-label={`Show photo ${index + 1}`}
+                    aria-current={index === activePhoto ? "true" : undefined}
+                  />
+                ))}
+              </div>
+            </div>
           </div>
 
-          <div className="contact-form-card" data-aos="fade-up">
+          <div className="contact-form-card">
             <h3>Send Us a Message</h3>
             <p className="contact-form-intro">
               Have a general question? Send us a note and we’ll get back to you.
@@ -107,7 +182,6 @@ function Contact() {
                     required
                   />
                 </div>
-
                 <div className="contact-field">
                   <label htmlFor="contact-email">Email</label>
                   <input
@@ -136,7 +210,6 @@ function Contact() {
                     maxLength={30}
                   />
                 </div>
-
                 <div className="contact-field">
                   <label htmlFor="contact-subject">Subject</label>
                   <select
@@ -197,18 +270,14 @@ function Contact() {
                 </p>
               )}
 
-              <button
-                className="contact-submit"
-                type="submit"
-                disabled={submitting}
-              >
+              <button className="contact-submit" type="submit" disabled={submitting}>
                 {submitting ? "Sending..." : "Send Message"}
               </button>
             </form>
           </div>
         </div>
 
-        <div className="map-embed" data-aos="fade-up">
+        <div className="map-embed">
           <iframe
             src="https://www.google.com/maps?q=1811+Springfield+Ave+Maplewood+NJ+07040&output=embed"
             width="100%"
