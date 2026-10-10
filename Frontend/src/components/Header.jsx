@@ -47,7 +47,11 @@ function Header() {
             aria-controls="site-navigation"
             onClick={() => setMenuOpen((open) => !open)}
           >
-            {menuOpen ? <FaTimes aria-hidden="true" /> : <FaBars aria-hidden="true" />}
+            {menuOpen ? (
+              <FaTimes aria-hidden="true" />
+            ) : (
+              <FaBars aria-hidden="true" />
+            )}
             <span>Menu</span>
           </button>
         </div>
@@ -73,12 +77,16 @@ function Header() {
               onClick={() => toggleDropdown("about")}
             >
               About
-              <FaChevronDown aria-hidden="true" className={aboutOpen ? "caret-open" : ""} />
+              <FaChevronDown
+                aria-hidden="true"
+                className={aboutOpen ? "caret-open" : ""}
+              />
             </button>
             {aboutOpen && (
               <div className="simple-dropdown-menu">
                 <Link to="/about" onClick={closeMenu}>About Us</Link>
                 <Link to="/purpose" onClick={closeMenu}>Our Purpose</Link>
+                <Link to="/moments" onClick={closeMenu}>Moments</Link>
               </div>
             )}
           </div>
@@ -91,7 +99,10 @@ function Header() {
               onClick={() => toggleDropdown("services")}
             >
               Services
-              <FaChevronDown aria-hidden="true" className={servicesOpen ? "caret-open" : ""} />
+              <FaChevronDown
+                aria-hidden="true"
+                className={servicesOpen ? "caret-open" : ""}
+              />
             </button>
             {servicesOpen && (
               <div className="simple-dropdown-menu">
@@ -99,11 +110,19 @@ function Header() {
                 <Link to="/tax-preparation" onClick={closeMenu}>Tax Preparation</Link>
                 <Link to="/notary" onClick={closeMenu}>Notary Public</Link>
                 <Link to="/translation" onClick={closeMenu}>Translation</Link>
-                <Link to="/immigration" onClick={closeMenu}>Form Preparation Support</Link>
+                <Link to="/immigration" onClick={closeMenu}>
+                  Form Preparation Support
+                </Link>
                 <Link to="/copy-fax" onClick={closeMenu}>Copy &amp; Fax</Link>
-                <Link to="/insurance-services" onClick={closeMenu}>Insurance Services</Link>
-                <Link to="/business-services" onClick={closeMenu}>Business Services</Link>
-                <Link to="/real-estate-booking" onClick={closeMenu}>Real Estate</Link>
+                <Link to="/insurance-services" onClick={closeMenu}>
+                  Insurance Services
+                </Link>
+                <Link to="/business-services" onClick={closeMenu}>
+                  Business Services
+                </Link>
+                <Link to="/real-estate-booking" onClick={closeMenu}>
+                  Real Estate
+                </Link>
               </div>
             )}
           </div>
@@ -124,20 +143,32 @@ function Header() {
               onClick={() => toggleDropdown("resources")}
             >
               Resources
-              <FaChevronDown aria-hidden="true" className={resourcesOpen ? "caret-open" : ""} />
+              <FaChevronDown
+                aria-hidden="true"
+                className={resourcesOpen ? "caret-open" : ""}
+              />
             </button>
             {resourcesOpen && (
               <div className="simple-dropdown-menu">
-                <Link to="/faq" onClick={closeMenu}>What to Bring &amp; FAQ</Link>
-                <Link to="/taxpayer-resources" onClick={closeMenu}>Taxpayer Resources</Link>
-                <Link to="/moments" onClick={closeMenu}>Moments</Link>
-                <Link to="/client-feedback" onClick={closeMenu}>Client Feedback</Link>
+                <Link to="/faq" onClick={closeMenu}>
+                  What to Bring &amp; FAQ
+                </Link>
+                <Link to="/taxpayer-resources" onClick={closeMenu}>
+                  Taxpayer Resources
+                </Link>
+                <Link to="/client-feedback" onClick={closeMenu}>
+                  Client Feedback
+                </Link>
               </div>
             )}
           </div>
 
-          <Link to="/booking" onClick={closeMenu}>Book Appointment</Link>
-          <Link to="/contact" onClick={closeMenu}>Contact Us</Link>
+          <Link to="/booking" onClick={closeMenu}>
+            Book Appointment
+          </Link>
+          <Link to="/contact" onClick={closeMenu}>
+            Contact Us
+          </Link>
         </nav>
       </div>
     </header>

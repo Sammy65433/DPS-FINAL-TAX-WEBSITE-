@@ -1,136 +1,155 @@
-import Layout from "../components/Layout";
+import { Link } from "react-router-dom";
 import {
-  FaStamp,
-  FaFileSignature,
-  FaUserCheck,
   FaBriefcase,
+  FaCalendarCheck,
   FaCheckCircle,
   FaClipboardCheck,
+  FaEnvelope,
+  FaFileSignature,
+  FaStamp,
+  FaUserCheck,
 } from "react-icons/fa";
+import Layout from "../components/Layout";
+
+const photos = [
+  { src: "/notaary4.jpg", alt: "Notary services at DPS" },
+  { src: "/notary2.jpg", alt: "Documents prepared for signing" },
+  { src: "/walk-ins1.jpg", alt: "In-office client support" },
+];
+
+const notaryServices = [
+  "Personal document notarization",
+  "Business document notarization",
+  "Signature witnessing, when applicable",
+  "In-office notary appointments",
+  "Preparing for a notary visit",
+];
 
 function Notary() {
   return (
     <Layout>
-      <section className="section notary-page-section">
+      <main className="section notary-page-section">
         <div className="container notary-page">
           <div className="notary-hero-card">
-            <div className="notary-text">
-              <p className="eyebrow">Our Services</p>
-              <h1>Notary Services</h1>
-              <p className="section-text">
-                DPS Professional Tax Services offers professional notary support
-                for clients who need important documents witnessed, signed, and
-                notarized properly. We help make the process simple, reliable,
-                and convenient.
-              </p>
+            <p className="eyebrow">DPS Services</p>
+            <h1>Notary Services</h1>
+            <p>
+              Important documents deserve careful attention. DPS Professional
+              Tax Services offers notary services for clients who need their
+              signatures notarized in a professional, welcoming setting.
+              Contact us to confirm availability and the requirements for
+              your document before visiting.
+            </p>
 
-              <div className="notary-hero-badges">
-                <span className="notary-badge">
-                  <FaStamp />
-                  Trusted Notary Support
-                </span>
-                <span className="notary-badge">
-                  <FaFileSignature />
-                  Important Documents
-                </span>
-                <span className="notary-badge">
-                  <FaUserCheck />
-                  Professional Service
-                </span>
-              </div>
+            <div className="notary-hero-badges">
+              <span className="notary-badge">
+                <FaStamp aria-hidden="true" /> Notary Support
+              </span>
+              <span className="notary-badge">
+                <FaFileSignature aria-hidden="true" /> Important Documents
+              </span>
+              <span className="notary-badge">
+                <FaUserCheck aria-hidden="true" /> Personal Service
+              </span>
             </div>
           </div>
 
           <div className="notary-image-row">
-            <img
-              src="/notaary4.jpg"
-              alt="Notary services"
-              className="notary-page-image"
-            />
-            <img
-              src="/notary2.jpg"
-              alt="Document signing"
-              className="notary-page-image"
-            />
-            <img
-              src="/walk-ins1.jpg"
-              alt="Client service support"
-              className="notary-page-image"
-            />
+            {photos.map(({ src, alt }) => (
+              <div className="notary-image-card" key={src}>
+                <img src={src} alt={alt} loading="lazy" />
+              </div>
+            ))}
           </div>
 
-          <div className="service-content notary-content-card">
-            <div className="notary-section-block">
+          <div className="notary-info-grid">
+            <article className="notary-info-card">
               <div className="notary-block-title">
-                <FaClipboardCheck />
+                <FaClipboardCheck aria-hidden="true" />
                 <h2>What We Help With</h2>
               </div>
-
               <p>
-                We assist clients who need documents notarized for personal,
-                legal, business, or financial purposes. Our goal is to provide a
-                smooth and professional experience while helping clients complete
-                the required steps correctly.
+                We assist with documents that require a notarial act, such as
+                verifying the identity of a signer and completing the
+                appropriate notarial certificate. Requirements depend on the
+                document and the type of notarization requested.
               </p>
-
               <p>
-                We understand that notarized documents are often time-sensitive,
-                so we focus on making the process efficient while maintaining
-                accuracy, professionalism, and clear communication throughout the
-                visit.
+                If you’re unsure what your document needs, ask the organization
+                requesting it which notarial act is required before your visit.
               </p>
-            </div>
+            </article>
 
-            <div className="notary-section-block">
+            <article className="notary-info-card">
               <div className="notary-block-title">
-                <FaStamp />
-                <h2>Types of Notary Support</h2>
+                <FaStamp aria-hidden="true" />
+                <h2>Notary Services</h2>
               </div>
-
               <ul className="notary-list">
-                <li>
-                  <FaCheckCircle />
-                  <span>Personal document notarization</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Business-related document notarization</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Forms requiring signatures and witness verification</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>General support for official paperwork</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Convenient in-office service for clients</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Guidance on preparing documents before notarization</span>
-                </li>
+                {notaryServices.map((service) => (
+                  <li key={service}>
+                    <FaCheckCircle aria-hidden="true" />
+                    <span>{service}</span>
+                  </li>
+                ))}
               </ul>
-            </div>
+            </article>
 
-            <div className="notary-section-block">
+            <article className="notary-info-card">
               <div className="notary-block-title">
-                <FaBriefcase />
+                <FaFileSignature aria-hidden="true" />
+                <h2>Before Your Visit</h2>
+              </div>
+              <p>
+                Bring the document to be notarized and a current, acceptable
+                photo ID. Everyone whose signature must be notarized should
+                be present. Wait to sign until the notary advises you, and
+                bring any required witnesses if the document calls for them.
+              </p>
+              <p>
+                Please call ahead if you have questions about witnesses,
+                identification, or mobile service availability.
+              </p>
+            </article>
+
+            <article className="notary-info-card">
+              <div className="notary-block-title">
+                <FaBriefcase aria-hidden="true" />
                 <h2>Why Clients Choose DPS</h2>
               </div>
-
               <p>
-                Clients choose DPS for notary services because we provide
-                dependable, professional support in a welcoming environment. We
-                help clients feel prepared, informed, and confident when handling
-                important paperwork.
+                We aim to make your visit straightforward, respectful, and
+                efficient. Our team can explain the notary appointment process
+                and help you prepare for your visit.
               </p>
+              <p>
+                A notary verifies required facts for a notarial act; they
+                cannot provide legal advice or decide which notarization
+                your document requires.
+              </p>
+            </article>
+          </div>
+
+          <div className="notary-cta">
+            <div>
+              <h2>Ready to Visit?</h2>
+              <p>
+                Check pricing, book an appointment, or contact DPS with a
+                question about availability.
+              </p>
+            </div>
+            <div className="notary-cta-actions">
+              <Link to="/pricing">View Pricing</Link>
+              <Link to="/booking">
+                <FaCalendarCheck aria-hidden="true" /> Book Appointment
+              </Link>
+              <Link to="/contact">
+                <FaEnvelope aria-hidden="true" /> Contact Us
+              </Link>
             </div>
           </div>
         </div>
-      </section>
+      </main>
     </Layout>
   );
 }

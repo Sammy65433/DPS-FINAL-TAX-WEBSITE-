@@ -44,9 +44,10 @@ function Hero() {
           </Link>
 
           <Link
-            to="/taxpayer-resources"
+            to="/faq"
             className="hero-quick-link hero-quick-link-green"
           >
+
             <FaBookOpen aria-hidden="true" />
             <span>Resources</span>
             <FaArrowCircleRight className="hero-quick-arrow" aria-hidden="true" />
@@ -58,10 +59,10 @@ function Hero() {
             <FaArrowCircleRight className="hero-quick-arrow" aria-hidden="true" />
           </Link>
           <a href="tel:+19733272340" className="hero-quick-link hero-quick-link-call">
-  <FaPhoneAlt aria-hidden="true" />
-  <span>Call the Office</span>
-  <FaArrowCircleRight className="hero-quick-arrow" aria-hidden="true" />
-</a>
+            <FaPhoneAlt aria-hidden="true" />
+            <span>Call the Office</span>
+            <FaArrowCircleRight className="hero-quick-arrow" aria-hidden="true" />
+          </a>
 
         </nav>
       </div>

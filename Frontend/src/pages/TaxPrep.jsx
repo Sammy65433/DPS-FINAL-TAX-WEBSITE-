@@ -1,162 +1,156 @@
-import Layout from "../components/Layout";
+import { Link } from "react-router-dom";
 import {
+  FaBriefcase,
+  FaCalendarCheck,
+  FaCheckCircle,
+  FaEnvelope,
+  FaFileAlt,
   FaFileInvoiceDollar,
   FaFolderOpen,
-  FaUserCheck,
-  FaBriefcase,
-  FaCheckCircle,
   FaShieldAlt,
+  FaUserCheck,
 } from "react-icons/fa";
+import Layout from "../components/Layout";
+
+const taxTypes = [
+  "Individual tax returns",
+  "Joint and family tax filing",
+  "Self-employed and independent contractor returns",
+  "Small-business tax preparation",
+  "Business filing consultations",
+  "Organizing common income documents and records",
+];
+
+const photos = [
+  { src: "/tax-prep-hands.jpg", alt: "Clients discussing tax preparation" },
+  { src: "/tax-prep-people.jpg", alt: "Professional tax preparation support" },
+  { src: "/tax-prep1.jpg", alt: "Tax preparation consultation" },
+];
 
 function TaxPrep() {
   return (
     <Layout>
-      <section className="section taxprep-page-section">
+      <main className="section taxprep-page-section">
         <div className="container taxprep-page">
           <div className="taxprep-hero-card">
-            <div className="taxprep-text">
-              <p className="eyebrow">DPS Services</p>
-              <h1>Tax Preparation</h1>
-              <p className="section-text">
-                DPS Professional Tax Services provides reliable and professional
-                tax preparation support for individuals, families, self-employed
-                professionals, and small businesses. We help clients understand
-                their filing requirements, organize their documents, and complete
-                the tax filing process with confidence and peace of mind.
-              </p>
+            <p className="eyebrow">DPS Services</p>
+            <h1>Tax Preparation</h1>
+            <p>
+              Tax season can bring questions about income, documents, and
+              deadlines. DPS Professional Tax Services helps individuals,
+              families, self-employed professionals, and businesses prepare
+              their returns with clear communication and personal attention.
+            </p>
 
-              <div className="taxprep-hero-badges">
-                <span className="taxprep-badge">
-                  <FaUserCheck />
-                  Personal Support
-                </span>
-                <span className="taxprep-badge">
-                  <FaBriefcase />
-                  Business Filing Help
-                </span>
-                <span className="taxprep-badge">
-                  <FaShieldAlt />
-                  Trusted Guidance
-                </span>
-              </div>
+            <div className="taxprep-hero-badges">
+              <span className="taxprep-badge">
+                <FaUserCheck aria-hidden="true" /> Personal Support
+              </span>
+              <span className="taxprep-badge">
+                <FaBriefcase aria-hidden="true" /> Business Filing Help
+              </span>
+              <span className="taxprep-badge">
+                <FaShieldAlt aria-hidden="true" /> Clear Next Steps
+              </span>
             </div>
           </div>
 
           <div className="taxprep-image-row">
-            <img
-              src="/tax-prep-hands.jpg"
-              alt="Clients receiving tax preparation support"
-              className="taxprep-page-image"
-            />
-            <img
-              src="/tax-prep-people.jpg"
-              alt="Professional tax preparation support"
-              className="taxprep-page-image"
-            />
-            <img
-              src="/tax-prep1.jpg"
-              alt="Tax preparation consultation"
-              className="taxprep-page-image"
-            />
+            {photos.map(({ src, alt }) => (
+              <div className="taxprep-image-card" key={src}>
+                <img src={src} alt={alt} loading="lazy" />
+              </div>
+            ))}
           </div>
 
-          <div className="service-content taxprep-content-card">
-            <div className="taxprep-section-block">
+          <div className="taxprep-info-grid">
+            <article className="taxprep-info-card">
               <div className="taxprep-block-title">
-                <FaFolderOpen />
+                <FaFolderOpen aria-hidden="true" />
                 <h2>What We Help With</h2>
               </div>
-
               <p>
-                We support clients through every stage of the tax preparation
-                process. That includes helping gather the right paperwork,
-                reviewing income documents, preparing returns accurately, and
-                making sure clients feel informed throughout the process.
+                We help you identify the records relevant to your return,
+                review the information you bring, and talk through the filing
+                process. If your situation involves multiple income sources
+                or business activity, we can discuss what additional details
+                may be needed.
               </p>
-
               <p>
-                Whether someone is filing a straightforward return or has a more
-                detailed financial situation, we focus on providing organized,
-                dependable support. Our goal is to make tax season feel less
-                stressful, more manageable, and easier to understand.
+                Our goal is to make the process more organized and easier to
+                understand, so you know what to expect at each step.
               </p>
-            </div>
+            </article>
 
-            <div className="taxprep-section-block">
+            <article className="taxprep-info-card">
               <div className="taxprep-block-title">
-                <FaFileInvoiceDollar />
+                <FaFileInvoiceDollar aria-hidden="true" />
                 <h2>Types of Tax Preparation</h2>
               </div>
-
               <ul className="taxprep-list">
-                <li>
-                  <FaCheckCircle />
-                  <span>Individual tax returns</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Joint and family tax filing</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Self-employed and independent contractor tax preparation</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Small business tax preparation</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Large business tax preparation</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Basic support with organizing tax documents</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>General yearly filing support</span>
-                </li>
-                <li>
-                  <FaCheckCircle />
-                  <span>Assistance with common income tax forms and paperwork</span>
-                </li>
+                {taxTypes.map((type) => (
+                  <li key={type}>
+                    <FaCheckCircle aria-hidden="true" />
+                    <span>{type}</span>
+                  </li>
+                ))}
               </ul>
-            </div>
+            </article>
 
-            <div className="taxprep-section-block">
+            <article className="taxprep-info-card">
               <div className="taxprep-block-title">
-                <FaBriefcase />
+                <FaBriefcase aria-hidden="true" />
                 <h2>Business Tax Support</h2>
               </div>
-
               <p>
-                For business owners and self-employed clients, we provide support
-                with organizing business-related tax information and preparing
-                filings that reflect their work accurately. We understand that
-                business taxes can involve more moving pieces, so we help make the
-                process clearer and more efficient for entrepreneurs and small
-                business operators.
+                For business owners and independent contractors, preparation
+                starts with organized income and expense records. We can help
+                you understand which business information to bring and discuss
+                the filing services relevant to your situation.
+              </p>
+              <Link to="/business-services" className="taxprep-text-link">
+                Explore Business Services →
+              </Link>
+            </article>
+
+            <article className="taxprep-info-card">
+              <div className="taxprep-block-title">
+                <FaUserCheck aria-hidden="true" />
+                <h2>What to Expect at DPS</h2>
+              </div>
+              <p>
+                We focus on listening to your questions, explaining the
+                documents needed, and providing a respectful, professional
+                experience. Before your visit, review our document checklist
+                so you can arrive prepared.
+              </p>
+              <Link to="/faq" className="taxprep-text-link">
+                <FaFileAlt aria-hidden="true" />
+                What to Bring &amp; FAQ
+              </Link>
+            </article>
+          </div>
+
+          <div className="taxprep-cta">
+            <div>
+              <h2>Ready to Get Started?</h2>
+              <p>
+                Review pricing, reserve an appointment, or contact our team
+                with a general question.
               </p>
             </div>
-
-            <div className="taxprep-section-block">
-              <div className="taxprep-block-title">
-                <FaUserCheck />
-                <h2>Why Clients Choose DPS</h2>
-              </div>
-
-              <p>
-                Clients choose DPS Professional Tax Services because we combine
-                professionalism, personal attention, and a commitment to making
-                every client feel supported. We understand that taxes can feel
-                overwhelming, so we focus on clear communication, dependable
-                service, and a process clients can trust from start to finish.
-              </p>
+            <div className="taxprep-cta-actions">
+              <Link to="/pricing">View Pricing</Link>
+              <Link to="/booking">
+                <FaCalendarCheck aria-hidden="true" /> Book Appointment
+              </Link>
+              <Link to="/contact">
+                <FaEnvelope aria-hidden="true" /> Contact Us
+              </Link>
             </div>
           </div>
         </div>
-      </section>
+      </main>
     </Layout>
   );
 }

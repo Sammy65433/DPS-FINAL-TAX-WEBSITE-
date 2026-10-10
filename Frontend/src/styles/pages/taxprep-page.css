@@ -1,224 +1,271 @@
 .taxprep-page-section {
   position: relative;
+  padding: 4.5rem 0;
   background:
-    linear-gradient(120deg, rgba(15, 92, 84, 0.7), rgba(49, 22, 97, 0.58)),
-    url("/tax-desktop.jpg");
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  overflow: hidden;
-}
-
-.taxprep-page-section::before {
-  content: "";
-  position: absolute;
-  top: -80px;
-  right: -60px;
-  width: 260px;
-  height: 260px;
-  background: radial-gradient(rgba(255, 255, 255, 0.12), transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.taxprep-page-section::after {
-  content: "";
-  position: absolute;
-  bottom: -100px;
-  left: -80px;
-  width: 300px;
-  height: 300px;
-  background: radial-gradient(rgba(109, 60, 200, 0.12), transparent 70%);
-  border-radius: 50%;
-  pointer-events: none;
+    linear-gradient(120deg, rgba(15, 92, 84, 0.78), rgba(49, 22, 97, 0.72)),
+    url("/tax-desktop.jpg") center / cover no-repeat;
 }
 
 .taxprep-page {
-  position: relative;
-  z-index: 1;
-  text-align: center;
+  max-width: 1120px;
+}
+
+.taxprep-page * {
+  box-sizing: border-box;
+}
+
+.taxprep-hero-card,
+.taxprep-image-card,
+.taxprep-info-card,
+.taxprep-cta {
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 16px 35px rgba(18, 27, 39, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
 }
 
 .taxprep-hero-card {
-  max-width: 980px;
+  max-width: 900px;
   margin: 0 auto 2rem;
-  background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.16);
-  border-radius: 28px;
-  padding: 2.5rem 2rem;
-  backdrop-filter: blur(8px);
-  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.12);
+  padding: clamp(1.5rem, 3vw, 2.5rem);
+  text-align: center;
 }
 
-.taxprep-text {
-  max-width: 820px;
-  margin: 0 auto;
-}
-
-.taxprep-text .eyebrow {
-  display: inline-block;
-  margin-bottom: 0.85rem;
-  color: #f3e8ff;
-  font-size: 0.98rem;
+.taxprep-hero-card .eyebrow {
+  margin: 0 0 0.65rem;
+  color: #f5e7c0;
+  font-size: clamp(1.4rem, 2.6vw, 1.9rem);
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
 }
 
-.taxprep-text h1 {
-  text-align: center;
-  color: #ffffff;
-  font-size: clamp(2.4rem, 5vw, 4rem);
-  line-height: 1.08;
-  font-weight: 800;
-  margin-bottom: 1rem;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+.taxprep-hero-card h1,
+.taxprep-info-card h2,
+.taxprep-cta h2 {
+  color: #fff;
+  font-family: "Libre Baskerville", Georgia, serif;
 }
 
-.taxprep-text .section-text {
+.taxprep-hero-card h1 {
+  margin: 0 0 0.85rem;
+  font-size: clamp(2.2rem, 4vw, 3.4rem);
+  line-height: 1.2;
+}
+
+.taxprep-hero-card > p:not(.eyebrow) {
   max-width: 760px;
-  margin: 0 auto 1.5rem;
-  color: #e8f5f2;
-  line-height: 1.9;
-  font-size: 1.06rem;
+  margin: 0 auto;
+  color: #edf7f5;
+  line-height: 1.75;
 }
 
 .taxprep-hero-badges {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
-  gap: 0.8rem;
-  margin-top: 1rem;
+  gap: 0.65rem;
+  margin-top: 1.4rem;
 }
 
 .taxprep-badge {
   display: inline-flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.65rem 1rem;
+  gap: 0.45rem;
+  padding: 0.6rem 0.85rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
   border-radius: 999px;
   background: rgba(255, 255, 255, 0.12);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  color: #ffffff;
+  color: #fff;
+  font-size: 0.85rem;
   font-weight: 700;
-  font-size: 0.9rem;
+}
+
+.taxprep-badge svg {
+  color: #f5d36c;
 }
 
 .taxprep-image-row {
-  display: flex;
-  justify-content: center;
-  gap: 24px;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+  max-width: 900px;
   margin: 0 auto 2rem;
 }
 
-.taxprep-page-image {
-  width: 320px;
-  height: 220px;
+.taxprep-image-card {
+  min-width: 0;
+  overflow: hidden;
+  padding: 6px;
+}
+
+.taxprep-image-card img {
+  display: block;
+  width: 100%;
+  height: 200px;
+  border-radius: 12px;
   object-fit: cover;
-  border-radius: 18px;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  box-shadow: 0 14px 32px rgba(15, 23, 42, 0.14);
-  transition: transform 0.28s ease;
+  object-position: center;
 }
 
-.taxprep-page-image:hover {
-  transform: translateY(-4px) scale(1.01);
+.taxprep-info-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  max-width: 900px;
+  margin: 0 auto 2rem;
 }
 
-.taxprep-content-card {
-  max-width: 920px;
-  margin: 0 auto;
-  text-align: left;
-  background: rgba(255, 255, 255, 0.96);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 24px;
-  padding: 2rem;
-  box-shadow: 0 18px 42px rgba(15, 23, 42, 0.12);
-}
-
-.taxprep-section-block + .taxprep-section-block {
-  margin-top: 2rem;
+.taxprep-info-card {
+  min-width: 0;
+  padding: 1.5rem;
 }
 
 .taxprep-block-title {
   display: flex;
   align-items: center;
-  gap: 0.7rem;
-  margin-bottom: 0.9rem;
+  gap: 0.65rem;
+  margin-bottom: 1rem;
 }
 
 .taxprep-block-title svg {
-  color: var(--accent);
-  font-size: 1rem;
   flex-shrink: 0;
+  color: #f5d36c;
+  font-size: 1.2rem;
 }
 
-.taxprep-block-title h2 {
+.taxprep-info-card h2 {
   margin: 0;
-  text-align: left;
-  color: var(--header);
-  font-size: 1.35rem;
-  font-weight: 800;
+  font-size: 1.3rem;
+  line-height: 1.35;
 }
 
-.taxprep-content-card p {
-  margin-bottom: 1rem;
-  line-height: 1.9;
-  color: var(--muted);
-  font-size: 0.98rem;
+.taxprep-info-card p {
+  margin: 0 0 0.85rem;
+  color: #edf7f5;
+  font-size: 0.94rem;
+  line-height: 1.75;
+}
+
+.taxprep-info-card p:last-child {
+  margin-bottom: 0;
 }
 
 .taxprep-list {
-  list-style: none;
-  padding: 0;
-  margin: 0.5rem 0 0;
   display: grid;
-  gap: 0.9rem;
+  gap: 0.65rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
 .taxprep-list li {
   display: flex;
   align-items: flex-start;
-  gap: 0.65rem;
-  line-height: 1.85;
-  color: var(--muted);
-  margin: 0;
+  gap: 0.55rem;
+  color: #edf7f5;
+  font-size: 0.94rem;
+  line-height: 1.6;
 }
 
 .taxprep-list li svg {
-  color: #14b8a6;
-  margin-top: 0.22rem;
   flex-shrink: 0;
+  margin-top: 0.25rem;
+  color: #f5d36c;
+}
+
+.taxprep-text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #f5d36c;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.taxprep-text-link:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+
+.taxprep-cta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 1.5rem;
+}
+
+.taxprep-cta h2 {
+  margin: 0 0 0.45rem;
+  font-size: 1.5rem;
+}
+
+.taxprep-cta p {
+  margin: 0;
+  color: #edf7f5;
+  line-height: 1.6;
+}
+
+.taxprep-cta-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+}
+
+.taxprep-cta-actions a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0.65rem 0.9rem;
+  border-radius: 8px;
+  background: #fff;
+  color: #4c287f;
+  font-size: 0.85rem;
+  font-weight: 800;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.taxprep-cta-actions a:hover {
+  background: #f4edff;
+}
+
+.taxprep-text-link:focus-visible,
+.taxprep-cta-actions a:focus-visible {
+  outline: 3px solid #f5d36c;
+  outline-offset: 3px;
+}
+
+@media (max-width: 850px) {
+  .taxprep-cta {
+    align-items: flex-start;
+    flex-direction: column;
+  }
 }
 
 @media (max-width: 760px) {
-  .taxprep-hero-card {
-    padding: 1.7rem 1.2rem;
+  .taxprep-page-section {
+    padding: 3.5rem 0;
   }
 
-  .taxprep-text .section-text {
-    font-size: 1rem;
-    line-height: 1.8;
+  .taxprep-image-row,
+  .taxprep-info-grid {
+    grid-template-columns: 1fr;
   }
 
-  .taxprep-page-image {
+  .taxprep-image-card img {
+    height: 220px;
+  }
+
+  .taxprep-cta-actions,
+  .taxprep-cta-actions a {
     width: 100%;
-    max-width: 340px;
-    height: 200px;
-  }
-
-  .taxprep-content-card {
-    padding: 1.4rem;
-  }
-
-  .taxprep-block-title h2 {
-    font-size: 1.12rem;
-  }
-
-  .taxprep-content-card p,
-  .taxprep-list li {
-    font-size: 0.94rem;
-    line-height: 1.8;
   }
 }
