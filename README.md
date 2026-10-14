@@ -1,4 +1,4 @@
-```md
+
 DPS Professional Tax Services Website
 
 **Live application:** https://www.dpstaxpro.com/
@@ -530,6 +530,6 @@ At this stage, the application is in deployment-ready condition pending final Re
 ## Author
 Samuel Jacquet
 DPS Professional Tax Services Website
-```
+
 Sept 1, 2026
 
