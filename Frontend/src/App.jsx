@@ -25,6 +25,12 @@ import PaymentsPage from "./pages/PaymentsPage";
 import ManageAppointment from "./pages/ManageAppointment";
 import ClientLogin from "./pages/ClientLogin";
 import ClientPortal from "./pages/ClientPortal";
+import ClientLink from "./pages/ClientLink";
+import ClientSignup from "./pages/ClientSignup";
+import LoginChoice from "./pages/LoginChoice";
+
+
+
 
 function App() {
   return (
@@ -32,8 +38,10 @@ function App() {
       <ScrollToTop />
       <Routes>
         <Route path="/client-login" element={<ClientLogin />} />
-<Route path="/client-portal" element={<ClientPortal />} />
-
+        <Route path="/client-portal" element={<ClientPortal />} />
+        <Route path="/client-link" element={<ClientLink />} />
+        <Route path="/client-signup" element={<ClientSignup />} />
+        <Route path="/login" element={<LoginChoice />} />
 
         <Route path="/" element={<HomePage />} />
         <Route path="/about" element={<AboutPage />} />

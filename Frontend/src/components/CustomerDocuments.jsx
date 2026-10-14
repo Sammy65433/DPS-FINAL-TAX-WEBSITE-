@@ -28,6 +28,7 @@ export default function CustomerDocuments() {
                 Authorization: `Bearer ${data.session.access_token}`,
             },
             signal,
+            cache: "no-store",
         });
 
         const body = await response.json().catch(() => ({}));
@@ -35,7 +36,7 @@ export default function CustomerDocuments() {
             throw new Error(body.error || "Unable to load documents.");
         }
 
-        return body.documents ?? [];
+        return Array.isArray(body.documents) ? body.documents : [];
     }, []);
 
     useEffect(() => {
@@ -115,11 +116,12 @@ export default function CustomerDocuments() {
             const items = await loadDocuments();
             setDocuments(items);
             setFile(null);
+
             if (fileInputRef.current) fileInputRef.current.value = "";
 
             setStatus({
                 type: "success",
-                message: "Dummy test file uploaded.",
+                message: "File uploaded. DPS staff can access it through your linked CRM contact.",
             });
         } catch (error) {
             setStatus({
@@ -132,11 +134,15 @@ export default function CustomerDocuments() {
     }
 
     return (
-        <section className="client-documents" aria-labelledby="client-documents-title">
+        <section
+            className="client-documents"
+            aria-labelledby="client-documents-title"
+        >
             <h2 id="client-documents-title">Your Documents</h2>
             <p>
-                This feature is in testing. Upload non-sensitive dummy files only.
-                Use CCH iFirm for real tax documents.
+                Upload non-sensitive files only. Files are not malware-scanned. Do not
+                upload tax returns, IDs, Social Security numbers, banking records, or
+                other confidential information. Use CCH iFirm for sensitive documents.
             </p>
 
             <form onSubmit={handleUpload}>
@@ -151,7 +157,7 @@ export default function CustomerDocuments() {
                     onChange={handleFileChange}
                 />
                 <button type="submit" disabled={!file || uploading}>
-                    {uploading ? "Uploading..." : "Upload Test File"}
+                    {uploading ? "Uploading..." : "Upload File"}
                 </button>
             </form>
 
@@ -167,13 +173,12 @@ export default function CustomerDocuments() {
             {loading ? (
                 <p>Loading documents...</p>
             ) : documents.length === 0 ? (
-                <p>No test documents uploaded yet.</p>
+                <p>No documents uploaded yet.</p>
             ) : (
                 <ul>
-                    {documents.map((document) => (
-                        <li key={document.id}>
-                            {document.original_name} (
-                            {Math.ceil(document.file_size / 1024)} KB)
+                    {documents.map((item) => (
+                        <li key={item.id}>
+                            {item.original_name} ({Math.ceil(item.file_size / 1024)} KB)
                         </li>
                     ))}
                 </ul>

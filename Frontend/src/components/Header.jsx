@@ -174,6 +174,16 @@ function Header() {
           <Link to="/contact" onClick={closeMenu}>
             Contact Us
           </Link>
+          
+          <Link
+            to="/login"
+            className={`header-login${location.pathname === "/login" ? " active" : ""}`}
+            onClick={closeMenu}
+          >
+            Log In
+          </Link>
+
+
         </nav>
       </div>
     </header>

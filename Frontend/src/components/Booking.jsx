@@ -122,9 +122,12 @@ function Booking() {
     setFormData((current) => ({
       ...current,
       [name]: value,
-      ...(name === "appointment_date" || name === "tax_preparer"
+      ...(name === "appointment_date" ||
+        name === "tax_preparer" ||
+        name === "duration_minutes"
         ? { appointment_time: "" }
         : {}),
+
     }));
   }
 

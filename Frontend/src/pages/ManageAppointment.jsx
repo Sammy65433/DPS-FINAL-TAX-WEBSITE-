@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
-const API_URL = import.meta.env.VITE_API_URL;
+const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
 const PREPARERS = [
     "Pierre Polidor",
@@ -18,6 +18,20 @@ const SERVICES = [
     "Translation Services",
 ];
 
+const VISIT_FORMAT_LABELS = {
+    in_person: "In person",
+    phone: "Over the phone",
+    virtual: "Virtual/online",
+};
+
+function dateKey(value) {
+    return (
+        `${value.getFullYear()}-` +
+        `${String(value.getMonth() + 1).padStart(2, "0")}-` +
+        `${String(value.getDate()).padStart(2, "0")}`
+    );
+}
+
 export default function ManageAppointment() {
     const [searchParams] = useSearchParams();
     const token = searchParams.get("token");
@@ -27,6 +41,10 @@ export default function ManageAppointment() {
     const [time, setTime] = useState("");
     const [preparer, setPreparer] = useState("");
     const [service, setService] = useState("");
+    const [visitFormat, setVisitFormat] = useState("");
+    const [duration, setDuration] = useState(30);
+    const [month, setMonth] = useState(new Date());
+
     const [availableTimes, setAvailableTimes] = useState([]);
     const [loading, setLoading] = useState(true);
     const [loadingTimes, setLoadingTimes] = useState(false);
@@ -34,41 +52,46 @@ export default function ManageAppointment() {
     const [error, setError] = useState("");
     const [message, setMessage] = useState("");
 
-    const [duration, setDuration] = useState(30);
-    const [month, setMonth] = useState(new Date());
-
+    function applyAppointment(nextAppointment) {
+        setAppointment(nextAppointment);
+        setDate(nextAppointment.appointment_date);
+        setTime(nextAppointment.appointment_time);
+        setPreparer(nextAppointment.tax_preparer);
+        setService(nextAppointment.service);
+        setVisitFormat(nextAppointment.visit_format || "");
+        setDuration(Number(nextAppointment.duration_minutes ?? 30));
+        setMonth(new Date(`${nextAppointment.appointment_date}T00:00:00`));
+    }
 
     useEffect(() => {
         if (!token || !API_URL) {
             setError("This appointment link is missing or unavailable.");
             setLoading(false);
-            return;
+            return undefined;
         }
 
         const controller = new AbortController();
 
         async function loadAppointment() {
+            setLoading(true);
+            setError("");
+
             try {
                 const response = await fetch(
                     `${API_URL}/api/appointments/manage?token=${encodeURIComponent(token)}`,
                     { signal: controller.signal }
                 );
-                const data = await response.json();
+                const data = await response.json().catch(() => ({}));
 
-                if (!response.ok) {
+                if (!response.ok || !data.appointment) {
                     throw new Error(data.message || "This link is invalid or expired.");
                 }
 
-                setAppointment(data.appointment);
-                setDate(data.appointment.appointment_date);
-                setTime(data.appointment.appointment_time);
-                setPreparer(data.appointment.tax_preparer);
-                setService(data.appointment.service);
-                setDuration(Number(data.appointment.duration_minutes ?? 30));
-                setMonth(new Date(`${data.appointment.appointment_date}T00:00:00`));
-
-            } catch (err) {
-                if (err.name !== "AbortError") setError(err.message);
+                if (!controller.signal.aborted) applyAppointment(data.appointment);
+            } catch (requestError) {
+                if (requestError.name !== "AbortError") {
+                    setError(requestError.message || "Could not load appointment.");
+                }
             } finally {
                 if (!controller.signal.aborted) setLoading(false);
             }
@@ -80,6 +103,7 @@ export default function ManageAppointment() {
 
     useEffect(() => {
         if (
+            !API_URL ||
             !token ||
             !date ||
             !preparer ||
@@ -87,7 +111,8 @@ export default function ManageAppointment() {
             !["booked", "confirmed"].includes(appointment.status)
         ) {
             setAvailableTimes([]);
-            return;
+            setLoadingTimes(false);
+            return undefined;
         }
 
         const controller = new AbortController();
@@ -108,7 +133,7 @@ export default function ManageAppointment() {
                     `${API_URL}/api/appointments/manage/availability?${params}`,
                     { signal: controller.signal }
                 );
-                const data = await response.json();
+                const data = await response.json().catch(() => ({}));
 
                 if (!response.ok || !Array.isArray(data.availableTimes)) {
                     throw new Error(data.message || "Could not load available times.");
@@ -117,8 +142,10 @@ export default function ManageAppointment() {
                 if (!controller.signal.aborted) {
                     setAvailableTimes(data.availableTimes);
                 }
-            } catch (err) {
-                if (err.name !== "AbortError") setError(err.message);
+            } catch (requestError) {
+                if (requestError.name !== "AbortError") {
+                    setError(requestError.message || "Could not load available times.");
+                }
             } finally {
                 if (!controller.signal.aborted) setLoadingTimes(false);
             }
@@ -128,8 +155,24 @@ export default function ManageAppointment() {
         return () => controller.abort();
     }, [token, date, preparer, duration, appointment?.status]);
 
-
     async function sendAction(action) {
+        if (!API_URL || !token || saving) return;
+
+        if (
+            action === "reschedule" &&
+            (!service || !visitFormat || !time || !availableTimes.includes(time))
+        ) {
+            setError("Choose an available time and meeting format.");
+            return;
+        }
+
+        if (
+            action === "cancel" &&
+            !window.confirm("Cancel this appointment?")
+        ) {
+            return;
+        }
+
         setSaving(true);
         setError("");
         setMessage("");
@@ -149,33 +192,27 @@ export default function ManageAppointment() {
                                 appointment_time: time,
                                 tax_preparer: preparer,
                                 duration_minutes: duration,
+                                visit_format: visitFormat,
                             }
-
                             : { token }
                     ),
                 }
             );
 
-            const data = await response.json();
+            const data = await response.json().catch(() => ({}));
 
-            if (!response.ok) {
+            if (!response.ok || !data.appointment) {
                 throw new Error(data.message || "Could not update appointment.");
             }
 
-            setAppointment(data.appointment);
-            setDate(data.appointment.appointment_date);
-            setTime(data.appointment.appointment_time);
-            setPreparer(data.appointment.tax_preparer);
-            setService(data.appointment.service);
-            setDuration(Number(data.appointment.duration_minutes ?? 30));
-
+            applyAppointment(data.appointment);
             setMessage(
                 action === "cancel"
                     ? "Appointment cancelled."
                     : "Appointment updated. Check your email for the new details."
             );
-        } catch (err) {
-            setError(err.message);
+        } catch (requestError) {
+            setError(requestError.message || "Could not update appointment.");
         } finally {
             setSaving(false);
         }
@@ -216,6 +253,11 @@ export default function ManageAppointment() {
                                 ["Date", appointment.appointment_date],
                                 ["Time", appointment.appointment_time],
                                 ["Length", `${appointment.duration_minutes} minutes`],
+                                [
+                                    "Meeting format",
+                                    VISIT_FORMAT_LABELS[appointment.visit_format] ||
+                                    "Not specified",
+                                ],
                                 ["Status", appointment.status],
                             ].map(([label, value]) => (
                                 <div className="manage-detail" key={label}>
@@ -246,12 +288,17 @@ export default function ManageAppointment() {
 
                                 <div className="manage-field">
                                     <label>New date</label>
-
                                     <div className="manage-month-controls">
                                         <button
                                             type="button"
                                             onClick={() =>
-                                                setMonth(new Date(month.getFullYear(), month.getMonth() - 1, 1))
+                                                setMonth(
+                                                    new Date(
+                                                        month.getFullYear(),
+                                                        month.getMonth() - 1,
+                                                        1
+                                                    )
+                                                )
                                             }
                                         >
                                             Previous
@@ -265,7 +312,13 @@ export default function ManageAppointment() {
                                         <button
                                             type="button"
                                             onClick={() =>
-                                                setMonth(new Date(month.getFullYear(), month.getMonth() + 1, 1))
+                                                setMonth(
+                                                    new Date(
+                                                        month.getFullYear(),
+                                                        month.getMonth() + 1,
+                                                        1
+                                                    )
+                                                )
                                             }
                                         >
                                             Next
@@ -273,21 +326,36 @@ export default function ManageAppointment() {
                                     </div>
 
                                     <div className="manage-calendar">
-                                        {["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"].map((name) => (
+                                        {[
+                                            "Sun",
+                                            "Mon",
+                                            "Tue",
+                                            "Wed",
+                                            "Thu",
+                                            "Fri",
+                                            "Sat",
+                                        ].map((name) => (
                                             <strong key={name}>{name}</strong>
                                         ))}
 
                                         {Array.from({ length: 42 }, (_, index) => {
-                                            const first = new Date(month.getFullYear(), month.getMonth(), 1);
-                                            const start = new Date(first);
-                                            start.setDate(1 - first.getDay() + index);
+                                            const first = new Date(
+                                                month.getFullYear(),
+                                                month.getMonth(),
+                                                1
+                                            );
+                                            const day = new Date(first);
+                                            day.setDate(1 - first.getDay() + index);
 
-                                            const value =
-                                                `${start.getFullYear()}-` +
-                                                `${String(start.getMonth() + 1).padStart(2, "0")}-` +
-                                                `${String(start.getDate()).padStart(2, "0")}`;
+                                            const value = dateKey(day);
+                                            const today = new Date();
+                                            today.setHours(0, 0, 0, 0);
 
-                                            const unavailable = start.getDay() === 0;
+                                            const unavailable =
+                                                day < today ||
+                                                day.getMonth() !== month.getMonth() ||
+                                                day.getDay() === 0;
+
 
                                             return (
                                                 <button
@@ -300,12 +368,13 @@ export default function ManageAppointment() {
                                                         setTime("");
                                                     }}
                                                 >
-                                                    {start.getDate()}
+                                                    {day.getDate()}
                                                 </button>
                                             );
                                         })}
                                     </div>
                                 </div>
+
                                 <div className="manage-field">
                                     <label htmlFor="new-duration">Appointment length</label>
                                     <select
@@ -321,6 +390,23 @@ export default function ManageAppointment() {
                                     </select>
                                 </div>
 
+                                <div className="manage-field">
+                                    <label htmlFor="new-visit-format">
+                                        How would you like to meet?
+                                    </label>
+                                    <select
+                                        id="new-visit-format"
+                                        value={visitFormat}
+                                        onChange={(event) =>
+                                            setVisitFormat(event.target.value)
+                                        }
+                                    >
+                                        <option value="">Select how you’ll meet</option>
+                                        <option value="in_person">In person</option>
+                                        <option value="phone">Over the phone</option>
+                                        <option value="virtual">Virtual/online</option>
+                                    </select>
+                                </div>
 
                                 <div className="manage-field">
                                     <label htmlFor="new-preparer">New preparer</label>
@@ -347,6 +433,7 @@ export default function ManageAppointment() {
                                         id="new-time"
                                         value={time}
                                         onChange={(event) => setTime(event.target.value)}
+                                        disabled={loadingTimes}
                                     >
                                         <option value="">Choose a time</option>
                                         {availableTimes.map((slot) => (
@@ -367,6 +454,7 @@ export default function ManageAppointment() {
                                             saving ||
                                             loadingTimes ||
                                             !service ||
+                                            !visitFormat ||
                                             !time ||
                                             !availableTimes.includes(time)
                                         }

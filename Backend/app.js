@@ -7,6 +7,7 @@ import emailRoutes from "./routes/emailRoutes.js";
 import contactRoutes from "./routes/contactRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
 import customerDocumentRoutes from "./routes/customerDocumentRoutes.js";
+import staffDocumentRoutes from "./routes/staffDocumentRoutes.js";
 
 const app = express();
 
@@ -35,7 +36,7 @@ app.get("/", (_req, res) => {
 app.get("/health", (_req, res) => {
     res.status(200).json({ ok: true });
 });
-
+app.use("/api/staff/documents", staffDocumentRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/customer/documents", customerDocumentRoutes);
 app.use("/api/customer", customerRoutes);

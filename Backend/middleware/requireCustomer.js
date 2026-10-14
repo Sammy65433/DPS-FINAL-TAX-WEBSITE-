@@ -24,21 +24,18 @@ export async function requireCustomer(req, res, next) {
                 "Customer token verification:",
                 error?.message ?? "No user returned"
             );
-            return res.status(401).json({
-                error: "Invalid or expired session.",
-            });
+            return res.status(401).json({ error: "Invalid or expired session." });
         }
 
         req.customer = {
             id: data.user.id,
-            email: data.user.email,
+            email: data.user.email ?? null,
+            emailConfirmed: Boolean(data.user.email_confirmed_at),
         };
 
-        next();
+        return next();
     } catch (error) {
         console.error("Customer auth verification failed:", error);
-        return res.status(503).json({
-            error: "Unable to verify session.",
-        });
+        return res.status(503).json({ error: "Unable to verify session." });
     }
 }
