@@ -31,6 +31,17 @@ function dateKey(value) {
         `${String(value.getDate()).padStart(2, "0")}`
     );
 }
+function formatDisplayDate(value) {
+  if (!/^\d{4}-\d{2}-\d{2}$/.test(value || "")) return value || "";
+
+  const [year, month, day] = value.split("-").map(Number);
+
+  return new Date(year, month - 1, day).toLocaleDateString("en-US", {
+    month: "long",
+    day: "numeric",
+    year: "numeric",
+  });
+}
 
 export default function ManageAppointment() {
     const [searchParams] = useSearchParams();
@@ -250,7 +261,7 @@ export default function ManageAppointment() {
                             {[
                                 ["Service", appointment.service],
                                 ["Preparer", appointment.tax_preparer],
-                                ["Date", appointment.appointment_date],
+                                ["Date", formatDisplayDate(appointment.appointment_date)],
                                 ["Time", appointment.appointment_time],
                                 ["Length", `${appointment.duration_minutes} minutes`],
                                 [
