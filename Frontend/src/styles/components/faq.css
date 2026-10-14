@@ -20,7 +20,6 @@
   box-sizing: border-box;
 }
 
-/* Shared glass boxes */
 .faq-heading,
 .faq-page-hero,
 .faq-preview-card,
@@ -36,7 +35,6 @@
   -webkit-backdrop-filter: blur(12px);
 }
 
-/* Heading boxes */
 .faq-heading,
 .faq-page-hero {
   max-width: 820px;
@@ -80,7 +78,6 @@
   line-height: 1.7;
 }
 
-/* Preview and visit cards */
 .faq-preview-grid,
 .faq-page-grid,
 .faq-resource-grid {
@@ -183,7 +180,6 @@
   text-decoration: none;
 }
 
-/* Full FAQ sections */
 .faq-page-group {
   margin: 2.5rem 0;
 }
@@ -203,7 +199,6 @@
   line-height: 1.6;
 }
 
-/* Dates and document feature boxes */
 .full-faq-section .faq-feature-grid {
   display: grid;
   grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr);
@@ -215,7 +210,6 @@
   grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.8fr);
 }
 
-/* Target the class already present in your latest FullFAQ.jsx */
 .full-faq-section .faq-deadlines-feature {
   max-width: 900px;
   margin: 0 auto;
@@ -228,7 +222,6 @@
   overflow: hidden;
 }
 
-/* The image fills its entire grid column, including below the fold */
 .full-faq-section .faq-feature-image img {
   position: absolute;
   inset: 0;
@@ -312,6 +305,11 @@
   grid-template-columns: minmax(95px, 120px) minmax(0, 1fr);
 }
 
+.faq-document-list .faq-info-row
+{
+  grid-template-columns: minmax(95px, 120px) minmax(0, 1fr);
+}
+
 .faq-document-list .faq-info-row dd {
   text-align: left;
 }
@@ -341,6 +339,81 @@
 
 .faq-official-link:hover {
   color: #fff;
+}
+
+/* Blank intake PDF links under What to Bring */
+.faq-intake-forms {
+  margin: 1.25rem 0;
+  padding: 1.15rem;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 12px;
+  background: rgba(13, 54, 57, 0.55);
+}
+
+.faq-intake-forms h3 {
+  margin: 0 0 0.4rem;
+  color: #fff;
+  font-size: 1.15rem;
+}
+
+.faq-intake-forms > p {
+  margin: 0 0 0.9rem;
+  color: #edf7f5;
+  line-height: 1.6;
+}
+
+.faq-intake-form-links {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
+}
+
+.faq-intake-form-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  min-width: 0;
+  min-height: 64px;
+  padding: 0.75rem;
+  border: 1px solid #e3d4ff;
+  border-radius: 9px;
+  background: #fff;
+  color: #4c287f;
+  text-decoration: none;
+}
+
+.faq-intake-form-link:hover {
+  background: #f4edff;
+}
+
+.faq-intake-form-link > svg {
+  flex-shrink: 0;
+  font-size: 1.2rem;
+}
+
+.faq-intake-form-link span {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.faq-intake-form-link strong {
+  font-size: 0.9rem;
+  line-height: 1.35;
+}
+
+.faq-intake-form-link small {
+  margin-top: 0.2rem;
+  color: #53615e;
+  font-size: 0.78rem;
+  line-height: 1.35;
+}
+
+.faq-intake-forms .faq-intake-privacy {
+  margin: 0.9rem 0 0;
+  color: #edf7f5;
+  font-size: 0.85rem;
+  line-height: 1.6;
 }
 
 /* Resources */
@@ -402,6 +475,7 @@
 .faq-preview-card:focus-visible,
 .faq-resource-card:focus-visible,
 .faq-official-link:focus-visible,
+.faq-intake-form-link:focus-visible,
 .faq-page-actions a:focus-visible,
 .faq-section-actions .btn:focus-visible {
   outline: 3px solid #f5d36c;
@@ -446,7 +520,8 @@
 
   .faq-preview-grid,
   .faq-page-grid,
-  .faq-resource-grid {
+  .faq-resource-grid,
+  .faq-intake-form-links {
     grid-template-columns: 1fr;
   }
 

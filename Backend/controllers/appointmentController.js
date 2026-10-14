@@ -1,5 +1,4 @@
 import crypto from "node:crypto";
-
 import {
   archiveAppointmentService,
   cancelAppointmentService,
@@ -12,7 +11,6 @@ import {
   getAvailabilityService,
   updateAppointmentService,
 } from "../services/appointmentService.js";
-
 import {
   sendAppointmentCancellationEmail,
   sendAppointmentUpdateEmail,
@@ -21,11 +19,23 @@ import {
 } from "../services/emailService.js";
 
 const VISIT_FORMATS = new Set(["in_person", "phone", "virtual"]);
+const EASTERN_TIME_ZONE = "America/New_York";
+const PUBLIC_BOOKING_NOTICE_MS = 24 * 60 * 60 * 1000;
+
+const easternPartsFormatter = new Intl.DateTimeFormat("en-US", {
+  timeZone: EASTERN_TIME_ZONE,
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  second: "2-digit",
+  hourCycle: "h23",
+});
 
 function validVisitFormat(value) {
   return value == null || VISIT_FORMATS.has(value);
 }
-
 
 function toMinutes(time) {
   if (typeof time !== "string") return null;
@@ -41,14 +51,16 @@ function toMinutes(time) {
 
 function getPublicDuration(value) {
   const duration = Number(value ?? 30);
-  return [30, 60].includes(duration) ? duration : null;
+  return [15, 30, 60, 90, 120].includes(duration) ? duration : null;
 }
+
 
 function formatTime(totalMinutes) {
   const hour24 = Math.floor(totalMinutes / 60);
   const minute = totalMinutes % 60;
-  return `${hour24 % 12 || 12}:${String(minute).padStart(2, "0")} ${hour24 >= 12 ? "PM" : "AM"
-    }`;
+  return `${hour24 % 12 || 12}:${String(minute).padStart(2, "0")} ${
+    hour24 >= 12 ? "PM" : "AM"
+  }`;
 }
 
 function getTimeRange(value) {
@@ -66,11 +78,59 @@ function getTimeRange(value) {
     return null;
   }
 
-  // Keep aligned with the DPS site's actual booking hours.
   return {
     opens: 9 * 60,
     closes: date.getDay() === 6 ? 18 * 60 : 17 * 60,
   };
+}
+
+function easternParts(instant) {
+  return Object.fromEntries(
+    easternPartsFormatter
+      .formatToParts(instant)
+      .filter((part) => part.type !== "literal")
+      .map((part) => [part.type, Number(part.value)])
+  );
+}
+
+function sameEasternLocalTime(parts, year, month, day, hour, minute) {
+  return (
+    parts.year === year &&
+    parts.month === month &&
+    parts.day === day &&
+    parts.hour === hour &&
+    parts.minute === minute
+  );
+}
+
+function easternAppointmentStartMs(date, startMinutes) {
+  if (!getTimeRange(date) || startMinutes === null) return null;
+
+  const [year, month, day] = date.split("-").map(Number);
+  const hour = Math.floor(startMinutes / 60);
+  const minute = startMinutes % 60;
+  const nominalUtc = Date.UTC(year, month - 1, day, hour, minute);
+
+  // Try both possible Eastern offsets and verify the resulting local clock.
+  // This remains correct when DST changes between now and the appointment.
+  for (const offsetHours of [5, 4]) {
+    const instantMs = nominalUtc + offsetHours * 60 * 60 * 1000;
+    const parts = easternParts(new Date(instantMs));
+
+    if (sameEasternLocalTime(parts, year, month, day, hour, minute)) {
+      return instantMs;
+    }
+  }
+
+  return null;
+}
+
+function meetsPublicBookingNotice(date, startMinutes, nowMs = Date.now()) {
+  const appointmentStartMs = easternAppointmentStartMs(date, startMinutes);
+  return (
+    appointmentStartMs !== null &&
+    appointmentStartMs - nowMs >= PUBLIC_BOOKING_NOTICE_MS
+  );
 }
 
 function overlaps(requestedStart, requestedDuration, appointment) {
@@ -78,24 +138,24 @@ function overlaps(requestedStart, requestedDuration, appointment) {
   if (existingStart === null) return true;
 
   const existingDuration = Number(appointment.duration_minutes ?? 30);
-
   return (
     requestedStart < existingStart + existingDuration &&
     existingStart < requestedStart + requestedDuration
   );
 }
 
-function availableTimesFor(date, duration, appointments) {
+function availableTimesFor(date, duration, appointments, enforceNotice = false) {
   const range = getTimeRange(date);
   if (!range) return [];
 
   const slots = [];
+  const nowMs = Date.now();
 
-  for (
-    let start = range.opens;
-    start + duration <= range.closes;
-    start += 30
-  ) {
+  for (let start = range.opens; start + duration <= range.closes; start += 30) {
+    if (enforceNotice && !meetsPublicBookingNotice(date, start, nowMs)) {
+      continue;
+    }
+
     if (!appointments.some((item) => overlaps(start, duration, item))) {
       slots.push(formatTime(start));
     }
@@ -110,7 +170,6 @@ function safeAppointment(appointment) {
     manage_token_expires_at: _expires,
     ...safe
   } = appointment;
-
   return safe;
 }
 
@@ -120,7 +179,9 @@ export async function getAvailability(req, res) {
 
   if (!date || !preparer || !duration || !getTimeRange(date)) {
     return res.status(400).json({
-      message: "Provide a valid open date, preparer, and 30- or 60-minute duration.",
+      message:
+  "Provide a valid open date, preparer, and 15-, 30-, 60-, 90-, or 120-minute duration.",
+
     });
   }
 
@@ -135,7 +196,7 @@ export async function getAvailability(req, res) {
     const appointments = data ?? [];
 
     return res.json({
-      availableTimes: availableTimesFor(date, duration, appointments),
+      availableTimes: availableTimesFor(date, duration, appointments, true),
       bookedTimes: [
         ...new Set(appointments.map((item) => item.appointment_time)),
       ],
@@ -175,7 +236,6 @@ export async function createAppointment(req, res) {
     message,
   } = req.body;
 
-
   const duration = getPublicDuration(req.body.duration_minutes);
   const start = toMinutes(appointment_time);
 
@@ -194,10 +254,16 @@ export async function createAppointment(req, res) {
       message: "Complete all required fields and choose a valid duration.",
     });
   }
+
   if (!validVisitFormat(visit_format)) {
     return res.status(400).json({ message: "Invalid visit format." });
   }
 
+  if (!meetsPublicBookingNotice(appointment_date, start)) {
+    return res.status(409).json({
+      message: "Bookings close 24 hours before the appointment starts.",
+    });
+  }
 
   try {
     const { data: existing, error: existingError } =
@@ -214,7 +280,8 @@ export async function createAppointment(req, res) {
     const allowedTimes = availableTimesFor(
       appointment_date,
       duration,
-      existing ?? []
+      existing ?? [],
+      true
     );
 
     if (!allowedTimes.includes(appointment_time)) {
@@ -247,7 +314,6 @@ export async function createAppointment(req, res) {
       manage_token_hash: manageTokenHash,
       manage_token_expires_at: manageTokenExpiresAt,
       visit_format: visit_format ?? null,
-
     });
 
     if (error?.code === "23P01") {
@@ -262,6 +328,7 @@ export async function createAppointment(req, res) {
     }
 
     const newAppointment = data?.[0];
+
     if (!newAppointment) {
       return res.status(500).json({ message: "Appointment was not returned." });
     }
@@ -283,8 +350,8 @@ export async function createAppointment(req, res) {
 export async function cancelAppointment(req, res) {
   try {
     const { data, error } = await cancelAppointmentService(req.params.id);
-
     if (error) return res.status(500).json({ message: error.message });
+
     if (!data?.length) {
       return res.status(404).json({ message: "Appointment not found." });
     }
@@ -308,8 +375,8 @@ export async function cancelAppointment(req, res) {
 export async function archiveAppointment(req, res) {
   try {
     const { data, error } = await archiveAppointmentService(req.params.id);
-
     if (error) return res.status(500).json({ message: error.message });
+
     if (!data?.length) {
       return res.status(404).json({ message: "Appointment not found." });
     }
@@ -334,6 +401,7 @@ export async function updateAppointment(req, res) {
     if (currentError || !current) {
       return res.status(404).json({ message: "Appointment not found." });
     }
+
     if (!validVisitFormat(req.body.visit_format)) {
       return res.status(400).json({ message: "Invalid visit format." });
     }
@@ -343,10 +411,10 @@ export async function updateAppointment(req, res) {
     );
 
     if (![10, 15, 30, 60].includes(staffDuration)) {
-  return res.status(400).json({
-    message: "Choose 10, 15, 30, or 60 minutes.",
-  });
-}
+      return res.status(400).json({
+        message: "Choose 10, 15, 30, or 60 minutes.",
+      });
+    }
 
     const updated = {
       first_name: req.body.first_name ?? current.first_name,
@@ -361,7 +429,6 @@ export async function updateAppointment(req, res) {
       message: req.body.message ?? current.message,
       status: req.body.status ?? current.status,
       visit_format: req.body.visit_format ?? current.visit_format,
-
     };
 
     if (!updated.tax_preparer) {
@@ -397,9 +464,7 @@ export async function updateAppointment(req, res) {
       }
 
       if (
-        (existing ?? []).some((item) =>
-          overlaps(start, staffDuration, item)
-        )
+        (existing ?? []).some((item) => overlaps(start, staffDuration, item))
       ) {
         return res.status(409).json({
           message: "That time overlaps another appointment.",
@@ -429,11 +494,10 @@ export async function updateAppointment(req, res) {
       String(current.appointment_date) !== String(saved.appointment_date) ||
       String(current.appointment_time) !== String(saved.appointment_time) ||
       Number(current.duration_minutes ?? 30) !==
-      Number(saved.duration_minutes) ||
+        Number(saved.duration_minutes) ||
       current.tax_preparer !== saved.tax_preparer ||
       current.service !== saved.service ||
       current.visit_format !== saved.visit_format
-
     ) {
       try {
         await sendAppointmentUpdateEmail(saved);
@@ -455,8 +519,8 @@ export async function updateAppointment(req, res) {
 export async function deleteAppointment(req, res) {
   try {
     const { data, error } = await deleteAppointmentService(req.params.id);
-
     if (error) return res.status(500).json({ message: error.message });
+
     if (!data?.length) {
       return res.status(404).json({ message: "Appointment not found." });
     }
@@ -470,6 +534,7 @@ export async function deleteAppointment(req, res) {
     return res.status(500).json({ message: "Error deleting appointment." });
   }
 }
+
 const STAFF_DURATIONS = [10, 15, 30, 60];
 
 export async function getStaffAvailability(req, res) {
@@ -478,7 +543,9 @@ export async function getStaffAvailability(req, res) {
   const range = getTimeRange(date);
 
   if (!preparer || !range || !STAFF_DURATIONS.includes(duration)) {
-    return res.status(400).json({ message: "Invalid staff availability request." });
+    return res.status(400).json({
+      message: "Invalid staff availability request.",
+    });
   }
 
   try {
@@ -486,6 +553,7 @@ export async function getStaffAvailability(req, res) {
     if (error) throw error;
 
     const availableTimes = [];
+
     for (let start = range.opens; start + duration <= range.closes; start += 5) {
       if (!(data ?? []).some((item) => overlaps(start, duration, item))) {
         availableTimes.push(formatTime(start));
@@ -501,8 +569,16 @@ export async function getStaffAvailability(req, res) {
 
 export async function createStaffAppointment(req, res) {
   const {
-    first_name, last_name, phone, email, service, tax_preparer,
-    appointment_date, appointment_time, visit_format, message,
+    first_name,
+    last_name,
+    phone,
+    email,
+    service,
+    tax_preparer,
+    appointment_date,
+    appointment_time,
+    visit_format,
+    message,
   } = req.body;
 
   const duration = Number(req.body.duration_minutes);
@@ -510,13 +586,23 @@ export async function createStaffAppointment(req, res) {
   const range = getTimeRange(appointment_date);
 
   if (
-    !first_name || !last_name || !phone || !email || !service ||
-    !tax_preparer || !VISIT_FORMATS.has(visit_format) ||
-    !STAFF_DURATIONS.includes(duration) || start === null ||
-    !range || start < range.opens || start + duration > range.closes ||
+    !first_name ||
+    !last_name ||
+    !phone ||
+    !email ||
+    !service ||
+    !tax_preparer ||
+    !VISIT_FORMATS.has(visit_format) ||
+    !STAFF_DURATIONS.includes(duration) ||
+    start === null ||
+    !range ||
+    start < range.opens ||
+    start + duration > range.closes ||
     start % 5 !== 0
   ) {
-    return res.status(400).json({ message: "Invalid staff booking details." });
+    return res.status(400).json({
+      message: "Invalid staff booking details.",
+    });
   }
 
   try {
@@ -525,10 +611,13 @@ export async function createStaffAppointment(req, res) {
         appointment_date,
         tax_preparer,
       });
+
     if (lookupError) throw lookupError;
 
     if ((existing ?? []).some((item) => overlaps(start, duration, item))) {
-      return res.status(409).json({ message: "That time overlaps another appointment." });
+      return res.status(409).json({
+        message: "That time overlaps another appointment.",
+      });
     }
 
     const manageToken = crypto.randomBytes(32).toString("hex");
@@ -538,8 +627,15 @@ export async function createStaffAppointment(req, res) {
       .digest("hex");
 
     const { data, error } = await createAppointmentService({
-      first_name, last_name, phone, email, service, tax_preparer,
-      appointment_date, appointment_time, visit_format,
+      first_name,
+      last_name,
+      phone,
+      email,
+      service,
+      tax_preparer,
+      appointment_date,
+      appointment_time,
+      visit_format,
       duration_minutes: duration,
       message: message || "",
       manage_token_hash: manageTokenHash,
@@ -549,8 +645,11 @@ export async function createStaffAppointment(req, res) {
     });
 
     if (error?.code === "23P01") {
-      return res.status(409).json({ message: "That time overlaps another appointment." });
+      return res.status(409).json({
+        message: "That time overlaps another appointment.",
+      });
     }
+
     if (error) throw error;
 
     const appointment = data?.[0];

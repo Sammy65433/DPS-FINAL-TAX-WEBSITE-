@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import {
   FaCalendarAlt,
   FaCalendarCheck,
+  FaDownload,
   FaExternalLinkAlt,
   FaFileAlt,
   FaLanguage,
@@ -89,6 +90,19 @@ const documents = [
   },
 ];
 
+const intakeForms = [
+  {
+    title: "Individual Client Intake Form",
+    description: "For personal tax preparation.",
+    href: "/forms/DPS-CLIENT-FORM.pdf",
+  },
+  {
+    title: "Business Client Intake Form",
+    description: "For business tax preparation.",
+    href: "/forms/DPS-BUSINESS-FORM.pdf",
+  },
+];
+
 const resources = [
   {
     title: "Check Your Refund",
@@ -145,12 +159,10 @@ function FullFAQ() {
                 loading="lazy"
               />
             </div>
-
             <div className="faq-feature-content">
               <h2 id="faq-dates-title">
                 <FaCalendarAlt aria-hidden="true" /> Tax Deadlines
               </h2>
-
               {deadlineYears.map(({ year, taxYear, dates }) => (
                 <div className="faq-deadline-year" key={year}>
                   <h3>
@@ -159,7 +171,10 @@ function FullFAQ() {
                   </h3>
                   <dl className="faq-info-list">
                     {dates.map(({ title, date }) => (
-                      <div className="faq-info-row" key={`${year}-${title}`}>
+                      <div
+                        className="faq-info-row"
+                        key={`${year}-${title}`}
+                      >
                         <dt>{title}</dt>
                         <dd>{date}</dd>
                       </div>
@@ -167,14 +182,12 @@ function FullFAQ() {
                   </dl>
                 </div>
               ))}
-
               <p className="faq-date-disclaimer">
                 General federal dates for calendar-year filers. LLC deadlines
                 depend on tax classification. An extension gives more time to
                 file, not to pay. Confirm your deadline and any applicable
                 relief with the IRS before relying on these dates.
               </p>
-
               <a
                 className="faq-official-link"
                 href="https://www.irs.gov/filing"
@@ -199,6 +212,33 @@ function FullFAQ() {
               </h2>
               <p>Bring the documents that apply to your tax situation.</p>
 
+              <div className="faq-intake-forms">
+                <h3>Download a Client Intake Form</h3>
+                <p>
+                  Choose the form that fits your appointment. Print and complete
+                  it before your visit.
+                </p>
+
+                <div className="faq-intake-form-links">
+                  {intakeForms.map(({ title, description, href }) => (
+                    <a href={href} download className="faq-intake-form-link" key={href}>
+                      <FaDownload aria-hidden="true" />
+                      <span>
+                        <strong>{title}</strong>
+                        <small>{description}</small>
+                      </span>
+                    </a>
+                  ))}
+                </div>
+
+                <p className="faq-intake-privacy">
+                  Completed forms may contain Social Security numbers or bank
+                  information. Bring yours to your appointment or return it
+                  through the secure CCH iFirm portal. Do not email completed
+                  forms or attach them to the public contact or booking form.
+                </p>
+              </div>
+
               <dl className="faq-info-list faq-document-list">
                 {documents.map(({ form, description }) => (
                   <div className="faq-info-row" key={form}>
@@ -207,7 +247,6 @@ function FullFAQ() {
                   </div>
                 ))}
               </dl>
-
               <p className="faq-date-disclaimer">
                 Also bring a photo ID, tax identification information,
                 applicable business records, prior-year returns, and IRS
@@ -215,7 +254,6 @@ function FullFAQ() {
                 contact form.
               </p>
             </div>
-
             <div className="faq-feature-image">
               <img
                 src="/notary-2.jpg"
