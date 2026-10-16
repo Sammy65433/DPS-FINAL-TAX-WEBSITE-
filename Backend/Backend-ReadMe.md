@@ -579,16 +579,3 @@ Samuel Jacquet
 DPS Tax API
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-
-
