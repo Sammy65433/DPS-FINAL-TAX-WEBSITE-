@@ -4,6 +4,7 @@ import crypto from "node:crypto";
 import {
   archiveAppointment,
   cancelAppointment,
+  clearAppointmentMessage,
   createAppointment,
   createStaffAppointment,
   deleteAppointment,
@@ -63,6 +64,7 @@ router.post("/staff", requireStaffServiceKey, createStaffAppointment);
 router.patch("/:id/cancel", requireStaffServiceKey, cancelAppointment);
 router.patch("/:id/archive", requireStaffServiceKey, archiveAppointment);
 router.patch("/:id", requireStaffServiceKey, updateAppointment);
+router.patch("/:id/clear-message", requireStaffServiceKey, clearAppointmentMessage);
 router.delete("/:id", requireStaffServiceKey, deleteAppointment);
 
 export default router;

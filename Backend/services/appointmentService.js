@@ -65,6 +65,18 @@ export async function findManagedAppointmentByTokenService(tokenHash) {
         manage_token_expires_at: { $gt: new Date() },
     });
 
+    if (!doc) {
+        const any = await collection.findOne({ manage_token_hash: tokenHash });
+        console.error(
+            "Manage token lookup: expired or not found. hash=",
+            String(tokenHash).slice(0, 12),
+            "existsWithoutExpiry=",
+            !!any,
+            "expiresAt=",
+            any ? any.manage_token_expires_at : null
+        );
+    }
+
     return { data: doc, error: null };
 }
 

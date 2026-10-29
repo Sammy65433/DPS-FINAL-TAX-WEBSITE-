@@ -18,6 +18,7 @@ function RealtyBookingForm() {
     service: "",
     appointment_date: "",
     appointment_time: "",
+    visit_format: "",
     message: "",
   });
 
@@ -65,6 +66,7 @@ function RealtyBookingForm() {
           service: "",
           appointment_date: "",
           appointment_time: "",
+          visit_format: "",
           message: "",
         });
       } else {
@@ -246,6 +248,24 @@ function RealtyBookingForm() {
                 <option value="4:30 PM">4:30 PM</option>
                 <option value="4:45 PM">4:45 PM</option>
                 <option value="5:00 PM">5:00 PM</option>
+              </select>
+            </div>
+
+            <div className="realty-field">
+              <label htmlFor="visit_format">
+                <FaCommentDots />
+                <span>How would you like to meet?</span>
+              </label>
+              <select
+                id="visit_format"
+                name="visit_format"
+                value={formData.visit_format}
+                onChange={handleChange}
+              >
+                <option value="">Choose a meeting option</option>
+                <option value="in_person">In Person</option>
+                <option value="virtual">By Video or Phone</option>
+                <option value="phone">Phone Call</option>
               </select>
             </div>
 

@@ -40,6 +40,7 @@ export async function createRealtyAppointment(req, res) {
         appointment_date,
         appointment_time,
         message,
+        visit_format,
     } = req.body;
 
     try {
@@ -52,6 +53,7 @@ export async function createRealtyAppointment(req, res) {
             appointment_date,
             appointment_time,
             message,
+            visit_format: visit_format || null,
         });
 
         if (error) {

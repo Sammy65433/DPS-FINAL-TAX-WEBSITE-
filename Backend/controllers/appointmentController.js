@@ -668,3 +668,29 @@ export async function createStaffAppointment(req, res) {
     return res.status(500).json({ message: "Could not create appointment." });
   }
 }
+
+export async function clearAppointmentMessage(req, res) {
+    const { id } = req.params;
+
+    try {
+        const { data: current, error: currentError } =
+            await getAppointmentByIdService(id);
+
+        if (currentError || !current) {
+            return res.status(404).json({ message: "Appointment not found." });
+        }
+
+        const { data, error } = await updateAppointmentService(id, {
+            message: "",
+        });
+
+        if (error || !data || data.length === 0) {
+            return res.status(500).json({ message: "Could not clear message." });
+        }
+
+        return res.json({ appointment: data[0] });
+    } catch (error) {
+        console.error("Clear appointment message failed:", error);
+        return res.status(500).json({ message: "Could not clear message." });
+    }
+}

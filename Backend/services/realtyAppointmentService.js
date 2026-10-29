@@ -40,11 +40,19 @@ export async function createRealtyAppointmentService(payload) {
 
 export async function confirmRealtyAppointmentService(id) {
     const collection = await getRealtyAppointmentCollection();
-    const updated = await collection.findOneAndUpdate(
+    let updated = await collection.findOneAndUpdate(
         { _id: toId(id) },
         { $set: { status: "confirmed" } },
         { returnDocument: "after" }
     );
+
+    if (!updated.value) {
+        updated = await collection.findOneAndUpdate(
+            { _id: id },
+            { $set: { status: "confirmed" } },
+            { returnDocument: "after" }
+        );
+    }
 
     return {
         data: updated.value ? [toAppointment(updated.value)] : [],
@@ -54,11 +62,19 @@ export async function confirmRealtyAppointmentService(id) {
 
 export async function cancelRealtyAppointmentService(id) {
     const collection = await getRealtyAppointmentCollection();
-    const updated = await collection.findOneAndUpdate(
+    let updated = await collection.findOneAndUpdate(
         { _id: toId(id) },
         { $set: { status: "cancelled" } },
         { returnDocument: "after" }
     );
+
+    if (!updated.value) {
+        updated = await collection.findOneAndUpdate(
+            { _id: id },
+            { $set: { status: "cancelled" } },
+            { returnDocument: "after" }
+        );
+    }
 
     return {
         data: updated.value ? [toAppointment(updated.value)] : [],
@@ -82,7 +98,11 @@ export async function archiveRealtyAppointmentService(id) {
 
 export async function getRealtyAppointmentByIdService(id) {
     const collection = await getRealtyAppointmentCollection();
-    const doc = await collection.findOne({ _id: toId(id) });
+    let doc = await collection.findOne({ _id: toId(id) });
+
+    if (!doc) {
+        doc = await collection.findOne({ _id: id });
+    }
 
     return { data: toAppointment(doc), error: null };
 }

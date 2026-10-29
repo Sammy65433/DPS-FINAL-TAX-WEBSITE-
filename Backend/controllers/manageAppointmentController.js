@@ -167,6 +167,7 @@ export async function getManagedAppointment(req, res) {
     const appointment = await findByToken(req.query.token);
 
     if (!appointment) {
+      console.error("Manage lookup failed for token:", String(req.query.token).slice(0, 8) + "...");
       return res.status(404).json({ message: INVALID_LINK });
     }
 
