@@ -1,7 +1,7 @@
 import crypto from "node:crypto";
 import { supabase } from "../config/supabase.js";
 import { getAvailabilityService } from "../services/appointmentService.js";
-import { sendCustomerRescheduleEmail } from "../services/emailService.js";
+import { sendAppointmentCancellationEmail, sendCustomerRescheduleEmail } from "../services/emailService.js";
 
 const INVALID_LINK = "This appointment link is invalid or expired.";
 const VISIT_FORMATS = new Set(["in_person", "phone", "virtual"]);
@@ -14,10 +14,21 @@ const PREPARERS = new Set([
   "Ricot Casimir",
 ]);
 const SERVICES = new Set([
-  "Tax Preparation",
-  "Copy & Fax Services",
+  "Tax Consultation",
+  "Personal Tax Preparation",
+  "Business Tax Preparation",
   "Notary Public",
-  "Translation Services",
+  "Mobile Notary Public",
+  "S Corporation",
+  "Amended Return",
+  "Partnership, LLC & Form 8825",
+  "Return for Estates and Trusts",
+  "Tax Return Pickup",
+  "Translation",
+  "Form Preparation Support",
+  "Copy & Fax",
+  "Other Services",
+  "Business Services",
 ]);
 
 
@@ -175,7 +186,7 @@ export async function getManagedAvailability(req, res) {
     const { date, preparer } = req.query;
     const duration = Number(req.query.duration_minutes);
 
-    if (!PREPARERS.has(preparer) || ![30, 60].includes(duration)) {
+    if (!PREPARERS.has(preparer) || ![15, 30, 60, 90, 120].includes(duration)) {
       return res.status(400).json({
         message: "Choose a valid preparer and appointment length.",
       });
@@ -217,7 +228,7 @@ export async function rescheduleManagedAppointment(req, res) {
     if (
       !SERVICES.has(service) ||
       !PREPARERS.has(preparer) ||
-      ![30, 60].includes(duration) ||
+      ![15, 30, 60, 90, 120].includes(duration) ||
       !openHours(date) ||
       !VISIT_FORMATS.has(visit_format) ||
       toMinutes(time) === null
@@ -304,6 +315,12 @@ export async function cancelManagedAppointment(req, res) {
       return res.status(409).json({
         message: "This appointment can no longer be cancelled.",
       });
+    }
+
+    try {
+      await sendAppointmentCancellationEmail(data);
+    } catch (emailError) {
+      console.error("Could not send cancellation email:", emailError);
     }
 
     return res.json({ appointment: publicAppointment(data) });

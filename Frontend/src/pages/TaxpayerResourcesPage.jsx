@@ -1,11 +1,13 @@
 import { Link } from "react-router-dom";
 import {
+  FaBriefcase,
   FaCalendarAlt,
   FaExternalLinkAlt,
   FaFileAlt,
   FaFileInvoiceDollar,
   FaMoneyCheckAlt,
   FaShieldAlt,
+  FaUser,
 } from "react-icons/fa";
 import Layout from "../components/Layout";
 
@@ -33,6 +35,21 @@ const resources = [
   },
 ];
 
+const intakeForms = [
+  {
+    icon: FaUser,
+    title: "Individual Client Intake Form",
+    text: "Collect basic contact information and prior-year tax context before an individual appointment. Bring the completed form to your consultation so your preparer can review what is needed.",
+    href: "/forms/DPS-CLIENT-FORM.pdf",
+  },
+  {
+    icon: FaBriefcase,
+    title: "Business Client Intake Form",
+    text: "Collect business filing context, such as prior returns and estimated figures, before a business or entity consultation. Bring the completed form to your appointment.",
+    href: "/forms/DPS-BUSINESS-FORM.pdf",
+  },
+];
+
 const photos = [
   { src: "/tax-prep-hands.jpg", alt: "Preparing tax documents" },
   { src: "/tax-prep-people.jpg", alt: "Discussing tax records" },
@@ -54,6 +71,38 @@ function TaxpayerResourcesPage() {
               available.
             </p>
           </div>
+
+          <section className="taxpayer-forms-section" aria-labelledby="intake-forms-heading">
+            <div className="taxpayer-forms-card">
+              <h2 id="intake-forms-heading">Client Intake Forms</h2>
+              <p>
+                Download the intake form that matches your situation before
+                your appointment. Complete the form ahead of time and bring it
+                with you to the consultation.
+              </p>
+              <div className="taxpayer-form-grid">
+                {intakeForms.map(({ icon: Icon, title, text, href }) => (
+                  <a
+                    key={title}
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    download
+                    className="taxpayer-form-card"
+                  >
+                    <span className="taxpayer-icon-wrap">
+                      <Icon aria-hidden="true" />
+                    </span>
+                    <h3>{title}</h3>
+                    <p>{text}</p>
+                    <span className="taxpayer-card-link">
+                      Download PDF <FaExternalLinkAlt aria-hidden="true" />
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          </section>
 
           <div className="taxpayer-resource-grid">
             {resources.map(({ icon: Icon, title, text, href, linkText }) => (

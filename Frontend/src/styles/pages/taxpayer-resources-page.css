@@ -222,6 +222,87 @@
   outline-offset: 3px;
 }
 
+.taxpayer-forms-section {
+  max-width: 900px;
+  margin: 0 auto 2rem;
+}
+
+.taxpayer-forms-card {
+  padding: clamp(1.5rem, 3vw, 2rem);
+}
+
+.taxpayer-forms-card h2,
+.taxpayer-forms-card h3,
+.taxpayer-bottom-card h2 {
+  color: #fff;
+  font-family: "Libre Baskerville", Georgia, serif;
+}
+
+.taxpayer-forms-card h2 {
+  margin: 0 0 0.65rem;
+  font-size: 1.6rem;
+}
+
+.taxpayer-forms-card > p {
+  max-width: 720px;
+  margin: 0;
+  color: #edf7f5;
+  font-size: 0.95rem;
+  line-height: 1.7;
+}
+
+.taxpayer-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+  margin-top: 1.35rem;
+}
+
+.taxpayer-form-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  min-width: 0;
+  padding: 1.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.16);
+  box-shadow: 0 16px 35px rgba(18, 27, 39, 0.16);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  color: #fff;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.taxpayer-form-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.23);
+}
+
+.taxpayer-form-card h3 {
+  margin: 0 0 0.65rem;
+  color: #fff;
+  font-size: 1.15rem;
+  line-height: 1.4;
+}
+
+.taxpayer-form-card p {
+  margin: 0;
+  color: #edf7f5;
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.taxpayer-form-card .taxpayer-card-link {
+  color: #f5d36c;
+}
+
+.taxpayer-form-card:focus-visible {
+  outline: 3px solid #f5d36c;
+  outline-offset: 3px;
+}
+
 @media (max-width: 850px) {
   .taxpayer-resource-grid,
   .taxpayer-photo-grid {

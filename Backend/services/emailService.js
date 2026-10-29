@@ -8,6 +8,7 @@ export function buildEmailTemplate({
     appointment_date,
     appointment_time,
     manageLink,
+    message = "",
 }) {
 
     return `
@@ -19,6 +20,7 @@ export function buildEmailTemplate({
       <p><strong>Preparer:</strong> ${tax_preparer}</p>
       <p><strong>Date:</strong> ${appointment_date}</p>
       <p><strong>Time:</strong> ${appointment_time}</p>
+      <p><strong>Questions or details:</strong> ${message || "None"}</p>
       <p><strong>Phone:</strong> (973) 327-2340</p>
       <p><strong>Location:</strong> 1811 Springfield Ave, Maplewood, NJ 07040</p>
       <p>
@@ -89,6 +91,7 @@ export async function sendAppointmentUpdateEmail(appointment) {
           <p><strong>Preparer:</strong> ${appointment.tax_preparer}</p>
           <p><strong>New Date:</strong> ${appointment.appointment_date}</p>
           <p><strong>New Time:</strong> ${appointment.appointment_time}</p>
+          <p><strong>Questions or details:</strong> ${appointment.message || "None"}</p>
           <p><strong>Phone:</strong> (973) 327-2340</p>
           <p><strong>Location:</strong> 1811 Springfield Ave, Maplewood, NJ 07040</p>
           <p>If you have any questions, please contact our office.</p>
@@ -146,6 +149,7 @@ export async function sendTaxAppointmentRequestEmail(appointment, manageToken) {
                 appointment_date: appointment.appointment_date,
                 appointment_time: appointment.appointment_time,
                 manageLink,
+                message: appointment.message ?? "",
             }),
         });
 
@@ -267,6 +271,7 @@ export async function sendCustomerRescheduleEmail(appointment, manageToken) {
         <p><strong>Preparer:</strong> ${appointment.tax_preparer}</p>
         <p><strong>Date:</strong> ${appointment.appointment_date}</p>
         <p><strong>Time:</strong> ${appointment.appointment_time}</p>
+        <p><strong>Questions or details:</strong> ${appointment.message || "None"}</p>
         <p><a href="${manageLink}">Review or Change My Appointment</a></p>
         <p>If you did not make this change, call (973) 327-2340.</p>
       </div>
@@ -291,7 +296,7 @@ export async function sendAppointmentCancellationEmail(appointment) {
         <p><strong>Preparer:</strong> ${appointment.tax_preparer}</p>
         <p><strong>Date:</strong> ${appointment.appointment_date}</p>
         <p><strong>Time:</strong> ${appointment.appointment_time}</p>
-        <p><strong>Length:</strong> ${appointment.duration_minutes ?? 30} minutes</p>
+        <p><strong>Questions or details:</strong> ${appointment.message || "None"}</p>
         <p>If this was a mistake, call (973) 327-2340.</p>
       </div>
     `,

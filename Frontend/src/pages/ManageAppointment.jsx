@@ -12,10 +12,21 @@ const PREPARERS = [
 ];
 
 const SERVICES = [
-    "Tax Preparation",
-    "Copy & Fax Services",
+    "Tax Consultation",
+    "Personal Tax Preparation",
+    "Business Tax Preparation",
     "Notary Public",
-    "Translation Services",
+    "Mobile Notary Public",
+    "S Corporation",
+    "Amended Return",
+    "Partnership, LLC & Form 8825",
+    "Return for Estates and Trusts",
+    "Tax Return Pickup",
+    "Translation",
+    "Form Preparation Support",
+    "Copy & Fax",
+    "Other Services",
+    "Business Services",
 ];
 
 const VISIT_FORMAT_LABELS = {

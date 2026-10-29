@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useSearchParams } from "react-router-dom";
 import Layout from "../components/Layout";
 import { supabase } from "../lib/supabase";
 
@@ -16,7 +16,10 @@ function getSafeReturnTo(value) {
 
 export default function ClientSignup() {
   const location = useLocation();
-  const returnTo = getSafeReturnTo(location.state?.returnTo);
+  const [searchParams] = useSearchParams();
+  const returnTo = getSafeReturnTo(
+    location.state?.returnTo || searchParams.get("returnTo")
+  );
 
   const [session, setSession] = useState(null);
   const [checkingSession, setCheckingSession] = useState(true);
