@@ -1,6 +1,10 @@
 import crypto from "node:crypto";
-import { supabase } from "../config/supabase.js";
-import { getAvailabilityService } from "../services/appointmentService.js";
+import { ObjectId } from "mongodb";
+import { getDatabase } from "../config/mongo.js";
+import {
+  findManagedAppointmentByTokenService,
+  getAvailabilityService,
+} from "../services/appointmentService.js";
 import { sendAppointmentCancellationEmail, sendCustomerRescheduleEmail } from "../services/emailService.js";
 
 const INVALID_LINK = "This appointment link is invalid or expired.";
@@ -41,12 +45,13 @@ async function findByToken(token) {
     return null;
   }
 
-  const { data, error } = await supabase
-    .from("appointments")
-    .select("*")
-    .eq("manage_token_hash", tokenHash(token))
-    .gt("manage_token_expires_at", new Date().toISOString())
-    .maybeSingle();
+  const tokenHashValue = crypto
+    .createHash("sha256")
+    .update(token)
+    .digest("hex");
+  const { data, error } = await findManagedAppointmentByTokenService(
+    tokenHashValue
+  );
 
   if (error) throw error;
   return data;
@@ -248,34 +253,35 @@ export async function rescheduleManagedAppointment(req, res) {
       });
     }
 
-    const { data, error } = await supabase
-      .from("appointments")
-      .update({
-        service,
-        tax_preparer: preparer,
-        appointment_date: date,
-        appointment_time: time,
-        duration_minutes: duration,
-        visit_format,
-      })
+    const database = await getDatabase();
+    const updatedAppointment = await database
+      .collection("appointments")
+      .findOneAndUpdate(
+        {
+          _id: new ObjectId(appointment.id),
+          manage_token_hash: appointment.manage_token_hash,
+          manage_token_expires_at: { $gt: new Date() },
+          status: { $in: ["booked", "confirmed"] },
+        },
+        {
+          $set: {
+            service,
+            tax_preparer: preparer,
+            appointment_date: date,
+            appointment_time: time,
+            duration_minutes: duration,
+            visit_format,
+          },
+        },
+        { returnDocument: "after" }
+      );
 
-      .eq("id", appointment.id)
-      .eq("manage_token_hash", appointment.manage_token_hash)
-      .gt("manage_token_expires_at", new Date().toISOString())
-      .in("status", ["booked", "confirmed"])
-      .select()
-      .maybeSingle();
+    const data = updatedAppointment.value;
 
-    if (error?.code === "23P01") {
-      return res.status(409).json({
-        message: "That time overlaps another appointment.",
-      });
-    }
-
-    if (error) throw error;
     if (!data) {
-
-      return res.status(409).json({ message: "Appointment was not updated." });
+      return res.status(409).json({
+        message: "Appointment was not updated.",
+      });
     }
 
     try {
@@ -299,17 +305,21 @@ export async function cancelManagedAppointment(req, res) {
       return res.status(404).json({ message: INVALID_LINK });
     }
 
-    const { data, error } = await supabase
-      .from("appointments")
-      .update({ status: "cancelled" })
-      .eq("id", appointment.id)
-      .eq("manage_token_hash", appointment.manage_token_hash)
-      .gt("manage_token_expires_at", new Date().toISOString())
-      .in("status", ["booked", "confirmed"])
-      .select()
-      .maybeSingle();
+    const database = await getDatabase();
+    const updated = await database
+      .collection("appointments")
+      .findOneAndUpdate(
+        {
+          _id: new ObjectId(appointment.id),
+          manage_token_hash: appointment.manage_token_hash,
+          manage_token_expires_at: { $gt: new Date() },
+          status: { $in: ["booked", "confirmed"] },
+        },
+        { $set: { status: "cancelled" } },
+        { returnDocument: "after" }
+      );
 
-    if (error) throw error;
+    const data = updated.value;
 
     if (!data) {
       return res.status(409).json({

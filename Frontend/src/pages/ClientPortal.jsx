@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Layout from "../components/Layout";
-import { supabase } from "../lib/supabase";
+import { clearCustomerToken, getCustomerToken } from "../lib/customerAuth";
 import CustomerDocuments from "../components/CustomerDocuments";
 
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
@@ -17,11 +17,8 @@ export default function ClientPortal() {
 
         async function loadCustomer() {
             try {
-                const { data: sessionData, error: sessionError } =
-                    await supabase.auth.getSession();
-
-                if (sessionError) throw sessionError;
-                if (!sessionData.session) {
+                const token = getCustomerToken();
+                if (!token) {
                     navigate("/client-login", { replace: true });
                     return;
                 }
@@ -29,12 +26,12 @@ export default function ClientPortal() {
 
                 const response = await fetch(`${API_URL}/api/customer/me`, {
                     headers: {
-                        Authorization: `Bearer ${sessionData.session.access_token}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 });
 
                 if (response.status === 401) {
-                    await supabase.auth.signOut();
+                    clearCustomerToken();
                     navigate("/client-login", { replace: true });
                     return;
                 }
@@ -57,7 +54,7 @@ export default function ClientPortal() {
 
     async function handleSignOut() {
         setSigningOut(true);
-        await supabase.auth.signOut();
+        clearCustomerToken();
         navigate("/client-login", { replace: true });
     }
 

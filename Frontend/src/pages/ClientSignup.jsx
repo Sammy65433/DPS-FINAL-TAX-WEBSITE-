@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { Link, Navigate, useLocation, useSearchParams } from "react-router-dom";
 import Layout from "../components/Layout";
-import { supabase } from "../lib/supabase";
+
+import { getCustomerSession, setCustomerToken } from "../lib/customerAuth";
+
+const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
 function getSafeReturnTo(value) {
   if (
@@ -32,17 +35,11 @@ export default function ClientSignup() {
   useEffect(() => {
     let active = true;
 
-    supabase.auth.getSession().then(({ data, error }) => {
-      if (!active) return;
-
-      if (error) {
-        setErrorMessage("Could not check your session.");
-      } else {
-        setSession(data.session);
-      }
-
+    const session = getCustomerSession();
+    if (active) {
+      setSession(session);
       setCheckingSession(false);
-    });
+    }
 
     return () => {
       active = false;
@@ -58,32 +55,26 @@ export default function ClientSignup() {
     setSuccessMessage("");
 
     try {
-      const redirectUrl = new URL("/client-login", window.location.origin);
+      if (!API_URL) throw new Error("DPS API is not configured.");
 
-      if (returnTo !== "/client-portal") {
-        redirectUrl.searchParams.set("returnTo", returnTo);
-      }
-
-      const { data, error } = await supabase.auth.signUp({
-        email: email.trim(),
-        password,
-        options: {
-          emailRedirectTo: redirectUrl.toString(),
-        },
+      const response = await fetch(`${API_URL}/api/customer/register`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
       });
 
-      if (error) throw error;
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "Could not create your account.");
 
       setPassword("");
 
-      if (data.session) {
-        setSession(data.session);
+      if (data.confirmToken) {
         setSuccessMessage(
-          "Account created. You must confirm your email before connecting it."
+          `Account created. Confirm your email before connecting it. Confirmation token: ${data.confirmToken}`
         );
       } else {
         setSuccessMessage(
-          "Check your email to confirm your account, then sign in. If your invitation expires, request a fresh one."
+          "Account created. You can now sign in."
         );
       }
     } catch (error) {

@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState } from "react";
-import { supabase } from "../lib/supabase";
+import { getCustomerToken } from "../lib/customerAuth";
 
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 const MAX_BYTES = 5 * 1024 * 1024;
@@ -20,12 +20,12 @@ export default function CustomerDocuments() {
     const loadDocuments = useCallback(async (signal) => {
         if (!API_URL) throw new Error("DPS API is not configured.");
 
-        const { data, error } = await supabase.auth.getSession();
-        if (error || !data.session) throw new Error("Please sign in again.");
+        const token = getCustomerToken();
+        if (!token) throw new Error("Please sign in again.");
 
         const response = await fetch(`${API_URL}/api/customer/documents`, {
             headers: {
-                Authorization: `Bearer ${data.session.access_token}`,
+                Authorization: `Bearer ${token}`,
             },
             signal,
             cache: "no-store",
@@ -96,8 +96,8 @@ export default function CustomerDocuments() {
         try {
             if (!API_URL) throw new Error("DPS API is not configured.");
 
-            const { data, error } = await supabase.auth.getSession();
-            if (error || !data.session) throw new Error("Please sign in again.");
+            const token = getCustomerToken();
+            if (!token) throw new Error("Please sign in again.");
 
             const formData = new FormData();
             formData.append("document", file);

@@ -1,12 +1,5 @@
-import { createClient } from "@supabase/supabase-js";
-import { env } from "../config/env.js";
-
-const authClient = createClient(env.SUPABASE_URL, env.SUPABASE_KEY, {
-    auth: {
-        autoRefreshToken: false,
-        persistSession: false,
-    },
-});
+import jwt from "jsonwebtoken";
+import { findCustomerByIdService } from "../services/customerService.js";
 
 export async function requireCustomer(req, res, next) {
     const authorization = req.headers.authorization ?? "";
@@ -16,25 +9,38 @@ export async function requireCustomer(req, res, next) {
         return res.status(401).json({ error: "Sign in required." });
     }
 
-    try {
-        const { data, error } = await authClient.auth.getUser(match[1]);
+    const token = match[1].trim();
 
-        if (error || !data.user) {
-            console.error(
-                "Customer token verification:",
-                error?.message ?? "No user returned"
-            );
+    if (!process.env.JWT_SECRET) {
+        console.error("JWT_SECRET is not configured.");
+        return res.status(503).json({ error: "Authentication unavailable." });
+    }
+
+    try {
+        const payload = jwt.verify(token, process.env.JWT_SECRET);
+
+        if (!payload?.id || payload.role !== "customer") {
+            return res.status(401).json({ error: "Invalid or expired session." });
+        }
+
+        const { data: customer, error } = await findCustomerByIdService(payload.id);
+
+        if (error || !customer) {
             return res.status(401).json({ error: "Invalid or expired session." });
         }
 
         req.customer = {
-            id: data.user.id,
-            email: data.user.email ?? null,
-            emailConfirmed: Boolean(data.user.email_confirmed_at),
+            id: customer.id,
+            email: customer.email,
+            emailConfirmed: Boolean(customer.emailConfirmed),
         };
 
         return next();
     } catch (error) {
+        if (error?.name === "TokenExpiredError" || error?.name === "JsonWebTokenError") {
+            return res.status(401).json({ error: "Invalid or expired session." });
+        }
+
         console.error("Customer auth verification failed:", error);
         return res.status(503).json({ error: "Unable to verify session." });
     }

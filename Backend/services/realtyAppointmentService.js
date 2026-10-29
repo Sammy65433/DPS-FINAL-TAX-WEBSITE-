@@ -1,68 +1,114 @@
-import { supabase } from "../config/supabase.js";
+import { ObjectId } from "mongodb";
+import { getDatabase } from "../config/mongo.js";
+
+function toId(value) {
+    const id = String(value ?? "");
+    return /^[0-9a-f]{24}$/i.test(id) ? new ObjectId(id) : id;
+}
+
+function toAppointment(doc) {
+    if (!doc) return null;
+
+    const { _id, ...rest } = doc;
+    return { ...rest, id: String(_id) };
+}
+
+async function getRealtyAppointmentCollection() {
+    const db = await getDatabase();
+    return db.collection("realty_appointments");
+}
 
 export async function getRealtyAppointmentsService() {
-    return await supabase
-        .from("realty_appointments")
-        .select("*")
-        .order("created_at", { ascending: false });
+    const collection = await getRealtyAppointmentCollection();
+    const docs = await collection.find({}).sort({ created_at: -1 }).toArray();
+
+    return { data: docs, error: null };
 }
 
 export async function createRealtyAppointmentService(payload) {
-    return await supabase
-        .from("realty_appointments")
-        .insert([
-            {
-                ...payload,
-                status: "pending",
-            },
-        ])
-        .select();
+    const collection = await getRealtyAppointmentCollection();
+    const result = await collection.insertOne({
+        ...payload,
+        status: "pending",
+        created_at: new Date().toISOString(),
+    });
+
+    const created = await collection.findOne({ _id: result.insertedId });
+
+    return { data: created ? [toAppointment(created)] : [], error: null };
 }
 
 export async function confirmRealtyAppointmentService(id) {
-    return await supabase
-        .from("realty_appointments")
-        .update({ status: "confirmed" })
-        .eq("id", id)
-        .select();
+    const collection = await getRealtyAppointmentCollection();
+    const updated = await collection.findOneAndUpdate(
+        { _id: toId(id) },
+        { $set: { status: "confirmed" } },
+        { returnDocument: "after" }
+    );
+
+    return {
+        data: updated.value ? [toAppointment(updated.value)] : [],
+        error: null,
+    };
 }
 
 export async function cancelRealtyAppointmentService(id) {
-    return await supabase
-        .from("realty_appointments")
-        .update({ status: "cancelled" })
-        .eq("id", id)
-        .select();
+    const collection = await getRealtyAppointmentCollection();
+    const updated = await collection.findOneAndUpdate(
+        { _id: toId(id) },
+        { $set: { status: "cancelled" } },
+        { returnDocument: "after" }
+    );
+
+    return {
+        data: updated.value ? [toAppointment(updated.value)] : [],
+        error: null,
+    };
 }
 
 export async function archiveRealtyAppointmentService(id) {
-    return await supabase
-        .from("realty_appointments")
-        .update({ status: "archived" })
-        .eq("id", id)
-        .select();
+    const collection = await getRealtyAppointmentCollection();
+    const updated = await collection.findOneAndUpdate(
+        { _id: toId(id) },
+        { $set: { status: "archived" } },
+        { returnDocument: "after" }
+    );
+
+    return {
+        data: updated.value ? [toAppointment(updated.value)] : [],
+        error: null,
+    };
 }
 
 export async function getRealtyAppointmentByIdService(id) {
-    return await supabase
-        .from("realty_appointments")
-        .select("*")
-        .eq("id", id)
-        .single();
+    const collection = await getRealtyAppointmentCollection();
+    const doc = await collection.findOne({ _id: toId(id) });
+
+    return { data: toAppointment(doc), error: null };
 }
 
 export async function updateRealtyAppointmentService(id, payload) {
-    return await supabase
-        .from("realty_appointments")
-        .update(payload)
-        .eq("id", id)
-        .select();
+    const collection = await getRealtyAppointmentCollection();
+    const updated = await collection.findOneAndUpdate(
+        { _id: toId(id) },
+        { $set: payload },
+        { returnDocument: "after" }
+    );
+
+    return {
+        data: updated.value ? [toAppointment(updated.value)] : [],
+        error: null,
+    };
 }
 
 export async function deleteRealtyAppointmentService(id) {
-    return await supabase
-        .from("realty_appointments")
-        .delete()
-        .eq("id", id)
-        .select();
+    const collection = await getRealtyAppointmentCollection();
+    const deleted = await collection.findOneAndDelete({
+        _id: toId(id),
+    });
+
+    return {
+        data: deleted.value ? [toAppointment(deleted.value)] : [],
+        error: null,
+    };
 }

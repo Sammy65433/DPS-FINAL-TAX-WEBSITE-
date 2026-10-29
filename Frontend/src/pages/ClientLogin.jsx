@@ -7,7 +7,10 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import Layout from "../components/Layout";
-import { supabase } from "../lib/supabase";
+
+import { getCustomerSession, setCustomerToken } from "../lib/customerAuth";
+
+const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
 function getSafeReturnTo(value) {
   if (
@@ -39,17 +42,11 @@ export default function ClientLogin() {
   useEffect(() => {
     let active = true;
 
-    supabase.auth.getSession().then(({ data, error }) => {
-      if (!active) return;
-
-      if (error) {
-        setErrorMessage("Could not check your session.");
-      } else {
-        setSession(data.session);
-      }
-
+    const session = getCustomerSession();
+    if (active) {
+      setSession(session);
       setCheckingSession(false);
-    });
+    }
 
     return () => {
       active = false;
@@ -64,12 +61,18 @@ export default function ClientLogin() {
     setErrorMessage("");
 
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: email.trim(),
-        password,
+      if (!API_URL) throw new Error("DPS API is not configured.");
+
+      const response = await fetch(`${API_URL}/api/customer/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: email.trim(), password }),
       });
 
-      if (error) throw error;
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || "Unable to sign in.");
+
+      setCustomerToken(data.token);
       navigate(returnTo, { replace: true });
     } catch (error) {
       setErrorMessage(error.message || "Unable to sign in.");

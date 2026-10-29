@@ -11,10 +11,11 @@
   "license": "ISC",
   "type": "module",
   "dependencies": {
-    "@supabase/supabase-js": "^2.110.7",
+    "bcryptjs": "^3.0.3",
     "cors": "^2.8.6",
     "dotenv": "^17.4.2",
     "express": "^4.21.2",
+    "mongodb": "^7.7.0",
     "multer": "^2.4.0",
     "resend": "^6.17.2",
     "twilio": "^6.0.2",

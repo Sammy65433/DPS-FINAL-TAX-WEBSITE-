@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Layout from "../components/Layout";
-import { supabase } from "../lib/supabase";
+import { getCustomerToken } from "../lib/customerAuth";
 
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
@@ -11,32 +11,14 @@ export default function ClientLink() {
   const validToken = typeof token === "string" && /^[a-f0-9]{64}$/i.test(token);
   const returnTo = validToken ? `/client-link?token=${token}` : "/client-portal";
 
-  const [session, setSession] = useState(null);
+  const [sessionToken, setSessionToken] = useState(null);
   const [checking, setChecking] = useState(true);
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState({ type: "", message: "" });
 
   useEffect(() => {
-    let active = true;
-
-    supabase.auth.getSession().then(({ data, error }) => {
-      if (!active) return;
-
-      if (error) {
-        setStatus({
-          type: "error",
-          message: "Could not check your session.",
-        });
-      } else {
-        setSession(data.session);
-      }
-
-      setChecking(false);
-    });
-
-    return () => {
-      active = false;
-    };
+    setSessionToken(getCustomerToken());
+    setChecking(false);
   }, []);
 
   async function handleConfirm() {
@@ -46,17 +28,14 @@ export default function ClientLink() {
     setStatus({ type: "", message: "" });
 
     try {
-      const { data, error } = await supabase.auth.getSession();
-
-      if (error || !data.session) {
-        throw new Error("Please sign in again.");
-      }
+      const authToken = getCustomerToken();
+      if (!authToken) throw new Error("Please sign in again.");
 
       const response = await fetch(`${API_URL}/api/customer/link`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${data.session.access_token}`,
+          Authorization: `Bearer ${authToken}`,
         },
         body: JSON.stringify({ token }),
       });
@@ -81,6 +60,8 @@ export default function ClientLink() {
     }
   }
 
+  const session = sessionToken ? { user: { email: "" } } : null;
+
   return (
     <Layout>
       <main className="client-auth-page">
@@ -94,7 +75,7 @@ export default function ClientLink() {
             </p>
           ) : checking ? (
             <p>Checking your session...</p>
-          ) : !session ? (
+          ) : !sessionToken ? (
             <>
               <p>Sign in or create a DPS client account before confirming.</p>
               <Link to="/client-login" state={{ returnTo }}>
@@ -108,8 +89,8 @@ export default function ClientLink() {
           ) : (
             <>
               <p>
-                You are signed in as <strong>{session.user.email}</strong>.
-                Confirm only if this is the email that received the invitation.
+                You are signed in. Confirm only if this is the email that received
+                the invitation.
               </p>
 
               {status.type !== "success" && (

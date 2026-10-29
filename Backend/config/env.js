@@ -6,6 +6,8 @@ export const env = {
     PORT: process.env.PORT || 5001,
     SUPABASE_URL: process.env.SUPABASE_URL,
     SUPABASE_KEY: process.env.SUPABASE_KEY,
+    MONGODB_URI: process.env.MONGODB_URI,
+    JWT_SECRET: process.env.JWT_SECRET,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
     TWILIO_ACCOUNT_SID: process.env.TWILIO_ACCOUNT_SID,
     TWILIO_API_KEY: process.env.TWILIO_API_KEY,
