@@ -81,6 +81,7 @@ export async function confirmRealtyAppointmentFromEmail(req, res) {
         }
 
         if (!data || data.length === 0) {
+            console.error("Realty confirm not found for id:", id);
             return res.status(404).send("<h2>Realty request not found.</h2>");
         }
 
