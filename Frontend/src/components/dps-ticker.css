@@ -1,0 +1,66 @@
+.dps-ticker {
+    overflow: hidden;
+    background: linear-gradient(90deg, #0f5c54, #146d73 55%, #0f5c54);
+    border-top: 3px solid #f5d36c;
+    border-bottom: 3px solid #f5d36c;
+    padding: 0.75rem 0;
+}
+
+.dps-ticker__track {
+    display: flex;
+    width: max-content;
+    animation: dps-ticker-scroll 32s linear infinite;
+}
+
+.dps-ticker__track:hover,
+.dps-ticker__track:focus-within {
+    animation-play-state: paused;
+}
+
+.dps-ticker__group {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    padding-right: 2.5rem;
+}
+
+@keyframes dps-ticker-scroll {
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.dps-ticker__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55rem;
+    color: #f5e7c0;
+    font-family: "Open Sans", Arial, sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.dps-ticker__item svg {
+    color: #f5d36c;
+    flex-shrink: 0;
+}
+
+.dps-ticker__item:hover {
+    color: #ffffff;
+    text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .dps-ticker__track {
+        animation: none;
+    }
+}
+
+@media (max-width: 700px) {
+    .dps-ticker__item {
+        font-size: 0.95rem;
+    }
+}

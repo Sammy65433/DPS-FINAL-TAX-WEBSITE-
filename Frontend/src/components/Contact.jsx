@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
+import DpsTicker from "./DpsTicker";
 
 const contactPhotos = [
   { src: "/client-all.jpg", alt: "DPS clients and community" },
@@ -91,7 +92,9 @@ function Contact() {
   }
 
   return (
-    <section className="section contact-section" id="contact">
+    <>
+      <DpsTicker />
+      <section className="section contact-section" id="contact">
       <div className="container">
         <div className="contact-heading">
           <p className="eyebrow">Contact Us</p>
@@ -291,6 +294,7 @@ function Contact() {
         </div>
       </div>
     </section>
+    </>
   );
 }
 
