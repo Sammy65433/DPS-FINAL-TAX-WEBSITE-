@@ -158,7 +158,7 @@ function Booking() {
   const schedulerRef = useRef(null);
   const location = useLocation();
 
-  const selectedService = SERVICES.find(
+  const selectedService = [...SERVICES, ...REALTY_SERVICES].find(
     (service) => service.name === formData.service
   );
   const todayKey = easternTodayKey();
@@ -1019,10 +1019,11 @@ function Booking() {
 
             <div className="booking-summary-details">
               <strong>{selectedService.name}</strong>
-              <p>
+              {selectedService.realty ? (
+                <p>Handled by DPS Realty</p>
+              ) : (
                 <p>Choose a preparer when scheduling</p>
-
-              </p>
+              )}
               <p>DPS Professional Tax Services</p>
               <p>{formatDuration(selectedService.duration)}</p>
             </div>
