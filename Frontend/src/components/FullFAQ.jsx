@@ -94,12 +94,12 @@ const intakeForms = [
   {
     title: "Individual Client Intake Form",
     description: "For personal tax preparation.",
-    href: "/forms/DPS-CLIENT-FORM.pdf",
+    href: "/forms/DPS%20CLIENT%20FORM-FINAL1.pdf",
   },
   {
     title: "Business Client Intake Form",
     description: "For business tax preparation.",
-    href: "/forms/DPS-BUSINESS-FORM.pdf",
+    href: "/forms/DPS%20BUSINESS%20FORM-FINAL1.pdf",
   },
 ];
 

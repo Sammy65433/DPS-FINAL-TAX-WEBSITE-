@@ -8,6 +8,7 @@ import contactRoutes from "./routes/contactRoutes.js";
 import customerRoutes from "./routes/customerRoutes.js";
 import customerDocumentRoutes from "./routes/customerDocumentRoutes.js";
 import staffDocumentRoutes from "./routes/staffDocumentRoutes.js";
+import staffRoutes from "./routes/staffRoutes.js";
 
 const app = express();
 
@@ -23,7 +24,7 @@ app.use(
             "https://dps-textellent-frontend.onrender.com",
         ],
         methods: ["GET", "POST", "PATCH", "DELETE", "OPTIONS"],
-        allowedHeaders: ["Content-Type", "Authorization"],
+        allowedHeaders: ["Content-Type", "Authorization", "X-DPS-Staff-Key"],
     })
 );
 
@@ -37,6 +38,7 @@ app.get("/health", (_req, res) => {
     res.status(200).json({ ok: true });
 });
 app.use("/api/staff/documents", staffDocumentRoutes);
+app.use("/api/staff", staffRoutes);
 app.use("/api/contact", contactRoutes);
 app.use("/api/customer/documents", customerDocumentRoutes);
 app.use("/api/customer", customerRoutes);

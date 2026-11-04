@@ -137,8 +137,18 @@ export async function archiveAppointmentService(id) {
 
 export async function getAppointmentByIdService(id) {
     const collection = await getAppointmentCollection();
-    const doc = await collection.findOne({ _id: toId(id) });
-
+    let doc = null;
+    try {
+        doc = await collection.findOne({ _id: toId(id) });
+    } catch (error) {
+        return { data: null, error };
+    }
+    if (!doc && typeof id === "string" && /^[0-9a-f]{24}$/i.test(id)) {
+        try {
+            const { ObjectId } = await import("mongodb");
+            doc = await collection.findOne({ _id: new ObjectId(id) });
+        } catch (_) {}
+    }
     return { data: toAppointment(doc), error: null };
 }
 

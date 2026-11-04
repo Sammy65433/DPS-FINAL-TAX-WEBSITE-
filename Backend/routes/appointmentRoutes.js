@@ -1,6 +1,6 @@
 import express from "express";
-import crypto from "node:crypto";
 
+import { requireStaff } from "../middleware/requireStaff.js";
 import {
   archiveAppointment,
   cancelAppointment,
@@ -24,29 +24,8 @@ import {
 
 const router = express.Router();
 
-function requireStaffServiceKey(req, res, next) {
-  const expected = process.env.DPS_STAFF_API_KEY;
-  const supplied = req.get("X-DPS-Staff-Key");
-
-  if (!expected || !supplied) {
-    return res.status(401).json({ message: "Unauthorized." });
-  }
-
-  const expectedBuffer = Buffer.from(expected);
-  const suppliedBuffer = Buffer.from(supplied);
-
-  if (
-    expectedBuffer.length !== suppliedBuffer.length ||
-    !crypto.timingSafeEqual(expectedBuffer, suppliedBuffer)
-  ) {
-    return res.status(401).json({ message: "Unauthorized." });
-  }
-
-  next();
-}
-
 // Staff appointment list
-router.get("/", requireStaffServiceKey, getAppointments);
+router.get("/", requireStaff, getAppointments);
 
 // Public booking
 router.get("/availability", getAvailability);
@@ -57,14 +36,14 @@ router.get("/manage/availability", getManagedAvailability);
 router.patch("/manage/reschedule", rescheduleManagedAppointment);
 router.patch("/manage/cancel", cancelManagedAppointment);
 
-router.get("/staff/availability", requireStaffServiceKey, getStaffAvailability);
-router.post("/staff", requireStaffServiceKey, createStaffAppointment);
+router.get("/staff/availability", requireStaff, getStaffAvailability);
+router.post("/staff", requireStaff, createStaffAppointment);
 
 // Staff-only changes
-router.patch("/:id/cancel", requireStaffServiceKey, cancelAppointment);
-router.patch("/:id/archive", requireStaffServiceKey, archiveAppointment);
-router.patch("/:id", requireStaffServiceKey, updateAppointment);
-router.patch("/:id/clear-message", requireStaffServiceKey, clearAppointmentMessage);
-router.delete("/:id", requireStaffServiceKey, deleteAppointment);
+router.patch("/:id/cancel", requireStaff, cancelAppointment);
+router.patch("/:id/archive", requireStaff, archiveAppointment);
+router.patch("/:id", requireStaff, updateAppointment);
+router.patch("/:id/clear-message", requireStaff, clearAppointmentMessage);
+router.delete("/:id", requireStaff, deleteAppointment);
 
 export default router;

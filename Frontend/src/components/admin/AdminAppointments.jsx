@@ -25,6 +25,23 @@ function AdminAppointments() {
     const [adminPassword, setAdminPassword] = useState("");
     const [isAuthorized, setIsAuthorized] = useState(false);
     const [loginError, setLoginError] = useState("");
+    const [loginSubmitting, setLoginSubmitting] = useState(false);
+    const [staffTokenState, setStaffTokenState] = useState(
+        localStorage.getItem("dps_staff_token") || ""
+    );
+
+    function getStaffAuthHeaders() {
+        const headers = {};
+        const token = staffTokenState || localStorage.getItem("dps_staff_token");
+        if (token) {
+            headers.Authorization = `Bearer ${token}`;
+        }
+        const staffKey = import.meta.env.VITE_DPS_STAFF_KEY;
+        if (staffKey && !token) {
+            headers["X-DPS-Staff-Key"] = staffKey;
+        }
+        return headers;
+    }
 
     const [editingId, setEditingId] = useState(null);
     const [editBookedTimes, setEditBookedTimes] = useState([]);
@@ -56,9 +73,10 @@ function AdminAppointments() {
 
     async function fetchAppointments() {
         try {
+            const headers = getStaffAuthHeaders();
             const [taxResponse, realtyResponse] = await Promise.all([
-                fetch(`${import.meta.env.VITE_API_URL}/api/appointments`),
-                fetch(`${import.meta.env.VITE_API_URL}/api/realty-appointments`),
+                fetch(`${import.meta.env.VITE_API_URL}/api/appointments`, { headers }),
+                fetch(`${import.meta.env.VITE_API_URL}/api/realty-appointments`, { headers }),
             ]);
 
             const taxData = await taxResponse.json();
@@ -85,7 +103,7 @@ function AdminAppointments() {
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/api/appointments/${id}/cancel`,
-                { method: "PATCH" }
+                { method: "PATCH", headers: getStaffAuthHeaders() }
             );
 
             const data = await response.json();
@@ -114,7 +132,7 @@ function AdminAppointments() {
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/api/appointments/${id}/archive`,
-                { method: "PATCH" }
+                { method: "PATCH", headers: getStaffAuthHeaders() }
             );
 
             const data = await response.json();
@@ -143,7 +161,7 @@ function AdminAppointments() {
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/api/appointments/${id}`,
-                { method: "DELETE" }
+                { method: "DELETE", headers: getStaffAuthHeaders() }
             );
 
             const data = await response.json();
@@ -166,7 +184,7 @@ function AdminAppointments() {
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/api/realty-appointments/${id}/confirm`,
-                { method: "PATCH" }
+                { method: "PATCH", headers: getStaffAuthHeaders() }
             );
 
             const data = await response.json();
@@ -189,7 +207,7 @@ function AdminAppointments() {
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/api/realty-appointments/${id}/cancel`,
-                { method: "PATCH" }
+                { method: "PATCH", headers: getStaffAuthHeaders() }
             );
 
             const data = await response.json();
@@ -247,7 +265,7 @@ function AdminAppointments() {
         try {
             const response = await fetch(
                 `${import.meta.env.VITE_API_URL}/api/realty-appointments/${id}`,
-                { method: "DELETE" }
+                { method: "DELETE", headers: getStaffAuthHeaders() }
             );
 
             const data = await response.json();
@@ -266,19 +284,43 @@ function AdminAppointments() {
         }
     }
 
-    function handleLogin(e) {
+    async function handleLogin(e) {
         e.preventDefault();
 
-        if (adminPassword === import.meta.env.VITE_ADMIN_PASSWORD) {
-            setIsAuthorized(true);
-            setLoginError("");
-            setStatusMessage("");
-        } else {
-            setLoginError("Incorrect password.");
+        setLoginSubmitting(true);
+        setLoginError("");
+
+        try {
+            const response = await fetch(
+                `${import.meta.env.VITE_API_URL}/api/staff/login`,
+                {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ password: adminPassword }),
+                }
+            );
+
+            const data = await response.json().catch(() => ({}));
+
+            if (response.ok && data.token) {
+                localStorage.setItem("dps_staff_token", data.token);
+                setStaffTokenState(data.token);
+                setIsAuthorized(true);
+                setStatusMessage("");
+                return;
+            }
+
+            setLoginError(data.message || "Incorrect staff credentials.");
+        } catch (error) {
+            setLoginError("Could not reach the staff login service.");
+        } finally {
+            setLoginSubmitting(false);
         }
     }
 
     function handleLogout() {
+        localStorage.removeItem("dps_staff_token");
+        setStaffTokenState("");
         setIsAuthorized(false);
         setAdminPassword("");
         setLoginError("");
@@ -326,6 +368,7 @@ function AdminAppointments() {
                     method: "PATCH",
                     headers: {
                         "Content-Type": "application/json",
+                        ...getStaffAuthHeaders(),
                     },
                     body: JSON.stringify(editForm),
                 }

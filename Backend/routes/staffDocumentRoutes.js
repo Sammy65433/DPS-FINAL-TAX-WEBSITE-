@@ -1,20 +1,10 @@
 import { Router } from "express";
-import crypto from "node:crypto";
+import { requireStaff } from "../middleware/requireStaff.js";
 import { getDatabase } from "../config/mongo.js";
 
 const router = Router();
 const MAX_BYTES = 5 * 1024 * 1024;
 const OBJECT_ID_PATTERN = /^[a-f0-9]{24}$/i;
-
-function hasValidStaffKey(req) {
-    const supplied = req.get("X-DPS-Staff-Key");
-    const expected = process.env.DPS_STAFF_API_KEY;
-    if (!supplied || !expected) return false;
-
-    const a = Buffer.from(supplied);
-    const b = Buffer.from(expected);
-    return a.length === b.length && crypto.timingSafeEqual(a, b);
-}
 
 function safeFilename(name) {
     return String(name || "document")
@@ -22,13 +12,7 @@ function safeFilename(name) {
         .slice(0, 150);
 }
 
-router.use((req, res, next) => {
-    if (!hasValidStaffKey(req)) {
-        return res.status(401).json({ message: "Unauthorized." });
-    }
-    res.set("Cache-Control", "no-store");
-    return next();
-});
+router.use(requireStaff);
 
 router.get("/:customerId", async (req, res) => {
     const { customerId } = req.params;

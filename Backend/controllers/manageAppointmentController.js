@@ -54,7 +54,13 @@ async function findByToken(token) {
   );
 
   if (error) throw error;
-  return data;
+  if (!data) return null;
+  
+  // Normalize the appointment object to have an id field
+  return {
+    ...data,
+    id: data.id || String(data._id),
+  };
 }
 
 function publicAppointment(appointment) {

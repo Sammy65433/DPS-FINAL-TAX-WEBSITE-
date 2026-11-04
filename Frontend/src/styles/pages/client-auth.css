@@ -104,6 +104,19 @@
   gap: 0.7rem;
 }
 
+.client-documents-forms-hint {
+  margin: 0;
+  grid-column: 1;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.client-documents-forms-hint a {
+  color: #146d73;
+  font-weight: 600;
+  text-decoration: underline;
+}
+
 .client-documents input[type="file"] {
   width: 100%;
 }

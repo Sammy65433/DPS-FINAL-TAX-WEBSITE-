@@ -9,6 +9,17 @@ const ALLOWED_TYPES = new Set([
     "image/png",
 ]);
 
+const INTAKE_FORMS = [
+    {
+        title: "Individual Client Form (PDF)",
+        href: "/forms/DPS%20CLIENT%20FORM-FINAL1.pdf",
+    },
+    {
+        title: "Business Client Form (PDF)",
+        href: "/forms/DPS%20BUSINESS%20FORM-FINAL1.pdf",
+    },
+];
+
 export default function CustomerDocuments() {
     const [documents, setDocuments] = useState([]);
     const [file, setFile] = useState(null);
@@ -105,7 +116,7 @@ export default function CustomerDocuments() {
             const response = await fetch(`${API_URL}/api/customer/documents`, {
                 method: "POST",
                 headers: {
-                    Authorization: `Bearer ${data.session.access_token}`,
+                    Authorization: `Bearer ${token}`,
                 },
                 body: formData,
             });
@@ -146,6 +157,18 @@ export default function CustomerDocuments() {
             </p>
 
             <form onSubmit={handleUpload}>
+                <p className="client-documents-forms-hint">
+                    Need an intake form?{" "}
+                    {INTAKE_FORMS.map(({ title, href }, index) => (
+                        <span key={href}>
+                            {index > 0 && " · "}
+                            <a href={href} download target="_blank" rel="noopener noreferrer">
+                                {title}
+                            </a>
+                        </span>
+                    ))}{" "}
+                    — download it, complete it, then upload it below.
+                </p>
                 <label htmlFor="customer-document">
                     Choose a PDF, JPG, or PNG, up to 5 MB
                 </label>

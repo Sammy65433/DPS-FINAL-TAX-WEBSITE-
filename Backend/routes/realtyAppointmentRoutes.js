@@ -1,4 +1,5 @@
 import express from "express";
+import { requireStaff } from "../middleware/requireStaff.js";
 import {
     archiveRealtyAppointment,
     cancelRealtyAppointment,
@@ -13,14 +14,15 @@ import {
 
 const router = express.Router();
 
-router.get("/", getRealtyAppointments);
 router.post("/", createRealtyAppointment);
 router.get("/:id/confirm", confirmRealtyAppointmentFromEmail);
 router.get("/:id/cancel-from-email", cancelRealtyAppointmentFromEmail);
-router.patch("/:id", updateRealtyAppointment);
-router.patch("/:id/confirm", confirmRealtyAppointment);
-router.patch("/:id/cancel", cancelRealtyAppointment);
-router.patch("/:id/archive", archiveRealtyAppointment);
-router.delete("/:id", deleteRealtyAppointment);
+
+router.get("/", requireStaff, getRealtyAppointments);
+router.patch("/:id", requireStaff, updateRealtyAppointment);
+router.patch("/:id/confirm", requireStaff, confirmRealtyAppointment);
+router.patch("/:id/cancel", requireStaff, cancelRealtyAppointment);
+router.patch("/:id/archive", requireStaff, archiveRealtyAppointment);
+router.delete("/:id", requireStaff, deleteRealtyAppointment);
 
 export default router;

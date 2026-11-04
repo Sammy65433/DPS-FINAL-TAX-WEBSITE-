@@ -39,14 +39,14 @@ const intakeForms = [
   {
     icon: FaUser,
     title: "Individual Client Intake Form",
-    text: "Collect basic contact information and prior-year tax context before an individual appointment. Bring the completed form to your consultation so your preparer can review what is needed.",
-    href: "/forms/DPS-CLIENT-FORM.pdf",
+    text: "Collect basic contact information and prior-year tax context before an individual appointment. Download the form, complete it, and upload it through your DPS client account so your preparer can review it before your visit.",
+    href: "/forms/DPS%20CLIENT%20FORM-FINAL1.pdf",
   },
   {
     icon: FaBriefcase,
     title: "Business Client Intake Form",
-    text: "Collect business filing context, such as prior returns and estimated figures, before a business or entity consultation. Bring the completed form to your appointment.",
-    href: "/forms/DPS-BUSINESS-FORM.pdf",
+    text: "Collect business filing context, such as prior returns and estimated figures, before a business or entity consultation. Download the form, complete it, and upload it through your DPS client account before your appointment.",
+    href: "/forms/DPS%20BUSINESS%20FORM-FINAL1.pdf",
   },
 ];
 

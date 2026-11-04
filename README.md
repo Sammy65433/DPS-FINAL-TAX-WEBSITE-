@@ -3,7 +3,7 @@ DPS Professional Tax Services Website
 
 **Live application:** https://www.dpstaxpro.com/
 
-DPS Professional Tax Services Website is a full-stack web application built for DPS Professional Tax Services and DPS Realty. It provides a professional public-facing website, tax and real estate booking forms, admin appointment management, secure document portal guidance, official IRS resource links, and email-based appointment communication.
+DPS Professional Tax Services Website is a full-stack web application built for DPS Professional Tax Services and DPS Realty. It provides a professional public-facing website, tax and real estate booking forms, admin appointment management, client authentication, customer document upload, secure document portal guidance, official IRS resource links, and email-based appointment communication.
 
 The project includes:
 
@@ -11,8 +11,10 @@ The project includes:
 - an Express backend
 - Supabase database integration
 - Resend email integration
+- MongoDB integration (appointments + customer accounts/documents)
 - modular CSS structure
 - admin appointment tools
+- client portal authentication and document upload
 
 ## Live Project Purpose
 
@@ -21,6 +23,7 @@ This platform helps DPS:
 - present business services professionally online
 - allow clients to request tax appointments
 - allow clients to request real estate appointments
+- allow clients to create accounts and upload documents
 - guide clients to secure document upload workflows
 - provide official IRS resource links
 - manage bookings internally through an admin dashboard
@@ -40,11 +43,15 @@ This platform helps DPS:
 - Express
 - CORS
 - dotenv
+- bcryptjs
+- jsonwebtoken
+- MongoDB driver (appointments + customers/documents)
 
 ### Services
 - Supabase
 - Resend
 - XLSX
+- Twilio (SMS; mock mode in dev)
 
 ## Core Features
 
@@ -56,6 +63,23 @@ This platform helps DPS:
 - purpose/mission page
 - booking page
 - real estate booking page
+
+### Client Authentication
+- client login with email/password (bcrypt hashed, JWT issued, 7-day expiry)
+- client registration with email confirmation token flow
+- client password reset flow via expiring tokens
+- client account link redemption for CRM contact connections
+- protected client endpoints (`/api/customer/*`) require a valid `Bearer` JWT with `role: customer`
+
+### Customer Document Upload
+- clients can upload PDF, JPG, or PNG documents (max 5 MB) through the client portal
+- documents are stored against the customer record
+- staff can retrieve document metadata and download via staff-protected endpoints
+
+### Staff Authentication
+- staff endpoints protected by `X-DPS-Staff-Key` header with timing-safe comparison
+- key shared between DPS backend and CRM backend server-to-server
+- staff appointment CRUD operations require the staff key
 
 ### Tax Appointment Booking
 - online booking form
@@ -72,7 +96,7 @@ This platform helps DPS:
 - office notification email
 
 ### Admin Dashboard
-- password-protected admin view
+- password-protected admin view (frontend password check + server-side staff key)
 - list tax appointments
 - list realty appointments
 - edit appointments
@@ -81,6 +105,16 @@ This platform helps DPS:
 - delete appointments
 - export archived appointments to JSON or CSV
 - add tax and realty appointments to Google Calendar
+
+### Staff Appointment Management
+- staff-only create, list, edit, cancel, archive, delete operations
+- staff availability lookup by date, preparer, and duration
+- staff bookings include expiring manage token hash + expiry
+
+### Customer Appointment Management
+- private manage link flow with expiring token
+- customers can view, reschedule, or cancel their own appointments
+- manage tokens are hashed (SHA-256) and expire after 7 days
 
 ### IRS Resources
 - official IRS resource section on booking page
@@ -92,6 +126,8 @@ This platform helps DPS:
 ### Security Guidance
 - secure portal instructions for client documents
 - visible warnings not to submit sensitive tax information through the public form
+- client document uploads limited to PDF/JPG/PNG, max 5 MB, no malware scanning
+- manage tokens are stored hashed and expire
 
 ## How It Works
 
@@ -100,7 +136,7 @@ A user lands on the DPS site and can:
 - browse services
 - read FAQs
 - view contact and office details
-- visit tax booking or real estate booking
+- visit tax booking, realty booking, or client portal
 
 ### 2. Client Books an Appointment
 On the tax booking page, the user:
@@ -118,7 +154,7 @@ On the real estate page, the user:
 - submits the request
 
 ### 3. Frontend Sends Data to Backend
-The React frontend sends a `POST` request to the Express backend API using `VITE_API_URL`.
+The React frontend sends requests to the Express backend API using `VITE_API_URL`.
 
 Examples:
 - `POST /api/appointments`
@@ -129,6 +165,7 @@ The backend:
 - validates availability for tax appointments
 - prevents duplicate bookings for same date/time/preparer
 - inserts data into Supabase tables
+- manages expiring manage tokens (hashed, 7-day expiry)
 - returns the saved appointment object
 
 ### 5. Email Notifications Are Sent
@@ -151,6 +188,13 @@ An internal admin user can go to `/admin` and:
 - export archived data
 - open Google Calendar links for appointments
 
+### 7. Client Uploads Documents
+An authenticated client can go to `/client-portal` and:
+- upload PDF/JPG/PNG documents (max 5 MB)
+- view uploaded document metadata
+
+Staff can then retrieve and download those documents through staff-protected endpoints linked to the CRM contact.
+
 ## Project Structure
 
 ```bash
@@ -159,20 +203,30 @@ DPS-FINAL-TAX/
 │   ├── config/
 │   │   ├── env.js
 │   │   ├── resend.js
-│   │   └── supabase.js
+│   │   ├── supabase.js
+│   │   └── mongo.js
 │   ├── controllers/
 │   │   ├── appointmentController.js
+│   │   ├── realtyAppointmentController.js
 │   │   ├── emailController.js
-│   │   └── realtyAppointmentController.js
+│   │   ├── customerAuthController.js
+│   │   └── manageAppointmentController.js
 │   ├── routes/
 │   │   ├── appointmentRoutes.js
+│   │   ├── realtyAppointmentRoutes.js
 │   │   ├── emailRoutes.js
-│   │   └── realtyAppointmentRoutes.js
+│   │   ├── customerRoutes.js
+│   │   ├── staffDocumentRoutes.js
+│   │   └── customerDocumentRoutes.js
 │   ├── services/
 │   │   ├── appointmentService.js
-│   │   ├── emailService.js
 │   │   ├── realtyAppointmentService.js
-│   │   └── spreadsheetService.js
+│   │   ├── emailService.js
+│   │   ├── spreadsheetService.js
+│   │   └── customerService.js
+│   ├── middleware/
+│   │   ├── requireCustomer.js
+│   │   └── requireStaffServiceKey.js
 │   ├── utils/
 │   │   ├── chunkArray.js
 │   │   └── normalizeEmails.js
@@ -184,7 +238,7 @@ DPS-FINAL-TAX/
 │   ├── .env.example
 │   ├── package.json
 │   └── package-lock.json
-│
+
 └── Frontend/
     ├── public/
     ├── src/
@@ -198,6 +252,7 @@ DPS-FINAL-TAX/
     │   │   │   ├── adminConstants.js
     │   │   │   └── adminUtils.js
     │   │   ├── Booking.jsx
+    │   │   ├── CustomerDocuments.jsx
     │   │   ├── Contact.jsx
     │   │   ├── FAQ.jsx
     │   │   ├── Footer.jsx
@@ -220,6 +275,10 @@ DPS-FINAL-TAX/
     │   │   ├── AboutPage.jsx
     │   │   ├── AdminPage.jsx
     │   │   ├── BookingPage.jsx
+    │   │   ├── ClientLogin.jsx
+    │   │   ├── ClientPortal.jsx
+    │   │   ├── ClientLink.jsx
+    │   │   ├── ClientSignup.jsx
     │   │   ├── ContactPage.jsx
     │   │   ├── CopyFax.jsx
     │   │   ├── FAQPage.jsx
@@ -227,6 +286,7 @@ DPS-FINAL-TAX/
     │   │   ├── HowItWorksPage.jsx
     │   │   ├── Immigration.jsx
     │   │   ├── InsuranceServices.jsx
+    │   │   ├── LoginChoice.jsx
     │   │   ├── MomentsPage.jsx
     │   │   ├── Notary.jsx
     │   │   ├── PurposePage.jsx
@@ -240,6 +300,8 @@ DPS-FINAL-TAX/
     │   │   ├── pages/
     │   │   └── index.css
     │   ├── App.jsx
+    │   ├── lib/
+    │   │   └── customerAuth.js
     │   └── main.jsx
     ├── .env
     ├── .env.example
@@ -250,6 +312,7 @@ DPS-FINAL-TAX/
 ## Environment Variables
 
 ## Backend `.env`
+
 ```env
 SUPABASE_URL=your_supabase_project_url
 SUPABASE_KEY=your_supabase_key
@@ -261,12 +324,22 @@ TWILIO_API_SECRET=your_twilio_api_secret
 TWILIO_PHONE_NUMBER=your_twilio_phone_number
 FRONTEND_URL=https://www.dpstaxpro.com
 BASE_URL=http://localhost:5001
+
+MONGODB_URI=your_mongodb_connection_string
+
+JWT_SECRET=your_jwt_secret
+
+DPS_STAFF_API_KEY=your_staff_api_key
+
+CRM_BACKEND_URL=https://dps-crm-1.onrender.com
+CRM_LINK_REDEEM_KEY=your_crm_link_redeem_key
 ```
 
 ## Frontend `.env`
+
 ```env
 VITE_API_URL=http://localhost:5001
-VITE_ADMIN_PASSWORD=
+VITE_ADMIN_PASSWORD=your_admin_password
 ```
 
 ## Local Development
@@ -304,16 +377,39 @@ http://localhost:5173
 - `GET /`
 - `GET /health`
 
+### Client Auth
+- `POST /api/customer/register`
+- `POST /api/customer/login`
+- `POST /api/customer/confirm-email`
+- `POST /api/customer/forgot-password`
+- `POST /api/customer/reset-password`
+- `GET /api/customer/me` (staff/customer JWT required)
+- `POST /api/customer/link` (staff/customer JWT required, CRM redemption)
+
+### Customer Documents
+- `GET /api/customer/documents` (customer JWT required)
+- `POST /api/customer/documents` (customer JWT + multipart upload required)
+
+### Staff Documents
+- `GET /api/staff/documents/:customerId` (staff JWT or `X-DPS-Staff-Key` required)
+- `GET /api/staff/documents/:customerId/:documentId/download` (staff JWT or `X-DPS-Staff-Key` required)
+
+### Staff Auth
+- `POST /api/staff/login` (body: `{ password }`) — verifies staff admin password and returns a staff JWT
+- JWT signed with `JWT_SECRET`, staff/admin role, 8-hour expiry
+
 ### Tax Appointments
-- `GET /api/appointments`
+- `GET /api/appointments` (staff JWT or `X-DPS-Staff-Key` required)
 - `GET /api/appointments/availability`
 - `POST /api/appointments`
-- `GET /api/appointments/:id/confirm`
-- `GET /api/appointments/:id/cancel-from-email`
-- `PATCH /api/appointments/:id`
-- `PATCH /api/appointments/:id/cancel`
-- `PATCH /api/appointments/:id/archive`
-- `DELETE /api/appointments/:id`
+- `GET /api/appointments/manage?token=...` (customer manage token)
+- `GET /api/appointments/manage/availability?token=...&date=...&preparer=...&duration_minutes=...` (customer manage token)
+- `PATCH /api/appointments/manage/reschedule` (customer manage token)
+- `PATCH /api/appointments/manage/cancel` (customer manage token)
+- `PATCH /api/appointments/:id/cancel` (staff key required)
+- `PATCH /api/appointments/:id/archive` (staff key required)
+- `PATCH /api/appointments/:id` (staff key required)
+- `DELETE /api/appointments/:id` (staff key required)
 
 ### Realty Appointments
 - `GET /api/realty-appointments`
@@ -346,6 +442,10 @@ Suggested columns:
 - `message`
 - `status`
 - `created_at`
+- `manage_token_hash`
+- `manage_token_expires_at`
+- `visit_format`
+- `duration_minutes`
 
 ### `realty_appointments`
 Suggested columns:
@@ -376,7 +476,11 @@ create table if not exists public.appointments (
   appointment_time text,
   message text,
   status text default 'booked',
-  created_at timestamp with time zone default now()
+  created_at timestamp with time zone default now(),
+  manage_token_hash text,
+  manage_token_expires_at timestamp with time zone,
+  visit_format text,
+  duration_minutes integer
 );
 
 create table if not exists public.realty_appointments (
@@ -412,6 +516,10 @@ Confirmed working:
 - modular admin refactor works
 - official IRS resource section works
 - payment anchor and IRS anchor support are in place
+- client login / JWT flow works
+- client document upload flow works
+- staff appointment key-protected operations work
+- customer manage link flow works
 
 ## Deployment Plan for Render
 
@@ -446,6 +554,11 @@ Set environment variables:
 - `TWILIO_PHONE_NUMBER`
 - `FRONTEND_URL`
 - `BASE_URL`
+- `MONGODB_URI`
+- `JWT_SECRET`
+- `DPS_STAFF_API_KEY`
+- `CRM_BACKEND_URL`
+- `CRM_LINK_REDEEM_KEY`
 
 Start command:
 ```bash
@@ -456,8 +569,6 @@ Important:
 - set `BASE_URL` to your backend Render URL
 - set `FRONTEND_URL` to your frontend Render URL
 - update backend CORS if needed for the deployed frontend domain
-
-
 
 ## Troubleshooting
 
@@ -500,6 +611,23 @@ Cause:
 Fix:
 - run the SQL table setup
 
+### Staff endpoints return `401 Unauthorized`
+Cause:
+- missing or incorrect `X-DPS-Staff-Key` header
+
+Fix:
+- send the header on staff-only requests:
+```http
+X-DPS-Staff-Key: <staff_key>
+```
+
+### Customer document upload fails
+Cause:
+- missing or invalid customer JWT
+
+Fix:
+- sign in through `/client-login` first, then upload through `/client-portal`
+
 ## Suggested Future Improvements
 
 - move admin auth fully to backend or a proper auth system
@@ -509,8 +637,8 @@ Fix:
 - add server-side validation for all request fields
 - add analytics and error logging
 - add spam protection for public forms
-- add file upload integration directly to secure portal workflow
 - enable stronger role-based access control later
+- add document malware scanning before staff access
 
 ## Overall Summary
 
@@ -520,6 +648,10 @@ It successfully supports:
 - public business presentation
 - tax booking
 - real estate booking
+- client authentication
+- client document upload
+- staff appointment management
+- customer private appointment management
 - client email communication
 - admin appointment management
 - secure client guidance
@@ -532,4 +664,3 @@ Samuel Jacquet
 DPS Professional Tax Services Website
 
 Sept 1, 2026
-
