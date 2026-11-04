@@ -217,7 +217,7 @@ function Booking() {
   }, [location.hash]);
 
   useEffect(() => {
-    if (!summaryOpen) return undefined;
+    if (!summaryOpen || !selectedService) return undefined;
 
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";

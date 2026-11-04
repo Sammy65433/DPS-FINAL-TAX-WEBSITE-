@@ -787,20 +787,11 @@
   }
 }
 
-/* DPS Realty service cards on the main booking form */
+/* DPS Realty service cards on the main booking form - same fonts, theme color only */
 .booking-service-card--realty {
-  border-color: #8a6a3f;
+  border-color: #6f42a8;
 }
 
-.booking-service-card--realty::before,
-.booking-service-card--realty .booking-service-flag {
-  content: "Realty";
-  display: inline-block;
-  margin-bottom: 0.35rem;
-}
-
-.booking-service-card--realty .booking-service-description::before {
-  content: "DPS Realty · ";
-  font-weight: 600;
-  color: #6f42a8;
+.booking-service-card--realty h4 {
+  color: #d9c6f2;
 }
