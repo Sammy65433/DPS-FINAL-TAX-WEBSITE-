@@ -135,7 +135,7 @@ export async function confirmCustomerEmail(req, res) {
     const tokenHash = hashToken(token);
 
     try {
-        const db = (await import("../config/mongo.js")).getDatabase();
+        const db = await (await import("../config/mongo.js")).getDatabase();
         const customer = await db.collection("customers").findOne({
             confirmTokenHash: tokenHash,
             confirmTokenExpiresAt: { $gt: new Date().toISOString() },
@@ -207,7 +207,7 @@ export async function resetCustomerPassword(req, res) {
     const tokenHash = hashToken(token);
 
     try {
-        const db = (await import("../config/mongo.js")).getDatabase();
+        const db = await (await import("../config/mongo.js")).getDatabase();
         const customer = await db.collection("customers").findOne({
             resetTokenHash: tokenHash,
             resetTokenExpiresAt: { $gt: new Date().toISOString() },

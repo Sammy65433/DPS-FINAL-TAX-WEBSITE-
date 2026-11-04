@@ -22,7 +22,7 @@ router.get("/:customerId", async (req, res) => {
     }
 
     try {
-        const db = getDatabase();
+        const db = await getDatabase();
         const docs = await db
             .collection("customer_documents")
             .find({ customerId })
@@ -53,7 +53,7 @@ router.get("/:customerId/:documentId/download", async (req, res) => {
     }
 
     try {
-        const db = getDatabase();
+        const db = await getDatabase();
         const { ObjectId } = await import("mongodb");
         const doc = await db.collection("customer_documents").findOne({
             _id: new ObjectId(documentId),

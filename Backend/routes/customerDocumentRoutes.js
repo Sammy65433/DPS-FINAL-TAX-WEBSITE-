@@ -22,7 +22,7 @@ router.use(requireCustomer);
 
 router.get("/", async (req, res) => {
     try {
-        const db = getDatabase();
+        const db = await getDatabase();
         const docs = await db
             .collection("customer_documents")
             .find({ customerId: req.customer.id })
@@ -65,7 +65,7 @@ router.post("/", (req, res) => {
         }
 
         try {
-            const db = getDatabase();
+            const db = await getDatabase();
             const now = new Date().toISOString();
             const result = await db.collection("customer_documents").insertOne({
                 customerId: req.customer.id,

@@ -18,7 +18,7 @@ function toCustomer(doc) {
 }
 
 export async function findCustomerByEmailService(email) {
-    const db = getDatabase();
+    const db = await getDatabase();
     const customer = await db
         .collection(COLLECTION)
         .findOne({ email: String(email).trim().toLowerCase() });
@@ -26,7 +26,7 @@ export async function findCustomerByEmailService(email) {
 }
 
 export async function findCustomerByIdService(id) {
-    const db = getDatabase();
+    const db = await getDatabase();
     let customer = null;
     try {
         customer = await db
@@ -39,7 +39,7 @@ export async function findCustomerByIdService(id) {
 }
 
 export async function createCustomerService(fields) {
-    const db = getDatabase();
+    const db = await getDatabase();
     const now = new Date().toISOString();
     const doc = {
         email: String(fields.email).trim().toLowerCase(),
@@ -67,7 +67,7 @@ export async function createCustomerService(fields) {
 }
 
 export async function updateCustomerService(id, fields) {
-    const db = getDatabase();
+    const db = await getDatabase();
     const update = { ...fields, updatedAt: new Date().toISOString() };
     try {
         const result = await db.collection(COLLECTION).findOneAndUpdate(
