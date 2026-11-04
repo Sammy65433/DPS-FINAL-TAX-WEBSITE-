@@ -16,31 +16,26 @@ const pricingGroups = [
         items: [
             {
                 name: "Form 1040",
-                price: "$150",
                 detail: "Includes state return",
                 image: "/tax-desktop.jpg",
             },
             {
                 name: "Form 1040 with Schedule A",
-                price: "$150",
                 detail: "Includes state return",
                 image: "/pricing-page-taxes-w4.jpg",
             },
             {
                 name: "Schedule C",
-                price: "$150",
                 detail: "Sole proprietor / independent contractor",
                 image: "/pricing-page-taxes-smallbuisness.jpg",
             },
             {
                 name: "Schedule D",
-                price: "$175",
                 detail: "Capital gains and losses",
                 image: "/pricing-page-taxes-w7.jpg",
             },
             {
                 name: "Schedule E",
-                price: "$175",
                 detail: "Supplemental income and losses",
                 image: "/tax-desktop.jpg",
             },
@@ -52,14 +47,12 @@ const pricingGroups = [
         items: [
             {
                 name: "Single-Member LLC",
-                price: "$175",
                 detail: "Does not include individual tax returns",
                 image: "/corp-busness2.jpg",
             },
             {
                 name: "Partnerships & S Corporations",
-                price: "$200",
-                detail: "Starting price",
+                detail: "Includes required entity filings",
                 image: "/corp-busness1.jpg",
             },
         ],
@@ -70,14 +63,12 @@ const pricingGroups = [
         items: [
             {
                 name: "Notary Public",
-                price: "$8",
                 detail: "Per notarization",
                 image: "/notary-2.jpg",
             },
             {
                 name: "Mobile Notary Services",
-                price: "$30",
-                detail: "Per notarization. Mileage and travel fees are additional.",
+                detail: "Mileage and travel fees are additional.",
                 image: "/notaary4.jpg",
             },
         ],
@@ -93,9 +84,10 @@ function PaymentsPage() {
                         <p className="eyebrow">DPS Professional Tax Services</p>
                         <h1>Pricing</h1>
                         <p>
-                            Tax preparation fees vary depending on the complexity of the
-                            filing. Listed prices are starting rates. Please confirm your
-                            total with our office before making a payment.
+                            Tax preparation fees vary based on the complexity of your
+                            filing and where you are located — pricing is set by city
+                            and state. Confirm your exact total with our office before
+                            making a payment.
                         </p>
                     </div>
 
@@ -107,7 +99,7 @@ function PaymentsPage() {
                             </div>
 
                             <div className="pricing-grid">
-                                {items.map(({ name, price, detail, image }) => (
+                                {items.map(({ name, detail, image }) => (
                                     <article className="pricing-card" key={name}>
                                         <img
                                             src={image}
@@ -118,7 +110,7 @@ function PaymentsPage() {
                                         <div className="pricing-card-content">
                                             <h3>{name}</h3>
                                             <p className="pricing-amount">
-                                                Starts at <strong>{price}</strong>
+                                                Pricing <strong>varies by city &amp; state</strong>
                                             </p>
                                             <p className="pricing-detail">{detail}</p>
                                         </div>
