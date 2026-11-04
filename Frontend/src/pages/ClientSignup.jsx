@@ -31,6 +31,8 @@ export default function ClientSignup() {
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
+  const [successEmail, setSuccessEmail] = useState("");
+  const [fallbackToken, setFallbackToken] = useState("");
 
   useEffect(() => {
     let active = true;
@@ -69,9 +71,11 @@ export default function ClientSignup() {
       setPassword("");
 
       if (data.confirmToken) {
+        setSuccessEmail(email.trim());
         setSuccessMessage(
-          `Account created. Confirm your email before connecting it. Confirmation token: ${data.confirmToken}`
+          "Account created! We emailed you a confirmation link. Open it and click “Confirm My Email” within 24 hours, then re-open your invitation link to connect your account."
         );
+        setFallbackToken(data.confirmToken);
       } else {
         setSuccessMessage(
           "Account created. You can now sign in."
@@ -144,7 +148,36 @@ export default function ClientSignup() {
             </form>
           )}
 
-          {successMessage && <p role="status">{successMessage}</p>}
+          {successMessage && (
+            <div role="status">
+              <p>{successMessage}</p>
+              {successEmail && (
+                <p>
+                  Confirmation email sent to <strong>{successEmail}</strong> —
+                  don't forget to check your spam folder.
+                </p>
+              )}
+              {fallbackToken && (
+                <details className="client-auth-fallback">
+                  <summary>Didn't get the email? Confirm manually</summary>
+                  <p>
+                    Use this confirmation link, or copy the token and paste it
+                    on the <Link to="/client-confirm">email confirmation page</Link>:
+                  </p>
+                  <p>
+                    <Link to={`/client-confirm?token=${fallbackToken}`}>
+                      Confirm my email now →
+                    </Link>
+                  </p>
+                  <code>{fallbackToken}</code>
+                </details>
+              )}
+              <p>
+                Next, go back to your invitation email and click its link
+                again to <strong>connect</strong> your account to DPS.
+              </p>
+            </div>
+          )}
 
           <p>
             Already have an account?{" "}

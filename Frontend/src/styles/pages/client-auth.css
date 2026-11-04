@@ -136,3 +136,36 @@
 .client-documents-status--success {
   color: #166534;
 }
+
+/* Long confirmation/reset tokens: wrap instead of overflowing the card */
+.client-auth-card code {
+  display: block;
+  margin: 0.75rem 0 0;
+  padding: 0.6rem 0.75rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background: #f8fafc;
+  font-size: 0.8rem;
+  overflow-wrap: anywhere;
+  word-break: break-all;
+}
+
+.client-auth-fallback {
+  margin: 1rem 0;
+}
+
+.client-auth-fallback summary {
+  color: #146d73;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.client-auth-fallback p {
+  margin: 0.5rem 0;
+}
+
+.client-auth-fallback a {
+  color: #146d73;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}

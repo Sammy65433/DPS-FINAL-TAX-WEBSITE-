@@ -7,6 +7,10 @@ import {
     findCustomerByIdService,
     updateCustomerService,
 } from "../services/customerService.js";
+import {
+    sendCustomerConfirmationEmail,
+    sendCustomerResetEmail,
+} from "../services/emailService.js";
 
 function generateToken(customer) {
     if (!process.env.JWT_SECRET) {
@@ -65,6 +69,16 @@ export async function registerCustomer(req, res) {
         if (error || !customer) {
             console.error("Customer registration failed:", error);
             return res.status(500).json({ error: "Could not create account." });
+        }
+
+        try {
+            await sendCustomerConfirmationEmail({
+                email,
+                firstName,
+                token: confirmToken,
+            });
+        } catch (emailError) {
+            console.error("Customer confirmation email failed:", emailError);
         }
 
         return res.status(201).json({
@@ -178,9 +192,18 @@ export async function forgotCustomerPassword(req, res) {
                 resetTokenExpiresAt,
             });
 
+            try {
+                await sendCustomerResetEmail({
+                    email: customer.email,
+                    firstName: customer.firstName,
+                    token: resetToken,
+                });
+            } catch (emailError) {
+                console.error("Customer reset email failed:", emailError);
+            }
+
             return res.json({
                 message: "If the account exists, a reset link has been generated.",
-                resetToken,
             });
         }
 

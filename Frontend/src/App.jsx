@@ -27,6 +27,8 @@ import ClientLogin from "./pages/ClientLogin";
 import ClientPortal from "./pages/ClientPortal";
 import ClientLink from "./pages/ClientLink";
 import ClientSignup from "./pages/ClientSignup";
+import ClientConfirm from "./pages/ClientConfirm";
+import ClientReset from "./pages/ClientReset";
 import LoginChoice from "./pages/LoginChoice";
 
 
@@ -41,6 +43,8 @@ function App() {
         <Route path="/client-portal" element={<ClientPortal />} />
         <Route path="/client-link" element={<ClientLink />} />
         <Route path="/client-signup" element={<ClientSignup />} />
+        <Route path="/client-confirm" element={<ClientConfirm />} />
+        <Route path="/client-reset" element={<ClientReset />} />
         <Route path="/login" element={<LoginChoice />} />
 
         <Route path="/" element={<HomePage />} />

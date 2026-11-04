@@ -255,6 +255,80 @@ export async function sendBulkEmails({ emails, subject, html }) {
 
     return results;
 }
+export async function sendCustomerConfirmationEmail({ email, firstName, token }) {
+    const confirmLink =
+        `${env.FRONTEND_URL}/client-confirm?token=${encodeURIComponent(token)}`;
+
+    try {
+        const result = await resend.emails.send({
+            from: "appointments@dpstaxpro.com",
+            to: email,
+            subject: "Confirm your DPS client account",
+            html: `
+        <div style="font-family:Arial,sans-serif;line-height:1.6;color:#1a1a1a;">
+          <h2 style="color:#0f5c54;">Confirm Your DPS Client Account</h2>
+          <p>Hello ${firstName || "there"},</p>
+          <p>You just created a DPS client account with this email address. To
+          finish setting it up — connect it to your DPS invitation, book
+          appointments, and upload documents — confirm your email below:</p>
+          <div style="margin:24px 0;">
+            <a href="${confirmLink}" style="display:inline-block;padding:12px 20px;background:#0f5c54;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold;">
+              Confirm My Email
+            </a>
+          </div>
+          <p>If the button doesn't work, paste this address into your browser:</p>
+          <p style="word-break:break-all;">${confirmLink}</p>
+          <p>This confirmation link expires in 24 hours. If you did not create
+          a DPS client account, ignore this email — nothing will change.</p>
+          <p>Need help? Call (973) 327-2340 or visit
+          <a href="${env.FRONTEND_URL}">${env.FRONTEND_URL}</a>.</p>
+          <p>Thank you,<br />DPS Professional Tax Services</p>
+        </div>
+      `,
+        });
+
+        console.log("Customer confirmation email sent:", result?.data?.id ?? result);
+    } catch (error) {
+        console.error("Error sending customer confirmation email:", error);
+    }
+}
+
+export async function sendCustomerResetEmail({ email, firstName, token }) {
+  const resetLink =
+    `${env.FRONTEND_URL}/client-reset?token=${encodeURIComponent(token)}`;
+
+  try {
+    const result = await resend.emails.send({
+      from: "appointments@dpstaxpro.com",
+      to: email,
+      subject: "Reset your DPS client account password",
+      html: `
+        <div style="font-family:Arial,sans-serif;line-height:1.6;color:#1a1a1a;">
+          <h2 style="color:#0f5c54;">Password Reset Request</h2>
+          <p>Hello ${firstName || "there"},</p>
+          <p>We received a request to reset the password for your DPS client
+          account. Click the button below within one hour to choose a new
+          password (at least 12 characters):</p>
+          <div style="margin:24px 0;">
+            <a href="${resetLink}" style="display:inline-block;padding:12px 20px;background:#0f5c54;color:#fff;text-decoration:none;border-radius:8px;font-weight:bold;">
+              Reset My Password
+            </a>
+          </div>
+          <p>If the button doesn't work, paste this address into your browser:</p>
+          <p style="word-break:break-all;">${resetLink}</p>
+          <p>If you did not request a password reset, ignore this email — your
+          current password keeps working.</p>
+          <p>Thank you,<br />DPS Professional Tax Services</p>
+        </div>
+      `,
+    });
+
+    console.log("Customer reset email sent:", result?.data?.id ?? result);
+  } catch (error) {
+    console.error("Error sending customer reset email:", error);
+  }
+}
+
 export async function sendCustomerRescheduleEmail(appointment, manageToken) {
   const manageLink =
     `${env.FRONTEND_URL}/manage-appointment?token=${encodeURIComponent(manageToken)}`;
