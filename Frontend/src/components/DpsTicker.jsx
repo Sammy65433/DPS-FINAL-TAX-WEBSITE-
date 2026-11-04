@@ -22,24 +22,25 @@ const TICKER_ITEMS = [
     },
     {
         Icon: FaCalendarCheck,
-        text: "Book your appointment online",
+        text: "Book your Appointment Online",
         to: "/booking",
     },
     {
-        Icon: FaFileInvoiceDollar,
-        text: "Pricing varies by city & state",
-        to: "/pricing",
-    },
-    {
-        Icon: FaHome,
-        text: "Buying, selling & rentals — DPS Realty",
-        to: "/real-estate-booking",
-    },
-    {
-        Icon: FaCloudUploadAlt,
-        text: "Client portal — upload & track your documents",
-        to: "/client-login",
-    },
+  Icon: FaFileInvoiceDollar,
+  text: "Explore our Tax Preparation Services",
+  to: "/tax-preparation",
+},
+{
+  Icon: FaHome,
+  text: "Explore all DPS services",
+  to: "/services",
+},
+{
+  Icon: FaCloudUploadAlt,
+  text: "Find Answers to Common Questions",
+  to: "/faq",
+},
+
 ];
 
 export default function DpsTicker() {
