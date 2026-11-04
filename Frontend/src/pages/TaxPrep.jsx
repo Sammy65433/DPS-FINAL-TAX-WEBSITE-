@@ -22,9 +22,18 @@ const taxTypes = [
 ];
 
 const photos = [
-  { src: "/tax-prep-hands.jpg", alt: "Clients discussing tax preparation" },
-  { src: "/tax-prep-people.jpg", alt: "Professional tax preparation support" },
-  { src: "/tax-prep1.jpg", alt: "Tax preparation consultation" },
+  {
+    src: "/tax-prep-hands.jpg",
+    alt: "Clients discussing tax preparation",
+  },
+  {
+    src: "/tax-prep-people.jpg",
+    alt: "Professional tax preparation support",
+  },
+  {
+    src: "/tax-prep1.jpg",
+    alt: "Tax preparation consultation",
+  },
 ];
 
 function TaxPrep() {
@@ -72,9 +81,9 @@ function TaxPrep() {
               <p>
                 We help you identify the records relevant to your return,
                 review the information you bring, and talk through the filing
-                process. If your situation involves multiple income sources
-                or business activity, we can discuss what additional details
-                may be needed.
+                process. If your situation involves multiple income sources or
+                business activity, we can discuss what additional details may
+                be needed.
               </p>
               <p>
                 Our goal is to make the process more organized and easier to
@@ -121,13 +130,46 @@ function TaxPrep() {
               <p>
                 We focus on listening to your questions, explaining the
                 documents needed, and providing a respectful, professional
-                experience. Before your visit, review our document checklist
-                so you can arrive prepared.
+                experience. Before your visit, review our document checklist so
+                you can arrive prepared.
               </p>
-              <Link to="/faq" className="taxprep-text-link">
-                <FaFileAlt aria-hidden="true" />
-                What to Bring &amp; FAQ
-              </Link>
+              <p>
+                <Link to="/faq" className="taxprep-text-link">
+                  <FaFileAlt aria-hidden="true" /> What to Bring &amp; FAQ
+                </Link>
+              </p>
+
+              <h3>Client Intake Forms</h3>
+              <p>
+                Download and complete the form that matches your situation
+                before your appointment. Bring it to your consultation or
+                upload it through your DPS client account.
+              </p>
+              <p>
+                <a
+                  href="/forms/DPS%20CLIENT%20FORM-FINAL1.pdf"
+                  download
+                  className="taxprep-text-link"
+                >
+                  <FaFileAlt aria-hidden="true" /> Download Individual Client
+                  Intake Form (PDF)
+                </a>
+              </p>
+              <p>
+                <a
+                  href="/forms/DPS%20BUSINESS%20FORM-FINAL1.pdf"
+                  download
+                  className="taxprep-text-link"
+                >
+                  <FaFileAlt aria-hidden="true" /> Download Business Client
+                  Intake Form (PDF)
+                </a>
+              </p>
+              <p>
+                <Link to="/client-login" className="taxprep-text-link">
+                  Access the Client Portal →
+                </Link>
+              </p>
             </article>
           </div>
 
