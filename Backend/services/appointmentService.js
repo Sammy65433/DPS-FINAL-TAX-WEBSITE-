@@ -62,7 +62,7 @@ export async function findManagedAppointmentByTokenService(tokenHash) {
     const collection = await getAppointmentCollection();
     const doc = await collection.findOne({
         manage_token_hash: tokenHash,
-        manage_token_expires_at: { $gt: new Date() },
+        manage_token_expires_at: { $gt: new Date().toISOString() },
     });
 
     if (!doc) {

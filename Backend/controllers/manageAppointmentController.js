@@ -267,7 +267,7 @@ export async function rescheduleManagedAppointment(req, res) {
         {
           _id: new ObjectId(appointment.id),
           manage_token_hash: appointment.manage_token_hash,
-          manage_token_expires_at: { $gt: new Date() },
+          manage_token_expires_at: { $gt: new Date().toISOString() },
           status: { $in: ["booked", "confirmed"] },
         },
         {
@@ -319,7 +319,7 @@ export async function cancelManagedAppointment(req, res) {
         {
           _id: new ObjectId(appointment.id),
           manage_token_hash: appointment.manage_token_hash,
-          manage_token_expires_at: { $gt: new Date() },
+          manage_token_expires_at: { $gt: new Date().toISOString() },
           status: { $in: ["booked", "confirmed"] },
         },
         { $set: { status: "cancelled" } },
