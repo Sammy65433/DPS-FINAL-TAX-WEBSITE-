@@ -72,6 +72,69 @@ export async function createRealtyAppointment(req, res) {
     }
 }
 
+export async function createStaffRealtyAppointment(req, res) {
+    const {
+        first_name,
+        last_name,
+        phone,
+        email,
+        service,
+        appointment_date,
+        appointment_time,
+        message,
+        visit_format,
+    } = req.body;
+
+    if (
+        !first_name ||
+        !last_name ||
+        !phone ||
+        !email ||
+        !service ||
+        !appointment_date ||
+        !appointment_time
+    ) {
+        return res.status(400).json({
+            message: "Provide the client details, service, date, and time.",
+        });
+    }
+
+    try {
+        const { data, error } = await createRealtyAppointmentService(
+            {
+                first_name,
+                last_name,
+                phone,
+                email,
+                service,
+                appointment_date,
+                appointment_time,
+                message: message || "",
+                visit_format: visit_format || null,
+            },
+            { status: "confirmed" }
+        );
+
+        if (error) {
+            return res.status(500).json({ message: error.message });
+        }
+
+        const newRealtyAppointment = data[0];
+
+        try {
+            await sendRealtyAppointmentRequestEmail(newRealtyAppointment);
+            await sendRealtyOfficeNotificationEmail(newRealtyAppointment);
+        } catch (emailError) {
+            console.error("Staff realty booking email failed:", emailError);
+        }
+
+        res.status(201).json(newRealtyAppointment);
+    } catch (error) {
+        console.error("Error creating staff realty appointment:", error);
+        res.status(500).json({ message: "Error creating realty appointment." });
+    }
+}
+
 export async function confirmRealtyAppointmentFromEmail(req, res) {
     const { id } = req.params;
 

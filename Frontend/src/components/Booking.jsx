@@ -28,6 +28,16 @@ const SERVICES = [
   { name: "Business Services", duration: 120, description: "Discuss your small-business service needs." },
 ];
 
+const REALTY_SERVICES = [
+  { name: "Buying a Home", duration: 60, description: "Meet with DPS Realty about buying a home.", realty: true },
+  { name: "Selling a Home", duration: 60, description: "Meet with DPS Realty about selling a home.", realty: true },
+  { name: "Renting", duration: 60, description: "Meet with DPS Realty about renting a property.", realty: true },
+  { name: "Investment Property", duration: 60, description: "Discuss investment properties with DPS Realty.", realty: true },
+  { name: "Real Estate Consultation", duration: 60, description: "General real estate consultation with DPS Realty.", realty: true },
+];
+
+const REALTY_PREPARER = "DPS Realty";
+
 const PREPARERS = [
   "Pierre Polidor",
   "Dalia Pierre",
@@ -340,6 +350,7 @@ function Booking() {
       duration_minutes: service.duration,
       appointment_date: "",
       appointment_time: "",
+      tax_preparer: service.realty ? REALTY_PREPARER : "",
     }));
     setSummaryOpen(true);
   }
@@ -430,11 +441,30 @@ function Booking() {
     setStatus({ message: "Sending...", type: "sending" });
 
     try {
-      const response = await fetch(`${API_URL}/api/appointments`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        selectedService.realty
+          ? `${API_URL}/api/realty-appointments`
+          : `${API_URL}/api/appointments`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(
+            selectedService.realty
+              ? {
+                  first_name: formData.first_name,
+                  last_name: formData.last_name,
+                  phone: formData.phone,
+                  email: formData.email,
+                  service: formData.service,
+                  appointment_date: formData.appointment_date,
+                  appointment_time: formData.appointment_time,
+                  message: formData.message,
+                  visit_format: formData.visit_format || null,
+                }
+              : formData
+          ),
+        }
+      );
 
       const data = await response.json().catch(() => ({}));
 
@@ -445,8 +475,9 @@ function Booking() {
       }
 
       setStatus({
-        message:
-          "Thank you. Your appointment request has been sent.",
+        message: selectedService.realty
+          ? "Thank you. Your real estate appointment request has been sent to DPS Realty."
+          : "Thank you. Your appointment request has been sent.",
         type: "success",
       });
       setFormData({ ...EMPTY_FORM });
@@ -544,6 +575,32 @@ function Booking() {
               </article>
             ))}
           </div>
+
+          <h3 id="real-estate-services">Real Estate — DPS Realty</h3>
+          <div className="booking-service-grid">
+            {REALTY_SERVICES.map((service) => (
+              <article
+                className="booking-service-card booking-service-card--realty"
+                key={service.name}
+              >
+                <div>
+                  <h4>{service.name}</h4>
+                  <p className="booking-service-description">{service.description}</p>
+                  <p className="booking-service-duration">
+                    {formatDuration(service.duration)}
+                  </p>
+
+                </div>
+                <button
+                  type="button"
+                  className="booking-service-button"
+                  onClick={(event) => chooseService(service, event)}
+                >
+                  Book Now
+                </button>
+              </article>
+            ))}
+          </div>
           <p className="booking-service-disclaimer">
             Appointment lengths are provisional. Our team will confirm service
             details and pricing.
@@ -580,20 +637,26 @@ function Booking() {
 
             <div className="booking-field">
               <label htmlFor="preparer-select">Preferred Preparer</label>
-              <select
-                id="preparer-select"
-                name="tax_preparer"
-                required
-                value={formData.tax_preparer}
-                onChange={handleChange}
-              >
-                <option value="">Select a Preparer</option>
-                {PREPARERS.map((preparer) => (
-                  <option value={preparer} key={preparer}>
-                    {preparer}
-                  </option>
-                ))}
-              </select>
+              {selectedService.realty ? (
+                <select id="preparer-select" name="tax_preparer" required disabled value={REALTY_PREPARER}>
+                  <option value={REALTY_PREPARER}>DPS Realty (Realty Team)</option>
+                </select>
+              ) : (
+                <select
+                  id="preparer-select"
+                  name="tax_preparer"
+                  required
+                  value={formData.tax_preparer}
+                  onChange={handleChange}
+                >
+                  <option value="">Select a Preparer</option>
+                  {PREPARERS.map((preparer) => (
+                    <option value={preparer} key={preparer}>
+                      {preparer}
+                    </option>
+                  ))}
+                </select>
+              )}
             </div>
 
             <div className="booking-scheduler">

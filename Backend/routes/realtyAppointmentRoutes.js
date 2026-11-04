@@ -7,6 +7,7 @@ import {
     confirmRealtyAppointment,
     confirmRealtyAppointmentFromEmail,
     createRealtyAppointment,
+    createStaffRealtyAppointment,
     deleteRealtyAppointment,
     getRealtyAppointments,
     updateRealtyAppointment,
@@ -15,6 +16,7 @@ import {
 const router = express.Router();
 
 router.post("/", createRealtyAppointment);
+router.post("/staff", requireStaff, createStaffRealtyAppointment);
 router.get("/:id/confirm", confirmRealtyAppointmentFromEmail);
 router.get("/:id/cancel-from-email", cancelRealtyAppointmentFromEmail);
 

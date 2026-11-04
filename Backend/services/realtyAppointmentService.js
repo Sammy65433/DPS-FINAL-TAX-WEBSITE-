@@ -25,11 +25,11 @@ export async function getRealtyAppointmentsService() {
     return { data: docs, error: null };
 }
 
-export async function createRealtyAppointmentService(payload) {
+export async function createRealtyAppointmentService(payload, { status = "pending" } = {}) {
     const collection = await getRealtyAppointmentCollection();
     const result = await collection.insertOne({
         ...payload,
-        status: "pending",
+        status,
         created_at: new Date().toISOString(),
     });
 
