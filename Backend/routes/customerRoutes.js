@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { requireCustomer } from "../middleware/requireCustomer.js";
+import { requireStaff } from "../middleware/requireStaff.js";
 import {
     confirmCustomerEmail,
     forgotCustomerPassword,
@@ -8,6 +9,7 @@ import {
     registerCustomer,
     resetCustomerPassword,
 } from "../controllers/customerAuthController.js";
+import { findCustomerByEmailService } from "../services/customerService.js";
 
 const router = Router();
 
@@ -18,6 +20,37 @@ router.post("/forgot-password", forgotCustomerPassword);
 router.post("/reset-password", resetCustomerPassword);
 
 router.get("/me", requireCustomer, getCustomerMe);
+
+router.get("/by-email", requireStaff, async (req, res) => {
+    const email = String(req.query?.email ?? "")
+        .trim()
+        .toLowerCase();
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return res.status(400).json({ error: "Valid email required." });
+    }
+
+    try {
+        const { data: customer, error } = await findCustomerByEmailService(email);
+
+        if (error || !customer) {
+            return res.status(404).json({
+                error: "No client account found for this email. Ask the client to sign up first.",
+            });
+        }
+
+        return res.json({
+            customer: {
+                id: customer.id,
+                email: customer.email,
+                emailConfirmed: customer.emailConfirmed,
+            },
+        });
+    } catch (err) {
+        console.error("Customer lookup by email failed:", err);
+        return res.status(500).json({ error: "Could not look up client account." });
+    }
+});
 
 router.post("/link", requireCustomer, async (req, res) => {
     const token = req.body?.token;
