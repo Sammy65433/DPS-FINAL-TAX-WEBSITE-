@@ -70,19 +70,43 @@ function nextDeadline(now) {
 function statusText(now) {
     const minutes = now.hour * 60 + now.minute;
     const isSunday = now.weekdayIndex === 0;
-    const closes = now.weekdayIndex === 6 ? 18 * 60 : 17 * 60; // Sat 6 PM, Mon–Fri 5 PM
+    const isSaturday = now.weekdayIndex === 6;
+    const taxSeason = now.month >= 2 && now.month <= 4; // Feb–Apr
+    const openHour = taxSeason ? 9 : 10;
+    const closeHour = taxSeason ? 21 : 18; // 9 PM tax season, 6 PM off-season
+    const saturdayOpen = taxSeason ? 10 : null; // Sat 10 AM tax season, by appt off-season
+    const saturdayClose = taxSeason ? 19 : null; // Sat 7 PM tax season
 
-    if (isSunday) return "Closed today · opens Mon 9 AM ET";
-    if (minutes < 9 * 60) return `Opens today 9 AM ET`;
-    if (minutes < closes) {
-        const closeHour = closes / 60;
-        const suffix = closeHour >= 12 ? "PM" : "AM";
-        const h = closeHour > 12 ? closeHour - 12 : closeHour;
-        return `Open now · closes ${h} ${suffix} ET`;
+    if (isSunday) {
+        const monOpen = taxSeason ? 9 : 10;
+        return `Closed today · opens Mon ${monOpen} AM ET`;
     }
-    if (now.weekdayIndex === 6) return "Closed · opens Mon 9 AM ET";
-    if (now.weekdayIndex === 5) return "Closed · opens Mon 9 AM ET";
-    return "Closed · opens tomorrow 9 AM ET";
+
+    if (isSaturday && !taxSeason) {
+        return "Sat by appointment · call (973) 327-2340";
+    }
+
+    const opens = isSaturday && taxSeason ? saturdayOpen * 60 : openHour * 60;
+    const closes = isSaturday && taxSeason ? saturdayClose * 60 : closeHour * 60;
+
+    if (minutes < opens) {
+        const h = opens / 60;
+        return `Opens today ${h > 12 ? h - 12 : h} ${h >= 12 ? "PM" : "AM"} ET`;
+    }
+    if (minutes < closes) {
+        const h = closes / 60;
+        return `Open now · closes ${h > 12 ? h - 12 : h} ${h >= 12 ? "PM" : "AM"} ET`;
+    }
+    if (now.weekdayIndex === 5) {
+        const monOpen = taxSeason ? 9 : 10;
+        return `Closed · opens Mon ${monOpen} AM ET`;
+    }
+    if (isSaturday) {
+        const monOpen = taxSeason ? 9 : 10;
+        return `Closed · opens Mon ${monOpen} AM ET`;
+    }
+    const tomorrowOpen = taxSeason ? 9 : 10;
+    return `Closed · opens tomorrow ${tomorrowOpen} AM ET`;
 }
 
 export default function DpsTicker() {
