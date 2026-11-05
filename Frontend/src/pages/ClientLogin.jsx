@@ -34,8 +34,10 @@ export default function ClientLogin() {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+  const [signedOutMessage, setSignedOutMessage] = useState("");
   const [session, setSession] = useState(null);
   const [checkingSession, setCheckingSession] = useState(true);
 
@@ -46,12 +48,15 @@ export default function ClientLogin() {
     if (active) {
       setSession(session);
       setCheckingSession(false);
+      if (location.state?.signedOut) {
+        setSignedOutMessage("You have been signed out.");
+      }
     }
 
     return () => {
       active = false;
     };
-  }, []);
+  }, [location.state]);
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -119,14 +124,30 @@ export default function ClientLogin() {
             />
 
             <label htmlFor="client-password">Password</label>
-            <input
-              id="client-password"
-              type="password"
-              autoComplete="current-password"
-              required
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
+            <div className="client-password-field">
+              <input
+                id="client-password"
+                type={showPassword ? "text" : "password"}
+                autoComplete="current-password"
+                required
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+              />
+              <button
+                type="button"
+                className="client-password-toggle"
+                onClick={() => setShowPassword((v) => !v)}
+                aria-label={showPassword ? "Hide password" : "Show password"}
+              >
+                {showPassword ? "Hide" : "Show"}
+              </button>
+            </div>
+
+            {signedOutMessage && (
+              <p className="client-auth-status" role="status">
+                {signedOutMessage}
+              </p>
+            )}
 
             {errorMessage && (
               <p className="client-auth-error" role="alert">

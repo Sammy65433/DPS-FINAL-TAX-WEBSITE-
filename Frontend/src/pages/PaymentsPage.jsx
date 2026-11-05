@@ -91,7 +91,30 @@ function PaymentsPage() {
                         </p>
                     </div>
 
-                    {pricingGroups.map(({ title, icon: Icon, items }) => (
+                    <div className="pricing-cta pricing-cta--top">
+                      <div>
+                        <h2>Need your exact price?</h2>
+                        <p>
+                          Pricing varies by city and state. Call our office for a
+                          personalized quote, or book an appointment online and
+                          we’ll confirm the total before your visit.
+                        </p>
+                      </div>
+                      <div className="pricing-actions">
+                        <Link to="/booking" className="pricing-button">
+                          <FaCalendarCheck aria-hidden="true" />
+                          Book Appointment
+                        </Link>
+                        <a
+                          href="tel:+19733272340"
+                          className="pricing-button pricing-button-outline"
+                        >
+                          <FaPhoneAlt aria-hidden="true" />
+                          Call (973) 327-2340
+                        </a>
+                      </div>
+                    </div>
+                        {pricingGroups.map(({ title, icon: Icon, items }) => (
                         <section className="pricing-group" key={title}>
                             <div className="pricing-group-heading">
                                 <Icon aria-hidden="true" />

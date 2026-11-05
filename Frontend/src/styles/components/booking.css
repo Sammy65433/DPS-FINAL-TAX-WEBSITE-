@@ -795,3 +795,13 @@
 .booking-service-card--realty h4 {
   color: #d9c6f2;
 }
+
+.booking-signed-in-banner {
+  margin: 0 0 1rem;
+  padding: 0.75rem 1rem;
+  border: 1px solid #f5d36c;
+  border-radius: 10px;
+  background: rgba(245, 211, 108, 0.15);
+  color: #fff;
+  font-weight: 600;
+}

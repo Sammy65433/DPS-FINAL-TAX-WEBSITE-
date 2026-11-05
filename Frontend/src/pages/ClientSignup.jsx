@@ -28,6 +28,10 @@ export default function ClientSignup() {
   const [checkingSession, setCheckingSession] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phone, setPhone] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -62,7 +66,13 @@ export default function ClientSignup() {
       const response = await fetch(`${API_URL}/api/customer/register`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: email.trim(), password }),
+        body: JSON.stringify({
+          email: email.trim(),
+          password,
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
+          phone: phone.trim(),
+        }),
       });
 
       const data = await response.json().catch(() => ({}));
@@ -115,6 +125,33 @@ export default function ClientSignup() {
 
           {!successMessage && (
             <form onSubmit={handleSubmit}>
+              <label htmlFor="signup-first-name">First Name</label>
+              <input
+                id="signup-first-name"
+                type="text"
+                autoComplete="given-name"
+                value={firstName}
+                onChange={(event) => setFirstName(event.target.value)}
+              />
+
+              <label htmlFor="signup-last-name">Last Name</label>
+              <input
+                id="signup-last-name"
+                type="text"
+                autoComplete="family-name"
+                value={lastName}
+                onChange={(event) => setLastName(event.target.value)}
+              />
+
+              <label htmlFor="signup-phone">Phone</label>
+              <input
+                id="signup-phone"
+                type="tel"
+                autoComplete="tel"
+                value={phone}
+                onChange={(event) => setPhone(event.target.value)}
+              />
+
               <label htmlFor="signup-email">Email</label>
               <input
                 id="signup-email"
@@ -126,15 +163,25 @@ export default function ClientSignup() {
               />
 
               <label htmlFor="signup-password">Password</label>
-              <input
-                id="signup-password"
-                type="password"
-                autoComplete="new-password"
-                minLength={12}
-                required
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-              />
+              <div className="client-password-field">
+                <input
+                  id="signup-password"
+                  type={showPassword ? "text" : "password"}
+                  autoComplete="new-password"
+                  minLength={12}
+                  required
+                  value={password}
+                  onChange={(event) => setPassword(event.target.value)}
+                />
+                <button
+                  type="button"
+                  className="client-password-toggle"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? "Hide" : "Show"}
+                </button>
+              </div>
 
               {errorMessage && (
                 <p className="client-auth-error" role="alert">

@@ -55,7 +55,7 @@ export default function ClientPortal() {
     async function handleSignOut() {
         setSigningOut(true);
         clearCustomerToken();
-        navigate("/client-login", { replace: true });
+        navigate("/client-login", { replace: true, state: { signedOut: true } });
     }
 
     return (

@@ -169,3 +169,38 @@
   font-weight: 600;
   overflow-wrap: anywhere;
 }
+
+.client-password-field {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.client-password-field input {
+  flex: 1;
+  padding-right: 4.5rem;
+}
+
+.client-password-toggle {
+  position: absolute;
+  right: 0.5rem;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 1px solid #cbd5e1;
+  background: #f8fafc;
+  color: #146d73;
+  font-weight: 600;
+  font-size: 0.85rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.client-password-toggle:hover {
+  background: #e2e8f0;
+}
+
+.client-auth-status {
+  color: #166534;
+  font-weight: 600;
+}

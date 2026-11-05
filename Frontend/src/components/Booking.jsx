@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { getCustomerSession, getCustomerToken } from "../lib/customerAuth";
 import {
   FaCalendarAlt,
   FaClock,
@@ -152,6 +153,7 @@ function Booking() {
   const [availabilityError, setAvailabilityError] = useState("");
   const [status, setStatus] = useState({ message: "", type: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [signedInCustomer, setSignedInCustomer] = useState(null);
 
   const summaryRef = useRef(null);
   const lastFocusedRef = useRef(null);
@@ -203,6 +205,38 @@ function Booking() {
     ...Array(firstDay).fill(null),
     ...Array.from({ length: daysInMonth }, (_, index) => index + 1),
   ];
+
+  useEffect(() => {
+    const session = getCustomerSession();
+    if (!session?.access_token || !API_URL) return;
+
+    const controller = new AbortController();
+    (async () => {
+      try {
+        const response = await fetch(`${API_URL}/api/customer/me`, {
+          headers: { Authorization: `Bearer ${session.access_token}` },
+          signal: controller.signal,
+        });
+        if (!response.ok) return;
+        const data = await response.json().catch(() => ({}));
+        const c = data?.customer;
+        if (!c || controller.signal.aborted) return;
+
+        setSignedInCustomer(c);
+        setFormData((current) => ({
+          ...current,
+          first_name: c.firstName || current.first_name,
+          last_name: c.lastName || current.last_name,
+          phone: c.phone || current.phone,
+          email: c.email || current.email,
+        }));
+      } catch {
+        // ignore — booking still works without pre-fill
+      }
+    })();
+
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     if (!location.hash) return undefined;
@@ -613,6 +647,13 @@ function Booking() {
             onSubmit={handleSubmit}
             ref={schedulerRef}
           >
+            {signedInCustomer && (
+              <p className="booking-signed-in-banner" role="status">
+                Signed in as <strong>{signedInCustomer.email}</strong> — your
+                name, phone, and email are pre-filled below. Edit them if you
+                need to send this request to someone else.
+              </p>
+            )}
             <div className="booking-form-title">
               <FaCalendarAlt aria-hidden="true" />
               <h3>Schedule Your Appointment</h3>
