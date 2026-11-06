@@ -42,10 +42,20 @@
 
 .client-auth-card input {
   width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
   padding: 0.8rem;
   border: 1px solid #b8c8c4;
   border-radius: 8px;
   font: inherit;
+}
+
+.client-auth-card input[type="date"] {
+  -webkit-appearance: none;
+  appearance: none;
+  max-width: 100%;
+  min-width: 0;
 }
 
 .client-auth-card button,
