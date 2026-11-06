@@ -47,6 +47,7 @@ export async function createCustomerService(fields) {
         firstName: String(fields.firstName ?? "").trim(),
         lastName: String(fields.lastName ?? "").trim(),
         phone: String(fields.phone ?? "").trim(),
+        birthday: fields.birthday ? new Date(fields.birthday).toISOString() : null,
         emailConfirmed: false,
         confirmTokenHash: fields.confirmTokenHash ?? null,
         confirmTokenExpiresAt: fields.confirmTokenExpiresAt ?? null,

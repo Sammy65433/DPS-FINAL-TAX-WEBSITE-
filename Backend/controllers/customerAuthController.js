@@ -34,6 +34,18 @@ export async function registerCustomer(req, res) {
     const firstName = String(req.body?.firstName ?? "").trim();
     const lastName = String(req.body?.lastName ?? "").trim();
     const phone = String(req.body?.phone ?? "").trim();
+    const birthdayRaw = String(req.body?.birthday ?? "").trim();
+
+    if (birthdayRaw && !/^\d{4}-\d{2}-\d{2}$/.test(birthdayRaw)) {
+        return res.status(400).json({ error: "Birthday must be YYYY-MM-DD." });
+    }
+
+    if (
+        birthdayRaw &&
+        new Date(birthdayRaw) > new Date()
+    ) {
+        return res.status(400).json({ error: "Birthday cannot be in the future." });
+    }
 
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
         return res.status(400).json({ error: "Enter a valid email address." });
@@ -62,6 +74,7 @@ export async function registerCustomer(req, res) {
             firstName,
             lastName,
             phone,
+            birthday: birthdayRaw || null,
             confirmTokenHash,
             confirmTokenExpiresAt,
         });

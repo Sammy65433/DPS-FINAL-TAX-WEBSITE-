@@ -11,6 +11,9 @@ export default function ClientPortal() {
     const [customer, setCustomer] = useState(null);
     const [status, setStatus] = useState("Checking your account...");
     const [signingOut, setSigningOut] = useState(false);
+    const [birthdayDraft, setBirthdayDraft] = useState("");
+    const [savingBirthday, setSavingBirthday] = useState(false);
+    const [birthdayMessage, setBirthdayMessage] = useState("");
 
     useEffect(() => {
         let active = true;
@@ -41,6 +44,7 @@ export default function ClientPortal() {
 
                 if (active) {
                     setCustomer(data.customer);
+                    setBirthdayDraft(data.customer?.birthday ? String(data.customer.birthday).slice(0, 10) : "");
                     setStatus("");
                 }
             } catch (error) {
@@ -58,6 +62,33 @@ export default function ClientPortal() {
         navigate("/client-login", { replace: true, state: { signedOut: true } });
     }
 
+    async function handleSaveBirthday() {
+        if (savingBirthday) return;
+        setSavingBirthday(true);
+        setBirthdayMessage("");
+        try {
+            if (!API_URL) throw new Error("DPS API is not configured.");
+            const token = getCustomerToken();
+            if (!token) throw new Error("Please sign in again.");
+            const response = await fetch(`${API_URL}/api/customer/me`, {
+                method: "PATCH",
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${token}`,
+                },
+                body: JSON.stringify({ birthday: birthdayDraft || null }),
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(data.error || "Could not save birthday.");
+            setCustomer(data.customer);
+            setBirthdayMessage("Birthday saved.");
+        } catch (error) {
+            setBirthdayMessage(error.message || "Could not save birthday.");
+        } finally {
+            setSavingBirthday(false);
+        }
+    }
+
     return (
         <Layout>
             <main className="client-auth-page">
@@ -70,6 +101,29 @@ export default function ClientPortal() {
                     {customer && (
                         <>
                             <p>Signed in as <strong>{customer.email}</strong>.</p>
+                            <div className="client-portal-birthday">
+                                <label htmlFor="client-birthday">Your birthday (optional)</label>
+                                <div className="client-birthday-row">
+                                    <input
+                                        id="client-birthday"
+                                        type="date"
+                                        value={birthdayDraft}
+                                        onChange={(event) => setBirthdayDraft(event.target.value)}
+                                    />
+                                    <button
+                                        type="button"
+                                        onClick={handleSaveBirthday}
+                                        disabled={savingBirthday}
+                                    >
+                                        {savingBirthday ? "Saving..." : "Save"}
+                                    </button>
+                                </div>
+                                {birthdayMessage && (
+                                    <p role="status" className="client-portal-birthday-status">
+                                        {birthdayMessage}
+                                    </p>
+                                )}
+                            </div>
                             <p>
                                 For secure document upload and downloads, use the existing
                                 CCH iFirm portal. Your DPS website login does not automatically

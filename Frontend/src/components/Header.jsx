@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import LanguageSwitcher from "./LanguageSwitcher";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
 function Header() {
+  const location = useLocation();
+  const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
   const [aboutOpen, setAboutOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
   const [resourcesOpen, setResourcesOpen] = useState(false);
-  const location = useLocation();
 
   function closeMenu() {
     setMenuOpen(false);
@@ -71,7 +74,7 @@ function Header() {
             className={location.pathname === "/" ? "active" : ""}
             onClick={handleHomeClick}
           >
-            Home
+            {t("nav.home")}
           </Link>
 
           <div className="simple-dropdown">
@@ -81,7 +84,7 @@ function Header() {
               aria-expanded={aboutOpen}
               onClick={() => toggleDropdown("about")}
             >
-              About
+              {t("nav.about")}
               <FaChevronDown
                 aria-hidden="true"
                 className={aboutOpen ? "caret-open" : ""}
@@ -103,7 +106,7 @@ function Header() {
               aria-expanded={servicesOpen}
               onClick={() => toggleDropdown("services")}
             >
-              Services
+              {t("nav.services")}
               <FaChevronDown
                 aria-hidden="true"
                 className={servicesOpen ? "caret-open" : ""}
@@ -147,7 +150,7 @@ function Header() {
               aria-expanded={resourcesOpen}
               onClick={() => toggleDropdown("resources")}
             >
-              Resources
+              {t("nav.resources")}
               <FaChevronDown
                 aria-hidden="true"
                 className={resourcesOpen ? "caret-open" : ""}
@@ -169,10 +172,10 @@ function Header() {
           </div>
 
           <Link to="/booking" onClick={closeMenu}>
-            Book Appointment
+            {t("nav.bookAppointment")}
           </Link>
           <Link to="/contact" onClick={closeMenu}>
-            Contact Us
+            {t("nav.contactUs")}
           </Link>
           
           <Link
@@ -180,10 +183,11 @@ function Header() {
             className={`header-login${location.pathname === "/login" ? " active" : ""}`}
             onClick={closeMenu}
           >
-            Log In
+            {t("nav.logIn")}
           </Link>
 
 
+          <LanguageSwitcher />
         </nav>
       </div>
     </header>

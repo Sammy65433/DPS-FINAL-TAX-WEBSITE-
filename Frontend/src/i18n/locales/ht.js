@@ -89,8 +89,18 @@ realtyPreview: {
   emailLabel: "Imèl:",
   address: "1811 Springfield Ave, Maplewood, NJ 07040",
   imageAlt2: "Sèvis imobilye"
-}
-
+},
+    nav: {
+        home: "Akèy",
+        about: "Sou Nou",
+        services: "Sèvis",
+        pricing: "Pri",
+        resources: "Resous",
+        bookAppointment: "Pran Randevou",
+        contactUs: "Kontakte Nou",
+        logIn: "Konekte",
+        clientPortal: "Pòtal Kliyan",
+    },
 };
 
 export default ht;

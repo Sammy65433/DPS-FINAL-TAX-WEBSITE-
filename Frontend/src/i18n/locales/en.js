@@ -29,7 +29,18 @@ const en = {
         emailLabel: "Email:",
         address: "1811 Springfield Ave, Maplewood, NJ 07040",
         imageAlt2: "Real estate services"
-    }
+    },
+    nav: {
+        home: "Home",
+        about: "About",
+        services: "Services",
+        pricing: "Pricing",
+        resources: "Resources",
+        bookAppointment: "Book Appointment",
+        contactUs: "Contact Us",
+        logIn: "Log In",
+        clientPortal: "Client Portal",
+    },
 };
 
 export default en;

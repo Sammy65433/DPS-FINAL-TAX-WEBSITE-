@@ -9,7 +9,7 @@ import {
     registerCustomer,
     resetCustomerPassword,
 } from "../controllers/customerAuthController.js";
-import { findCustomerByEmailService } from "../services/customerService.js";
+import { findCustomerByEmailService, updateCustomerService } from "../services/customerService.js";
 
 const router = Router();
 
@@ -20,6 +20,46 @@ router.post("/forgot-password", forgotCustomerPassword);
 router.post("/reset-password", resetCustomerPassword);
 
 router.get("/me", requireCustomer, getCustomerMe);
+
+router.patch("/me", requireCustomer, async (req, res) => {
+    const allowed = {};
+    const firstName = String(req.body?.firstName ?? "").trim();
+    const lastName = String(req.body?.lastName ?? "").trim();
+    const phone = String(req.body?.phone ?? "").trim();
+    const birthdayRaw = String(req.body?.birthday ?? "").trim();
+
+    if (firstName) allowed.firstName = firstName;
+    if (lastName) allowed.lastName = lastName;
+    if (phone) allowed.phone = phone;
+
+    if (birthdayRaw) {
+        if (!/^\d{4}-\d{2}-\d{2}$/.test(birthdayRaw)) {
+            return res.status(400).json({ error: "Birthday must be YYYY-MM-DD." });
+        }
+        if (new Date(birthdayRaw) > new Date()) {
+            return res.status(400).json({ error: "Birthday cannot be in the future." });
+        }
+        allowed.birthday = birthdayRaw;
+    } else if (req.body?.birthday === "") {
+        allowed.birthday = null;
+    }
+
+    try {
+        const { data: customer, error } = await updateCustomerService(
+            req.customer.id,
+            allowed
+        );
+
+        if (error || !customer) {
+            return res.status(500).json({ error: "Could not update profile." });
+        }
+
+        return res.json({ customer });
+    } catch (err) {
+        console.error("Customer profile update failed:", err);
+        return res.status(500).json({ error: "Could not update profile." });
+    }
+});
 
 router.get("/by-email", requireStaff, async (req, res) => {
     const email = String(req.query?.email ?? "")
@@ -87,6 +127,7 @@ router.post("/link", requireCustomer, async (req, res) => {
                     token,
                     customerId: req.customer.id,
                     verifiedEmail: req.customer.email.trim().toLowerCase(),
+                    birthday: req.customer.birthday || null,
                 }),
                 signal: AbortSignal.timeout(15000),
             }

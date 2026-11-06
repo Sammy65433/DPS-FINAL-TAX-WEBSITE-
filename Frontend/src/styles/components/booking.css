@@ -805,3 +805,50 @@
   color: #fff;
   font-weight: 600;
 }
+
+/* Mobile calendar polish */
+@media (max-width: 700px) {
+  .booking-calendar-top {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.4rem;
+  }
+
+  .booking-calendar-top strong {
+    font-size: 1.1rem;
+    text-align: center;
+    width: 100%;
+  }
+
+  .booking-calendar-nav {
+    width: 34px;
+    height: 34px;
+    font-size: 1.4rem;
+  }
+
+  .booking-calendar-weekday {
+    font-size: 0.7rem;
+  }
+
+  .booking-calendar-day {
+    min-height: 36px;
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 420px) {
+  .booking-calendar-nav {
+    width: 30px;
+    height: 30px;
+    font-size: 1.2rem;
+  }
+
+  .booking-calendar-weekday {
+    font-size: 0.62rem;
+  }
+
+  .booking-calendar-day {
+    min-height: 32px;
+    font-size: 0.8rem;
+  }
+}

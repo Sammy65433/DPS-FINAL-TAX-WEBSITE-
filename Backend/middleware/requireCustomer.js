@@ -33,6 +33,7 @@ export async function requireCustomer(req, res, next) {
             id: customer.id,
             email: customer.email,
             emailConfirmed: Boolean(customer.emailConfirmed),
+            birthday: customer.birthday || null,
         };
 
         return next();

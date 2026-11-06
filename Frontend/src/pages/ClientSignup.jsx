@@ -32,6 +32,7 @@ export default function ClientSignup() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phone, setPhone] = useState("");
+  const [birthday, setBirthday] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [successMessage, setSuccessMessage] = useState("");
@@ -72,6 +73,7 @@ export default function ClientSignup() {
           firstName: firstName.trim(),
           lastName: lastName.trim(),
           phone: phone.trim(),
+          birthday: birthday || null,
         }),
       });
 
@@ -150,6 +152,14 @@ export default function ClientSignup() {
                 autoComplete="tel"
                 value={phone}
                 onChange={(event) => setPhone(event.target.value)}
+              />
+
+              <label htmlFor="signup-birthday">Date of Birth (optional)</label>
+              <input
+                id="signup-birthday"
+                type="date"
+                value={birthday}
+                onChange={(event) => setBirthday(event.target.value)}
               />
 
               <label htmlFor="signup-email">Email</label>

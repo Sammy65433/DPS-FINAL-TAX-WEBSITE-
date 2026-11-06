@@ -204,3 +204,49 @@
   color: #166534;
   font-weight: 600;
 }
+
+/* Mobile: keep the show/hide toggle out of the password input's tap area */
+@media (max-width: 520px) {
+  .client-password-field {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .client-password-field input {
+    padding-right: 1rem;
+  }
+
+  .client-password-toggle {
+    position: static;
+    transform: none;
+    align-self: flex-end;
+    margin-top: 0.4rem;
+  }
+}
+
+.client-portal-birthday {
+  margin: 1rem 0;
+  text-align: left;
+}
+
+.client-portal-birthday label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.35rem;
+}
+
+.client-birthday-row {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.client-birthday-row input {
+  flex: 1;
+}
+
+.client-portal-birthday-status {
+  margin-top: 0.35rem;
+  font-size: 0.9rem;
+  color: #166534;
+}
