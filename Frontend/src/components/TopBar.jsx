@@ -41,6 +41,7 @@ function TopBar() {
 
         <div className="top-right">
           <div className="translate-wrap">
+            <span className="translate-label">🌐 Translate:</span>
             <GoogleTranslate />
           </div>
 

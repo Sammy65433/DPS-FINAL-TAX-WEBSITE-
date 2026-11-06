@@ -129,13 +129,25 @@
 .translate-wrap {
   display: flex;
   align-items: center;
+  gap: 0.5rem;
   min-height: 34px;
+}
+
+.translate-label {
+  color: #f5d36c;
+  font-weight: 700;
+  font-size: 0.85rem;
+  white-space: nowrap;
 }
 
 #google_translate_element {
   display: flex;
   align-items: center;
-  min-width: 150px;
+  min-width: 160px;
+  background: rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(245, 211, 108, 0.5);
+  border-radius: 999px;
+  padding: 0.25rem 0.6rem;
 }
 
 #google_translate_element .goog-te-gadget {
@@ -187,4 +199,15 @@ body {
         width: 100%;
         justify-content: center;
     }
+}
+
+.translate-fallback {
+  color: #f5d36c;
+  font-weight: 700;
+  text-decoration: none;
+  padding: 0.25rem 0.6rem;
+}
+
+.translate-fallback:hover {
+  text-decoration: underline;
 }
