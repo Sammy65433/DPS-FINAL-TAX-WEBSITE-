@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import LanguageSwitcher from "./LanguageSwitcher";
 import { FaBars, FaTimes, FaChevronDown } from "react-icons/fa";
 
 function Header() {
@@ -187,7 +186,6 @@ function Header() {
           </Link>
 
 
-          <LanguageSwitcher />
         </nav>
       </div>
     </header>
