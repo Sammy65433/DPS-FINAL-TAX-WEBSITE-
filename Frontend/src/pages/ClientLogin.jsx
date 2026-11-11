@@ -124,24 +124,22 @@ export default function ClientLogin() {
             />
 
             <label htmlFor="client-password">Password</label>
-            <div className="client-password-field">
+            <input
+              id="client-password"
+              type={showPassword ? "text" : "password"}
+              autoComplete="current-password"
+              required
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
+            <label className="client-show-password">
               <input
-                id="client-password"
-                type={showPassword ? "text" : "password"}
-                autoComplete="current-password"
-                required
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
+                type="checkbox"
+                checked={showPassword}
+                onChange={(event) => setShowPassword(event.target.checked)}
               />
-              <button
-                type="button"
-                className="client-password-toggle"
-                onClick={() => setShowPassword((v) => !v)}
-                aria-label={showPassword ? "Hide password" : "Show password"}
-              >
-                {showPassword ? "Hide" : "Show"}
-              </button>
-            </div>
+              Show password
+            </label>
 
             {signedOutMessage && (
               <p className="client-auth-status" role="status">
