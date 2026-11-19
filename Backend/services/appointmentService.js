@@ -35,7 +35,7 @@ export async function getAvailabilityService(date, preparer) {
         .find({
             appointment_date: date,
             tax_preparer: preparer,
-            status: { $in: ["booked", "confirmed"] },
+            status: { $in: ["booked", "confirmed", "blocked"] },
         })
         .toArray();
 

@@ -1,4 +1,5 @@
 import crypto from "node:crypto";
+import { getDatabase } from "../config/mongo.js";
 import {
   archiveAppointmentService,
   cancelAppointmentService,
@@ -674,6 +675,84 @@ export async function createStaffAppointment(req, res) {
   } catch (error) {
     console.error("Staff booking failed:", error);
     return res.status(500).json({ message: "Could not create appointment." });
+  }
+}
+
+export async function createBlockedAppointment(req, res) {
+  const {
+    tax_preparer,
+    appointment_date,
+    appointment_time,
+    duration_minutes,
+    reason,
+  } = req.body;
+
+  const duration = Number(duration_minutes ?? 30);
+  const start = toMinutes(appointment_time);
+  const range = getTimeRange(appointment_date);
+
+  if (
+    !tax_preparer ||
+    !appointment_date ||
+    !appointment_time ||
+    !range ||
+    start === null ||
+    start < range.opens ||
+    start + duration > range.closes
+  ) {
+    return res.status(400).json({
+      message: "Provide a valid preparer, date, time, and duration.",
+    });
+  }
+
+  try {
+    const { data: existing, error: lookupError } =
+      await findExistingAppointmentSlotService({
+        appointment_date,
+        tax_preparer,
+      });
+
+    if (lookupError) throw lookupError;
+
+    if ((existing ?? []).some((item) => toMinutes(item.appointment_time) === start)) {
+      return res.status(409).json({
+        message: "That time is already booked or blocked.",
+      });
+    }
+
+    const { data, error } = await createAppointmentService({
+      first_name: "BLOCKED",
+      last_name: reason || "Time blocked",
+      phone: "0000000000",
+      email: "blocked@internal",
+      service: "Blocked Time",
+      tax_preparer,
+      appointment_date,
+      appointment_time,
+      visit_format: "in_person",
+      duration_minutes: duration,
+      message: reason || "Time blocked by staff",
+      manage_token_hash: null,
+      manage_token_expires_at: null,
+    });
+
+    if (error) throw error;
+
+    const appointment = data?.[0];
+    if (!appointment) throw new Error("Blocked slot was not created.");
+
+    const db = await getDatabase();
+    const { ObjectId } = await import("mongodb");
+    await db.collection("appointments").updateOne(
+      { _id: new ObjectId(appointment.id) },
+      { $set: { status: "blocked" } }
+    );
+
+    appointment.status = "blocked";
+    return res.status(201).json(safeAppointment(appointment));
+  } catch (error) {
+    console.error("Block time failed:", error);
+    return res.status(500).json({ message: "Could not block time." });
   }
 }
 

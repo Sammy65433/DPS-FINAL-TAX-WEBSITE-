@@ -6,6 +6,7 @@ import {
   cancelAppointment,
   clearAppointmentMessage,
   createAppointment,
+  createBlockedAppointment,
   createStaffAppointment,
   deleteAppointment,
   getAppointments,
@@ -38,6 +39,7 @@ router.patch("/manage/cancel", cancelManagedAppointment);
 
 router.get("/staff/availability", requireStaff, getStaffAvailability);
 router.post("/staff", requireStaff, createStaffAppointment);
+router.post("/block", requireStaff, createBlockedAppointment);
 
 // Staff-only changes
 router.patch("/:id/cancel", requireStaff, cancelAppointment);
