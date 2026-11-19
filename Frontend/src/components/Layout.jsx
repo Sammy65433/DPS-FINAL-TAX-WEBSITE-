@@ -1,6 +1,7 @@
 import TopBar from "./TopBar";
 import Header from "./Header";
 import Footer from "./Footer";
+import DPSChatWidget from "./DPSChatWidget";
 
 function Layout({ children }) {
   return (
@@ -9,6 +10,7 @@ function Layout({ children }) {
       <Header />
       <main>{children}</main>
       <Footer />
+      <DPSChatWidget />
     </>
   );
 }

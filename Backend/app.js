@@ -9,6 +9,7 @@ import customerRoutes from "./routes/customerRoutes.js";
 import customerDocumentRoutes from "./routes/customerDocumentRoutes.js";
 import staffDocumentRoutes from "./routes/staffDocumentRoutes.js";
 import staffRoutes from "./routes/staffRoutes.js";
+import aiRoutes from "./routes/aiRoutes.js";
 
 const app = express();
 
@@ -45,5 +46,6 @@ app.use("/api/customer", customerRoutes);
 app.use("/api/appointments", appointmentRoutes);
 app.use("/api/realty-appointments", realtyAppointmentRoutes);
 app.use("/api", emailRoutes);
+app.use("/api/ai", aiRoutes);
 
 export default app;
