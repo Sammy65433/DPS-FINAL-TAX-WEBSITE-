@@ -84,6 +84,32 @@ export async function registerCustomer(req, res) {
             return res.status(500).json({ error: "Could not create account." });
         }
 
+        // Auto-register the client in the CRM (best-effort, don't fail registration)
+        const crmUrl = process.env.CRM_BACKEND_URL?.replace(/\/$/, "");
+        const redeemKey = process.env.CRM_LINK_REDEEM_KEY;
+        if (crmUrl && redeemKey) {
+            try {
+                await fetch(`${crmUrl}/api/internal/contacts/upsert-client`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CRM-Link-Key": redeemKey,
+                    },
+                    body: JSON.stringify({
+                        email,
+                        firstName,
+                        lastName,
+                        phone,
+                        birthday: birthdayRaw || null,
+                        customerId: customer.id,
+                    }),
+                    signal: AbortSignal.timeout(10000),
+                });
+            } catch (crmError) {
+                console.error("CRM upsert-client failed (non-fatal):", crmError);
+            }
+        }
+
         try {
             await sendCustomerConfirmationEmail({
                 email,
