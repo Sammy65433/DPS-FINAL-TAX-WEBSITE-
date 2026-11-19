@@ -3,6 +3,25 @@ import { FaRobot, FaPaperPlane, FaTimes, FaSpinner } from "react-icons/fa";
 
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
+function formatMessage(text) {
+  // Convert **bold** to <strong>, newlines to <br>
+  const lines = text.split("\n");
+  return lines.map((line, i) => {
+    const parts = line.split(/(\*\*[^*]+\*\*)/g);
+    const rendered = parts.map((part, j) => {
+      if (part.startsWith("**") && part.endsWith("**")) {
+        return <strong key={j}>{part.slice(2, -2)}</strong>;
+      }
+      return part;
+    });
+    return (
+      <span key={i}>
+        {rendered}
+        {i < lines.length - 1 && <br />}
+      </span>
+    );
+  });
+}
 export default function DPSChatWidget() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
@@ -78,7 +97,7 @@ export default function DPSChatWidget() {
           <div className="dps-chat-messages">
             {messages.map((msg, idx) => (
               <div key={idx} className={`dps-chat-msg dps-chat-msg--${msg.role}`}>
-                {msg.text}
+                {formatMessage(msg.text)}
               </div>
             ))}
             {loading && (

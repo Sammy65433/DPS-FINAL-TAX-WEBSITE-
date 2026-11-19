@@ -165,3 +165,26 @@
     font-size: 1.2rem;
   }
 }
+.dps-chat-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.5rem 0;
+  font-size: 0.8rem;
+}
+
+.dps-chat-table th,
+.dps-chat-table td {
+  border: 1px solid #d7e1ea;
+  padding: 0.3rem 0.5rem;
+  text-align: left;
+}
+
+.dps-chat-table th {
+  background: #0f5c54;
+  color: #fff;
+  font-weight: 700;
+}
+
+.dps-chat-table tr:nth-child(even) {
+  background: #f8fafc;
+}
