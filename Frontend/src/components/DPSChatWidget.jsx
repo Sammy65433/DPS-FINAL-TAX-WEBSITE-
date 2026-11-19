@@ -24,15 +24,23 @@ function formatMessage(text) {
 }
 export default function DPSChatWidget() {
   const [open, setOpen] = useState(false);
-  const [messages, setMessages] = useState([
-    {
-      role: "assistant",
-      text: "Hi! I'm the DPS assistant. Ask me about our services, hours, booking, or documents. How can I help?",
-    },
-  ]);
+  const [messages, setMessages] = useState(() => {
+    try {
+      const saved = JSON.parse(localStorage.getItem("dps_chat_messages") || "null");
+      return Array.isArray(saved) && saved.length > 0 ? saved : [
+        { role: "assistant", text: "Hi! I'm the DPS assistant. Ask me about our services, hours, booking, or documents. How can I help?" },
+      ];
+    } catch {
+      return [{ role: "assistant", text: "Hi! I'm the DPS assistant. Ask me about our services, hours, booking, or documents. How can I help?" }];
+    }
+  });
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const messagesEndRef = useRef(null);
+
+  useEffect(() => {
+    try { localStorage.setItem("dps_chat_messages", JSON.stringify(messages)); } catch { /* ignore */ }
+  }, [messages]);
 
   useEffect(() => {
     if (open && messagesEndRef.current) {
@@ -84,6 +92,20 @@ export default function DPSChatWidget() {
           <div className="dps-chat-header">
             <FaRobot className="me-2" />
             <strong>DPS Assistant</strong>
+            <button
+              type="button"
+              className="dps-chat-clear"
+              onClick={() => {
+                setMessages([
+                  { role: "assistant", text: "Hi! I'm the DPS assistant. Ask me about our services, hours, booking, or documents. How can I help?" },
+                ]);
+                localStorage.removeItem("dps_chat_messages");
+              }}
+              aria-label="Clear chat"
+              title="Clear chat"
+            >
+              Clear
+            </button>
             <button
               type="button"
               className="dps-chat-close"

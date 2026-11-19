@@ -188,3 +188,19 @@
 .dps-chat-table tr:nth-child(even) {
   background: #f8fafc;
 }
+
+.dps-chat-clear {
+  margin-left: auto;
+  margin-right: 8px;
+  background: rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.75rem;
+  padding: 2px 8px;
+  border-radius: 6px;
+}
+
+.dps-chat-clear:hover {
+  background: rgba(255, 255, 255, 0.35);
+}
