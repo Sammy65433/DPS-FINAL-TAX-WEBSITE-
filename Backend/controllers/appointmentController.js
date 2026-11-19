@@ -160,7 +160,7 @@ function availableTimesFor(date, duration, appointments, enforceNotice = false) 
   const slots = [];
   const nowMs = Date.now();
 
-  for (let start = range.opens; start < range.closes; start += 30) {
+  for (let start = range.opens; start < range.closes; start += 15) {
     if (enforceNotice && !meetsPublicBookingNotice(date, start, nowMs)) {
       continue;
     }
