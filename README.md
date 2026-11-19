@@ -193,6 +193,7 @@ An authenticated client can go to `/client-portal` and:
 - upload PDF/JPG/PNG documents (max 5 MB)
 - view uploaded document metadata
 
+
 Staff can then retrieve and download those documents through staff-protected endpoints linked to the CRM contact.
 
 ## Project Structure
