@@ -144,12 +144,8 @@ function availableTimes(date, duration, bookings) {
       const bookedStart = toMinutes(booking.appointment_time);
       if (bookedStart === null) return true;
 
-      const bookedDuration = Number(booking.duration_minutes ?? 30);
-
-      return (
-        start < bookedStart + bookedDuration &&
-        bookedStart < start + duration
-      );
+      // Only block exact time matches
+      return start === bookedStart;
     });
 
     if (!overlaps) result.push(formatTime(start));

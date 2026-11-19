@@ -129,8 +129,17 @@ function getDisplayTimes(dateKeyValue, duration) {
   const date = parseDateKey(dateKeyValue);
   if (!date || date.getDay() === 0) return [];
 
-  const opens = 9 * 60;
-  const closes = date.getDay() === 6 ? 18 * 60 : 17 * 60;
+  const month = date.getMonth() + 1;
+  const taxSeason = month >= 2 && month <= 4; // Feb-Apr
+
+  const opens = taxSeason
+    ? (date.getDay() === 6 ? 10 * 60 : 9 * 60)
+    : (date.getDay() === 6 ? 10 * 60 : 10 * 60);
+
+  const closes = taxSeason
+    ? (date.getDay() === 6 ? 19 * 60 : 21 * 60)
+    : (date.getDay() === 6 ? 14 * 60 : 18 * 60);
+
   const times = [];
 
   for (let start = opens; start + duration <= closes; start += 30) {

@@ -78,9 +78,20 @@ function getTimeRange(value) {
     return null;
   }
 
+  const taxSeason = month >= 2 && month <= 4; // Feb-Apr
+
+  if (taxSeason) {
+    // Tax season: Mon-Fri 9 AM-9 PM, Sat 10 AM-7 PM
+    return {
+      opens: 9 * 60,
+      closes: date.getDay() === 6 ? 19 * 60 : 21 * 60,
+    };
+  }
+
+  // Off-season: Mon-Fri 10 AM-6 PM, Sat 10 AM-2 PM (by appointment)
   return {
-    opens: 9 * 60,
-    closes: date.getDay() === 6 ? 18 * 60 : 17 * 60,
+    opens: 10 * 60,
+    closes: date.getDay() === 6 ? 14 * 60 : 18 * 60,
   };
 }
 
@@ -137,11 +148,8 @@ function overlaps(requestedStart, requestedDuration, appointment) {
   const existingStart = toMinutes(appointment.appointment_time);
   if (existingStart === null) return true;
 
-  const existingDuration = Number(appointment.duration_minutes ?? 30);
-  return (
-    requestedStart < existingStart + existingDuration &&
-    existingStart < requestedStart + requestedDuration
-  );
+  // Only block exact time matches — preparers can hand off overlapping sessions
+  return requestedStart === existingStart;
 }
 
 function availableTimesFor(date, duration, appointments, enforceNotice = false) {
