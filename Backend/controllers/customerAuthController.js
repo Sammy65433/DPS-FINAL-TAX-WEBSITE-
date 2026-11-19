@@ -89,7 +89,7 @@ export async function registerCustomer(req, res) {
         const redeemKey = process.env.CRM_LINK_REDEEM_KEY;
         if (crmUrl && redeemKey) {
             try {
-                await fetch(`${crmUrl}/api/internal/contacts/upsert-client`, {
+                const crmResponse = await fetch(`${crmUrl}/api/internal/contacts/upsert-client`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
@@ -105,6 +105,12 @@ export async function registerCustomer(req, res) {
                     }),
                     signal: AbortSignal.timeout(10000),
                 });
+                const crmData = await crmResponse.json().catch(() => ({}));
+                if (!crmResponse.ok) {
+                    console.error("CRM upsert-client failed:", crmResponse.status, crmData);
+                } else {
+                    console.log("CRM upsert-client success:", crmData);
+                }
             } catch (crmError) {
                 console.error("CRM upsert-client failed (non-fatal):", crmError);
             }
