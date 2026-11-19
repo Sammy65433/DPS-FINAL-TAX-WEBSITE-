@@ -137,7 +137,7 @@ function availableTimes(date, duration, bookings) {
 
   for (
     let start = hours.start;
-    start + duration <= hours.end;
+    start < hours.end;
     start += 30
   ) {
     const overlaps = bookings.some((booking) => {

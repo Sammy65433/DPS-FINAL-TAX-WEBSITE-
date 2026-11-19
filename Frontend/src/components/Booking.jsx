@@ -142,7 +142,7 @@ function getDisplayTimes(dateKeyValue, duration) {
 
   const times = [];
 
-  for (let start = opens; start + duration <= closes; start += 30) {
+  for (let start = opens; start < closes; start += 30) {
     times.push(formatTime(start));
   }
 

@@ -159,12 +159,12 @@ function availableTimesFor(date, duration, appointments, enforceNotice = false) 
   const slots = [];
   const nowMs = Date.now();
 
-  for (let start = range.opens; start + duration <= range.closes; start += 30) {
+  for (let start = range.opens; start < range.closes; start += 30) {
     if (enforceNotice && !meetsPublicBookingNotice(date, start, nowMs)) {
       continue;
     }
 
-    if (!appointments.some((item) => overlaps(start, duration, item))) {
+    if (!appointments.some((item) => item && toMinutes(item.appointment_time) === start)) {
       slots.push(formatTime(start));
     }
   }
