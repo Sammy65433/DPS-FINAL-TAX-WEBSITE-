@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 
 import ScrollToTop from "./components/ScrollToTop";
+import DPSChatWidget from "./components/DPSChatWidget";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
@@ -90,6 +91,7 @@ function App() {
           element={<ManageAppointment />}
         />
       </Routes>
+      <DPSChatWidget />
     </>
   );
 }
