@@ -89,7 +89,7 @@ export async function registerCustomer(req, res) {
         const redeemKey = process.env.CRM_LINK_REDEEM_KEY;
         if (crmUrl && redeemKey) {
             try {
-                const crmResponse = await fetch(`${crmUrl}/api/internal/contacts/upsert-client`, {
+                const crmResponse = await fetch(`${crmUrl}/api/internal/contact-links/upsert-client`, {
                     method: "POST",
                     headers: {
                         "Content-Type": "application/json",
