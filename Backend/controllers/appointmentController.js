@@ -20,7 +20,7 @@ import {
 
 const VISIT_FORMATS = new Set(["in_person", "phone", "virtual"]);
 const EASTERN_TIME_ZONE = "America/New_York";
-const PUBLIC_BOOKING_NOTICE_MS = 24 * 60 * 60 * 1000;
+const PUBLIC_BOOKING_NOTICE_MS = 0;
 
 const easternPartsFormatter = new Intl.DateTimeFormat("en-US", {
   timeZone: EASTERN_TIME_ZONE,
@@ -261,7 +261,7 @@ export async function createAppointment(req, res) {
 
   if (!meetsPublicBookingNotice(appointment_date, start)) {
     return res.status(409).json({
-      message: "Bookings close 24 hours before the appointment starts.",
+      message: "This time slot has already passed. Please choose a future time.",
     });
   }
 

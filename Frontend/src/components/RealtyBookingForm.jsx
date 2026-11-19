@@ -185,7 +185,7 @@ function RealtyBookingForm() {
                 <option value="Selling a Home">Selling a Home</option>
                 <option value="Renting">Renting</option>
                 <option value="Investment Property">Investment Property</option>
-                <option value="General Consultation">General Consultation</option>
+                <option value="Real Estate Consultation">Real Estate Consultation</option>
               </select>
             </div>
 

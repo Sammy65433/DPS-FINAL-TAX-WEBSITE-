@@ -2,6 +2,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 
 import ScrollToTop from "./components/ScrollToTop";
 import DPSChatWidget from "./components/DPSChatWidget";
+import ErrorBoundary from "./components/ErrorBoundary";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ContactPage from "./pages/ContactPage";
@@ -39,7 +40,8 @@ function App() {
   return (
     <>
       <ScrollToTop />
-      <Routes>
+      <ErrorBoundary>
+        <Routes>
         <Route path="/client-login" element={<ClientLogin />} />
         <Route path="/client-portal" element={<ClientPortal />} />
         <Route path="/client-link" element={<ClientLink />} />
@@ -91,6 +93,7 @@ function App() {
           element={<ManageAppointment />}
         />
       </Routes>
+      </ErrorBoundary>
       <DPSChatWidget />
     </>
   );

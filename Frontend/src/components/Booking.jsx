@@ -527,7 +527,7 @@ function Booking() {
       if (
         error.message?.includes("unavailable") ||
         error.message?.includes("overlap") ||
-        error.message?.includes("24 hours")
+        error.message?.includes("passed")
       ) {
         setAvailability(null);
       }
@@ -808,8 +808,7 @@ function Booking() {
                     : "Select a date"}
                 </h4>
                 <p className="booking-cutoff-note">
-                  Bookings close 24 hours before the session starts.
-                  All times are Eastern Time.
+                  Same-day bookings are allowed. All times are Eastern Time.
                 </p>
 
                 {!formData.tax_preparer && (
