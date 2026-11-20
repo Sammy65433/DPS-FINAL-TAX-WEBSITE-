@@ -133,7 +133,7 @@ function PaymentsPage() {
                                         <div className="pricing-card-content">
                                             <h3>{name}</h3>
                                             <p className="pricing-amount">
-                                                Pricing <strong>Varies by City &amp; State</strong>
+                                                Pricing varies by city &amp; state
                                             </p>
                                             <p className="pricing-detail">{detail}</p>
                                         </div>

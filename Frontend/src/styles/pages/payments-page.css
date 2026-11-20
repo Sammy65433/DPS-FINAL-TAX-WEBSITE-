@@ -270,13 +270,17 @@
 }
 
 .pricing-card .pricing-amount {
+  display: inline-block;
   margin: 0 0 0.55rem;
-  color: #f5e7c0;
-  font-size: 0.95rem;
-}
-
-.pricing-card .pricing-amount strong {
-  font-size: 1.5rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(245, 211, 108, 0.18);
+  border: 1px solid rgba(245, 211, 108, 0.45);
+  color: #f5d36c;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .pricing-card .pricing-detail {
@@ -329,14 +333,17 @@
 }
 
 .pricing-page .pricing-card .pricing-amount {
-  margin: 0 0 0.35rem;
-  font-size: 0.88rem;
-}
-
-.pricing-page .pricing-card .pricing-amount strong {
-  display: inline;
-  margin: 0;
-  font-size: 1.2rem;
+  display: inline-block;
+  margin: 0 0 0.6rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: 999px;
+  background: rgba(245, 211, 108, 0.18);
+  border: 1px solid rgba(245, 211, 108, 0.45);
+  color: #f5d36c;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
 }
 
 .pricing-page .pricing-card .pricing-detail {
