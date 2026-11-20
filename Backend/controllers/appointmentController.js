@@ -82,16 +82,16 @@ function getTimeRange(value) {
   const taxSeason = month >= 2 && month <= 4; // Feb-Apr
 
   if (taxSeason) {
-    // Tax season: Mon-Fri 9 AM-9 PM, Sat 9 AM-6 PM (by appointment)
+    // Tax season: Mon-Fri 9 AM-9 PM, Sat 10 AM-7 PM
     return {
       opens: 9 * 60,
-      closes: date.getDay() === 6 ? 18 * 60 : 21 * 60,
+      closes: date.getDay() === 6 ? 19 * 60 : 21 * 60,
     };
   }
 
-  // Off-season: Mon-Fri 10 AM-6 PM, Sat 9 AM-6 PM (by appointment)
+  // Off-season: Mon-Fri 10 AM-6 PM, Sat 10 AM-6 PM (by appointment)
   return {
-    opens: date.getDay() === 6 ? 9 * 60 : 10 * 60,
+    opens: 10 * 60,
     closes: date.getDay() === 6 ? 18 * 60 : 18 * 60,
   };
 }
