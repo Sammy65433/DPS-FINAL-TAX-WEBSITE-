@@ -183,3 +183,23 @@
   justify-content: flex-end;
   margin-bottom: 0.5rem;
 }
+
+/* Hide Google Translate "Powered by" branding for a cleaner look */
+.goog-logo-link,
+.goog-te-gadget span {
+  display: none !important;
+}
+
+.goog-te-gadget {
+  color: transparent !important;
+  font-size: 0 !important;
+}
+
+#google_translate_element .goog-te-gadget-simple {
+  background: rgba(255, 255, 255, 0.9) !important;
+  border: 1px solid rgba(15, 92, 84, 0.3) !important;
+  border-radius: 8px !important;
+  padding: 4px 8px !important;
+  font-size: 0.85rem !important;
+  color: #0f5c54 !important;
+}
