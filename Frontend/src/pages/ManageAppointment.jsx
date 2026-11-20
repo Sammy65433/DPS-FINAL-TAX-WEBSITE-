@@ -263,7 +263,7 @@ export default function ManageAppointment() {
                     <GoogleTranslate />
                 </div>
                 <div className="manage-logo">
-                    <img src="/dps-logo.png" alt="DPS Professional Tax Services" />
+                    <img src="/DPS-LOGO1.png" alt="DPS Professional Tax Services" />
                 </div>
                 <p className="manage-eyebrow">DPS Professional Tax Services</p>
                 <h1>Manage My Appointment</h1>
