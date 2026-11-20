@@ -357,21 +357,31 @@ export async function sendCustomerRescheduleEmail(appointment, manageToken) {
   }
 }
 export async function sendAppointmentCancellationEmail(appointment) {
+  const date = appointment.appointment_date ? new Date(appointment.appointment_date + "T00:00:00") : null;
+  const isWeekend = date && (date.getDay() === 0 || date.getDay() === 6);
+  const subject = isWeekend
+    ? "Your DPS Appointment Request Was Declined"
+    : "Your DPS Appointment Was Cancelled";
+  const heading = isWeekend ? "Appointment Declined" : "Appointment Cancelled";
+  const message = isWeekend
+    ? "Your appointment request for this date was declined by our office. Please contact us to find another time."
+    : "Your appointment has been cancelled.";
+
   const result = await resend.emails.send({
     from: "appointments@dpstaxpro.com",
     to: appointment.email,
-    subject: "Your DPS Appointment Was Cancelled",
+    subject,
     html: `
       <div style="font-family:Arial,sans-serif;line-height:1.6">
-        <h2>Appointment Cancelled</h2>
+        <h2>${heading}</h2>
         <p>Hello ${appointment.first_name},</p>
-        <p>Your appointment has been cancelled.</p>
+        <p>${message}</p>
         <p><strong>Service:</strong> ${appointment.service}</p>
         <p><strong>Preparer:</strong> ${appointment.tax_preparer}</p>
         <p><strong>Date:</strong> ${appointment.appointment_date}</p>
         <p><strong>Time:</strong> ${appointment.appointment_time}</p>
         <p><strong>Questions or details:</strong> ${appointment.message || "None"}</p>
-        <p>If this was a mistake, call (973) 327-2340.</p>
+        <p>If you have questions, call (973) 327-2340.</p>
       </div>
     `,
   });
