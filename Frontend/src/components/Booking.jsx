@@ -170,6 +170,14 @@ function Booking() {
   const schedulerRef = useRef(null);
   const location = useLocation();
 
+  useEffect(() => {
+    const requestedService = location.state?.service;
+    if (requestedService) {
+      setFormData((prev) => ({ ...prev, service: requestedService }));
+      setSchedulingOpen(true);
+    }
+  }, [location.state?.service]);
+
   const selectedService = [...SERVICES, ...REALTY_SERVICES].find(
     (service) => service.name === formData.service
   );

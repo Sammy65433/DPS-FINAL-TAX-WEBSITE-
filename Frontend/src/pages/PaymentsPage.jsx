@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import {
     FaCalendarCheck,
     FaCreditCard,
@@ -18,26 +18,31 @@ const pricingGroups = [
                 name: "Form 1040",
                 detail: "Includes state return",
                 image: "/tax-desktop.jpg",
+                bookService: "Personal Tax Preparation",
             },
             {
                 name: "Form 1040 with Schedule A",
                 detail: "Includes state return",
                 image: "/pricing-page-taxes-w4.jpg",
+                bookService: "Personal Tax Preparation",
             },
             {
                 name: "Schedule C",
                 detail: "Sole proprietor / independent contractor",
                 image: "/pricing-page-taxes-smallbuisness.jpg",
+                bookService: "Business Tax Preparation",
             },
             {
                 name: "Schedule D",
                 detail: "Capital gains and losses",
                 image: "/pricing-page-taxes-w7.jpg",
+                bookService: "Personal Tax Preparation",
             },
             {
                 name: "Schedule E",
                 detail: "Supplemental income and losses",
                 image: "/tax-desktop.jpg",
+                bookService: "Personal Tax Preparation",
             },
         ],
     },
@@ -49,11 +54,13 @@ const pricingGroups = [
                 name: "Single-Member LLC",
                 detail: "Does not include individual tax returns",
                 image: "/corp-busness2.jpg",
+                bookService: "Business Tax Preparation",
             },
             {
                 name: "Partnerships & S Corporations",
                 detail: "Includes required entity filings",
                 image: "/corp-busness1.jpg",
+                bookService: "S Corporation",
             },
         ],
     },
@@ -65,17 +72,20 @@ const pricingGroups = [
                 name: "Notary Public",
                 detail: "Per notarization",
                 image: "/notary-2.jpg",
+                bookService: "Notary Public",
             },
             {
                 name: "Mobile Notary Services",
                 detail: "Mileage and travel fees are additional.",
                 image: "/notaary4.jpg",
+                bookService: "Mobile Notary Public",
             },
         ],
     },
 ];
 
 function PaymentsPage() {
+    const navigate = useNavigate();
     return (
         <Layout>
             <main className="section pricing-page">
@@ -122,7 +132,7 @@ function PaymentsPage() {
                             </div>
 
                             <div className="pricing-grid">
-                                {items.map(({ name, detail, image }) => (
+                                {items.map(({ name, detail, image, bookService }) => (
                                     <article className="pricing-card" key={name}>
                                         <img
                                             src={image}
@@ -136,6 +146,18 @@ function PaymentsPage() {
                                                 Pricing varies by city &amp; state
                                             </p>
                                             <p className="pricing-detail">{detail}</p>
+                                            <button
+                                                type="button"
+                                                className="pricing-book-btn"
+                                                onClick={() =>
+                                                    navigate("/booking", {
+                                                        state: { service: bookService || "Tax Consultation" },
+                                                    })
+                                                }
+                                            >
+                                                <FaCalendarCheck aria-hidden="true" />
+                                                Book This Service
+                                            </button>
                                         </div>
                                     </article>
                                 ))}
