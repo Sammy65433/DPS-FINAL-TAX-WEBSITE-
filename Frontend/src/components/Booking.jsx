@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { getCustomerSession, getCustomerToken } from "../lib/customerAuth";
 import {
   FaCalendarAlt,
+  FaCheckCircle,
   FaClock,
   FaCloudUploadAlt,
   FaExternalLinkAlt,
@@ -1020,13 +1021,23 @@ function Booking() {
         )}
 
         {!schedulingOpen && status.message && (
-          <p
-            className={`form-status ${status.type}`}
+          <div
+            className={`booking-success-banner ${status.type}`}
             role="status"
             aria-live="polite"
           >
-            {status.message}
-          </p>
+            {status.type === "success" && (
+              <FaCheckCircle className="booking-success-icon" aria-hidden="true" />
+            )}
+            <div className="booking-success-text">
+              <strong>{status.message}</strong>
+              {status.type === "success" && (
+                <span className="booking-success-sub">
+                  We'll confirm your appointment shortly. Check your email for details.
+                </span>
+              )}
+            </div>
+          </div>
         )}
 
         <div className="booking-help">
