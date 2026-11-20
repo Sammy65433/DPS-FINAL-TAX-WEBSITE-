@@ -91,7 +91,7 @@ function InsuranceServices() {
               <Link to="/contact">
                 <FaEnvelope aria-hidden="true" /> Contact Us
               </Link>
-              <Link to="/booking">
+              <Link to="/booking" state={{ service: "Tax Consultation" }}>
                 <FaCalendarCheck aria-hidden="true" /> Book Appointment
               </Link>
               <a href="tel:+19733272340">

@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import Layout from "../components/Layout";
 import Languages from "../components/Languages";
 import {
@@ -7,6 +8,8 @@ import {
   FaGlobeAmericas,
   FaCheckCircle,
   FaHandsHelping,
+  FaCalendarCheck,
+  FaEnvelope,
 } from "react-icons/fa";
 
 function Translation() {
@@ -147,6 +150,24 @@ function Translation() {
           </div>
         </div>
       </section>
+
+      <div className="translation-cta" style={{ textAlign: "center", padding: "2rem 1rem" }}>
+        <h2 style={{ color: "#fff", marginBottom: "0.75rem" }}>Ready to Get Started?</h2>
+        <p style={{ color: "#edf7f5", marginBottom: "1rem" }}>
+          Review pricing, book a translation appointment, or contact our team.
+        </p>
+        <div style={{ display: "flex", gap: "0.75rem", justifyContent: "center", flexWrap: "wrap" }}>
+          <Link to="/pricing" className="pricing-button pricing-button-outline">
+            View Pricing
+          </Link>
+          <Link to="/booking" state={{ service: "Translation" }} className="pricing-button">
+            <FaCalendarCheck aria-hidden="true" /> Book Appointment
+          </Link>
+          <Link to="/contact" className="pricing-button pricing-button-outline">
+            <FaEnvelope aria-hidden="true" /> Contact Us
+          </Link>
+        </div>
+      </div>
 
       <Languages />
     </Layout>

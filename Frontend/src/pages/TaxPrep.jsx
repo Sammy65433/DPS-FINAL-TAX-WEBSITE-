@@ -183,7 +183,7 @@ function TaxPrep() {
             </div>
             <div className="taxprep-cta-actions">
               <Link to="/pricing">View Pricing</Link>
-              <Link to="/booking">
+              <Link to="/booking" state={{ service: "Personal Tax Preparation" }}>
                 <FaCalendarCheck aria-hidden="true" /> Book Appointment
               </Link>
               <Link to="/contact">

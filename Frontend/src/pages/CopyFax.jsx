@@ -134,7 +134,7 @@ function CopyFax() {
             </div>
             <div className="copyfax-cta-actions">
               <Link to="/pricing">View Pricing</Link>
-              <Link to="/booking">
+              <Link to="/booking" state={{ service: "Copy & Fax" }}>
                 <FaCalendarCheck aria-hidden="true" /> Book Appointment
               </Link>
               <a href="tel:+19733272340">

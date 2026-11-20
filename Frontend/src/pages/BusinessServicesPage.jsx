@@ -108,7 +108,7 @@ function BusinessServicesPage() {
                 <FaEnvelope aria-hidden="true" />
                 Contact Us
               </Link>
-              <Link to="/booking" className="business-cta-link">
+              <Link to="/booking" className="business-cta-link" state={{ service: "Business Services" }}>
                 <FaCalendarCheck aria-hidden="true" />
                 Book Appointment
               </Link>

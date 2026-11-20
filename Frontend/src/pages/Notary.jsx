@@ -140,7 +140,7 @@ function Notary() {
             </div>
             <div className="notary-cta-actions">
               <Link to="/pricing">View Pricing</Link>
-              <Link to="/booking">
+              <Link to="/booking" state={{ service: "Notary Public" }}>
                 <FaCalendarCheck aria-hidden="true" /> Book Appointment
               </Link>
               <Link to="/contact">
