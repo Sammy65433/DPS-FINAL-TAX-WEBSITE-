@@ -65,6 +65,42 @@ const pricingGroups = [
         ],
     },
     {
+        title: "General Services",
+        icon: FaFileInvoiceDollar,
+        items: [
+            {
+                name: "Tax Consultation",
+                detail: "Discuss your tax questions and next steps.",
+                image: "/tax-desktop.jpg",
+                bookService: "Tax Consultation",
+            },
+            {
+                name: "Translation",
+                detail: "Discuss translation needs for your documents.",
+                image: "/transla1.jpg",
+                bookService: "Translation",
+            },
+            {
+                name: "Form Preparation Support",
+                detail: "Get help organizing forms using information you provide.",
+                image: "/transla2.jpg",
+                bookService: "Form Preparation Support",
+            },
+            {
+                name: "Copy & Fax",
+                detail: "Make copies or send documents by fax.",
+                image: "/copy2.jpg",
+                bookService: "Copy & Fax",
+            },
+            {
+                name: "Business Services",
+                detail: "Discuss your small-business service needs.",
+                image: "/pro2.jpg",
+                bookService: "Business Services",
+            },
+        ],
+    },
+    {
         title: "Notary Services",
         icon: FaStamp,
         items: [
