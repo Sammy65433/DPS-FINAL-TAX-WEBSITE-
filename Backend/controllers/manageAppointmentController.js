@@ -33,6 +33,11 @@ const SERVICES = new Set([
   "Copy & Fax",
   "Other Services",
   "Business Services",
+  "Buying a Home",
+  "Selling a Home",
+  "Renting",
+  "Investment Property",
+  "Real Estate Consultation",
 ]);
 
 
@@ -116,16 +121,23 @@ function validDate(value) {
 function openHours(value) {
   const date = validDate(value);
   const today = new Date();
-today.setHours(0, 0, 0, 0);
+  today.setHours(0, 0, 0, 0);
 
-if (!date || date < today || date.getDay() === 0) return null;
+  if (!date || date < today || date.getDay() === 0) return null;
 
-  
+  const month = date.getMonth() + 1;
+  const taxSeason = month >= 2 && month <= 4;
 
-  // Keep these hours aligned with the main DPS booking backend.
+  if (taxSeason) {
+    return {
+      start: 9 * 60,
+      end: date.getDay() === 6 ? 19 * 60 : 21 * 60,
+    };
+  }
+
   return {
-    start: 9 * 60,
-    end: date.getDay() === 6 ? 18 * 60 : 17 * 60,
+    start: 10 * 60,
+    end: date.getDay() === 6 ? 14 * 60 : 18 * 60,
   };
 }
 
@@ -138,7 +150,7 @@ function availableTimes(date, duration, bookings) {
   for (
     let start = hours.start;
     start < hours.end;
-    start += 30
+    start += 15
   ) {
     const overlaps = bookings.some((booking) => {
       const bookedStart = toMinutes(booking.appointment_time);
@@ -234,7 +246,7 @@ export async function rescheduleManagedAppointment(req, res) {
     const duration = Number(req.body.duration_minutes);
 
     if (
-      !SERVICES.has(service) ||
+      !service ||
       !PREPARERS.has(preparer) ||
       ![15, 30, 60, 90, 120].includes(duration) ||
       !openHours(date) ||

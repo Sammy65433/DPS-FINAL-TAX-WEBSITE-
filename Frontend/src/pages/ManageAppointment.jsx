@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
+import GoogleTranslate from "../components/GoogleTranslate";
 
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
@@ -27,6 +28,11 @@ const SERVICES = [
     "Copy & Fax",
     "Other Services",
     "Business Services",
+    "Buying a Home",
+    "Selling a Home",
+    "Renting",
+    "Investment Property",
+    "Real Estate Consultation",
 ];
 
 const VISIT_FORMAT_LABELS = {
@@ -253,6 +259,9 @@ export default function ManageAppointment() {
     return (
         <main className="manage-page">
             <div className="manage-card">
+                <div className="manage-translate">
+                    <GoogleTranslate />
+                </div>
                 <h1>Manage My Appointment</h1>
 
                 {error && (
@@ -300,11 +309,20 @@ export default function ManageAppointment() {
                                         value={service}
                                         onChange={(event) => setService(event.target.value)}
                                     >
-                                        {SERVICES.map((item) => (
-                                            <option key={item} value={item}>
-                                                {item}
-                                            </option>
-                                        ))}
+                                        <optgroup label="Tax Services">
+                                            {SERVICES.filter((s) => !["Buying a Home","Selling a Home","Renting","Investment Property","Real Estate Consultation"].includes(s)).map((item) => (
+                                                <option key={item} value={item}>
+                                                    {item}
+                                                </option>
+                                            ))}
+                                        </optgroup>
+                                        <optgroup label="Real Estate (DPS Realty)">
+                                            {["Buying a Home","Selling a Home","Renting","Investment Property","Real Estate Consultation"].map((item) => (
+                                                <option key={item} value={item}>
+                                                    {item}
+                                                </option>
+                                            ))}
+                                        </optgroup>
                                     </select>
                                 </div>
 
@@ -407,8 +425,11 @@ export default function ManageAppointment() {
                                             setTime("");
                                         }}
                                     >
+                                        <option value={15}>15 minutes</option>
                                         <option value={30}>30 minutes</option>
                                         <option value={60}>1 hour</option>
+                                        <option value={90}>1.5 hours</option>
+                                        <option value={120}>2 hours</option>
                                     </select>
                                 </div>
 
