@@ -13,21 +13,21 @@ import {
 
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 const SERVICES = [
-  { name: "Tax Consultation", duration: 15, description: "Discuss your tax questions and next steps." },
-  { name: "Personal Tax Preparation", duration: 90, description: "Get help preparing an individual tax return." },
-  { name: "Business Tax Preparation", duration: 120, description: "Review and prepare your business tax return." },
-  { name: "Notary Public", duration: 15, description: "Have an eligible document notarized in our office." },
-  { name: "Mobile Notary Public", duration: 15, description: "Arrange notarization at an agreed location." },
-  { name: "S Corporation", duration: 120, description: "Get help preparing an S corporation tax return." },
-  { name: "Amended Return", duration: 60, description: "Review changes needed to a previously filed return." },
-  { name: "Partnership, LLC & Form 8825", duration: 60, description: "Discuss partnership or LLC filings and Form 8825." },
-  { name: "Return for Estates and Trusts", duration: 90, description: "Get help with an estate or trust tax return." },
-  { name: "Tax Return Pickup", duration: 60, description: "Schedule a time to collect your completed return." },
-  { name: "Translation", duration: 30, description: "Discuss translation needs for your documents." },
-  { name: "Form Preparation Support", duration: 60, description: "Get help organizing forms using information you provide." },
-  { name: "Copy & Fax", duration: 15, description: "Make copies or send documents by fax." },
-  { name: "Other Services", duration: 30, description: "Tell us what you need help with." },
-  { name: "Business Services", duration: 120, description: "Discuss your small-business service needs." },
+  { name: "Tax Consultation", duration: 15, description: "Discuss your tax questions and next steps.", image: "/tax-desktop.jpg" },
+  { name: "Personal Tax Preparation", duration: 90, description: "Get help preparing an individual tax return.", image: "/pricing-page-taxes-w4.jpg" },
+  { name: "Business Tax Preparation", duration: 120, description: "Review and prepare your business tax return.", image: "/pricing-page-taxes-smallbuisness.jpg" },
+  { name: "Notary Public", duration: 15, description: "Have an eligible document notarized in our office.", image: "/notary-2.jpg" },
+  { name: "Mobile Notary Public", duration: 15, description: "Arrange notarization at an agreed location.", image: "/notary2.jpg" },
+  { name: "S Corporation", duration: 120, description: "Get help preparing an S corporation tax return.", image: "/corp-busness1.jpg" },
+  { name: "Amended Return", duration: 60, description: "Review changes needed to a previously filed return.", image: "/tax return2.jpg" },
+  { name: "Partnership, LLC & Form 8825", duration: 60, description: "Discuss partnership or LLC filings and Form 8825.", image: "/corp-busness2.jpg" },
+  { name: "Return for Estates and Trusts", duration: 90, description: "Get help with an estate or trust tax return.", image: "/tax-desktop.jpg" },
+  { name: "Tax Return Pickup", duration: 60, description: "Schedule a time to collect your completed return.", image: "/tax return2.jpg" },
+  { name: "Translation", duration: 30, description: "Discuss translation needs for your documents.", image: "/transla1.jpg" },
+  { name: "Form Preparation Support", duration: 60, description: "Get help organizing forms using information you provide.", image: "/transla2.jpg" },
+  { name: "Copy & Fax", duration: 15, description: "Make copies or send documents by fax.", image: "/copy2.jpg" },
+  { name: "Other Services", duration: 30, description: "Tell us what you need help with.", image: "/trusted-com1.jpg" },
+  { name: "Business Services", duration: 120, description: "Discuss your small-business service needs.", image: "/pro2.jpg" },
 ];
 
 const REALTY_SERVICES = [
@@ -609,6 +609,14 @@ function Booking() {
                 className="booking-service-card"
                 key={service.name}
               >
+                {service.image && (
+                  <img
+                    src={service.image}
+                    alt=""
+                    className="booking-service-thumb"
+                    loading="lazy"
+                  />
+                )}
                 <div>
                   <h4>{service.name}</h4>
                   <p className="booking-service-description">{service.description}</p>
