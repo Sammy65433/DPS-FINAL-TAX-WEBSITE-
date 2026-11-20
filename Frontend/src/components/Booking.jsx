@@ -31,11 +31,11 @@ const SERVICES = [
 ];
 
 const REALTY_SERVICES = [
-  { name: "Buying a Home", duration: 30, description: "Meet with DPS Realty about buying a home.", realty: true },
-  { name: "Selling a Home", duration: 30, description: "Meet with DPS Realty about selling a home.", realty: true },
-  { name: "Renting", duration: 30, description: "Meet with DPS Realty about renting a property.", realty: true },
-  { name: "Investment Property", duration: 30, description: "Discuss investment properties with DPS Realty.", realty: true },
-  { name: "Real Estate Consultation", duration: 30, description: "General real estate consultation with DPS Realty.", realty: true },
+  { name: "Buying a Home", duration: 30, description: "Meet with DPS Realty about buying a home.", realty: true, image: "/real-estate.jpg" },
+  { name: "Selling a Home", duration: 30, description: "Meet with DPS Realty about selling a home.", realty: true, image: "/real-estate-keys2.jpg" },
+  { name: "Renting", duration: 30, description: "Meet with DPS Realty about renting a property.", realty: true, image: "/real-estate.jpg" },
+  { name: "Investment Property", duration: 30, description: "Discuss investment properties with DPS Realty.", realty: true, image: "/real-estate-keys2.jpg" },
+  { name: "Real Estate Consultation", duration: 30, description: "General real estate consultation with DPS Realty.", realty: true, image: "/real-estate.jpg" },
 ];
 
 const REALTY_PREPARER = "DPS Realty";
@@ -628,13 +628,21 @@ function Booking() {
             ))}
           </div>
 
-          <h3 id="real-estate-services">Real Estate — DPS Realty</h3>
+          <h3 id="real-estate-services" className="booking-realty-heading">Real Estate — DPS Realty</h3>
           <div className="booking-service-grid">
             {REALTY_SERVICES.map((service) => (
               <article
                 className="booking-service-card booking-service-card--realty"
                 key={service.name}
               >
+                {service.image && (
+                  <img
+                    src={service.image}
+                    alt=""
+                    className="booking-service-thumb"
+                    loading="lazy"
+                  />
+                )}
                 <div>
                   <h4>{service.name}</h4>
                   <p className="booking-service-description">{service.description}</p>
