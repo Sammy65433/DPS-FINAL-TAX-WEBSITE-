@@ -31,11 +31,11 @@ const SERVICES = [
 ];
 
 const REALTY_SERVICES = [
-  { name: "Buying a Home", duration: 60, description: "Meet with DPS Realty about buying a home.", realty: true },
-  { name: "Selling a Home", duration: 60, description: "Meet with DPS Realty about selling a home.", realty: true },
-  { name: "Renting", duration: 60, description: "Meet with DPS Realty about renting a property.", realty: true },
-  { name: "Investment Property", duration: 60, description: "Discuss investment properties with DPS Realty.", realty: true },
-  { name: "Real Estate Consultation", duration: 60, description: "General real estate consultation with DPS Realty.", realty: true },
+  { name: "Buying a Home", duration: 30, description: "Meet with DPS Realty about buying a home.", realty: true },
+  { name: "Selling a Home", duration: 30, description: "Meet with DPS Realty about selling a home.", realty: true },
+  { name: "Renting", duration: 30, description: "Meet with DPS Realty about renting a property.", realty: true },
+  { name: "Investment Property", duration: 30, description: "Discuss investment properties with DPS Realty.", realty: true },
+  { name: "Real Estate Consultation", duration: 30, description: "General real estate consultation with DPS Realty.", realty: true },
 ];
 
 const REALTY_PREPARER = "DPS Realty";
