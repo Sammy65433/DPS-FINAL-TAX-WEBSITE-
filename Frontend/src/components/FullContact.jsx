@@ -40,21 +40,21 @@ function FullContact() {
             <p className="eyebrow">Contact DPS</p>
             <h1>We’re Here to Help</h1>
             <p>
-              Have a question about tax preparation, documents, business
-              services, or an appointment? We’re ready to help you find the
-              right place to start.
+              Have a Question About Tax Preparation, Documents, Business
+              Services, or an Appointment? We’re ready to help you find the
+              Right Place to Start.
             </p>
           </div>
 
           <div className="full-contact-intro">
             <p>
-              Every client comes to us with a different situation. Our team
-              listens, answers general questions, and helps you understand
-              what to bring or how to schedule a visit.
+              Every Client comes to us with a different situation. Our Team
+              listens, Answers General Questions, and helps you understand
+              what to bring or how to Schedule a Visit.
             </p>
             <p>
-              For your privacy, please do not send Social Security numbers,
-              tax documents, or other sensitive information by ordinary email.
+              For your privacy, Please Do Not Send Social Security Numbers,
+              Tax Documents, or Other Sensitive Information by Ordinary Email.
             </p>
           </div>
 
@@ -124,19 +124,19 @@ function FullContact() {
                 <FaClock className="full-contact-icon" aria-hidden="true" />
                 <span>Monday - Friday: 9:00 AM - 5:00 PM</span>
                 <span className="full-contact-sep"> · </span>
-                <span className="full-contact-note full-contact-note--gold">Extended evening hours</span>
+                <span className="full-contact-note full-contact-note--gold">Extended Evening Hours</span>
               </p>
               <p>
                 <FaCalendarAlt className="full-contact-icon" aria-hidden="true" />
                 <span>Saturday: 9:00 AM - 6:00 PM</span>
                 <span className="full-contact-sep"> · </span>
-                <span className="full-contact-note full-contact-note--gold">Weekend appointments available</span>
+                <span className="full-contact-note full-contact-note--gold">Weekend Appointments Available</span>
               </p>
               <p>
                 <FaSun className="full-contact-icon" aria-hidden="true" />
-                <span>Sunday: By appointment only</span>
+                <span>Sunday: By Appointment Only</span>
                 <span className="full-contact-sep"> · </span>
-                <span className="full-contact-note full-contact-note--gold">Contact the office for availability</span>
+                <span className="full-contact-note full-contact-note--gold">Contact The Office for Availability</span>
               </p>
             </div>
 
@@ -146,25 +146,25 @@ function FullContact() {
                 <FaBriefcase className="full-contact-icon" aria-hidden="true" />
                 <span>Monday - Friday: 10:00 AM - 6:00 PM</span>
                 <span className="full-contact-sep"> · </span>
-                <span className="full-contact-note full-contact-note--teal">Standard business hours</span>
+                <span className="full-contact-note full-contact-note--teal">Standard Business Hours</span>
               </p>
               <p>
                 <FaMoon className="full-contact-icon" aria-hidden="true" />
-                <span>Saturday: By appointment</span>
+                <span>Saturday: By Appointment</span>
                 <span className="full-contact-sep"> · </span>
-                <span className="full-contact-note full-contact-note--teal">Walk-ins welcome</span>
+                <span className="full-contact-note full-contact-note--teal">Walk-ins Welcome</span>
               </p>
               <p>
                 <FaCloud className="full-contact-icon" aria-hidden="true" />
-                <span>Sunday: By appointment only</span>
+                <span>Sunday: By Appointment Only</span>
                 <span className="full-contact-sep"> · </span>
-                <span className="full-contact-note full-contact-note--teal">Call for availability</span>
+                <span className="full-contact-note full-contact-note--teal">Call for Availability</span>
               </p>
             </div>
           </div>
 
           <p className="full-contact-hours-note">
-            Hours may change. Please call before visiting.
+            Hours May Change. Please Call Before Visiting.
           </p>
 
           <div className="full-contact-photo-grid">
@@ -177,8 +177,8 @@ function FullContact() {
 
           <div className="full-contact-note">
             <strong>Thank you for choosing DPS.</strong> We appreciate the
-            opportunity to serve our Maplewood community and look forward to
-            helping you take the next step.
+            Opportunity to Serve our Maplewood Community and Look Forward to
+            Helping you take the Next Step.
           </div>
         </div>
       </section>

@@ -66,15 +66,15 @@ function Footer() {
             <h4><FaSun className="footer-icon" aria-hidden="true" /> Tax Season Hours</h4>
             <p>
               <FaClock className="footer-icon" aria-hidden="true" />
-              Monday - Friday: 9:00 AM - 9:00 PM <span className="footer-sep">·</span> <span className="footer-note footer-note-gold">Extended evening hours</span>
+              Monday - Friday: 9:00 AM - 9:00 PM <span className="footer-sep">·</span> <span className="footer-note footer-note-gold">Extended Evening Hours</span>
             </p>
             <p>
               <FaCalendarAlt className="footer-icon" aria-hidden="true" />
-              Saturday: 10:00 AM - 7:00 PM <span className="footer-sep">·</span> <span className="footer-note footer-note-gold">Weekend appointments available</span>
+              Saturday: 10:00 AM - 7:00 PM <span className="footer-sep">·</span> <span className="footer-note footer-note-gold">Weekend Appointments Available</span>
             </p>
             <p>
               <FaStar className="footer-icon" aria-hidden="true" />
-              Sunday: By Appointment Only <span className="footer-sep">·</span> <span className="footer-note footer-note-gold">Contact the office for availability</span>
+              Sunday: By Appointment Only <span className="footer-sep">·</span> <span className="footer-note footer-note-gold">Contact the Office for Availability</span>
             </p>
           </div>
 
@@ -82,7 +82,7 @@ function Footer() {
             <h4><FaBriefcase className="footer-icon" aria-hidden="true" /> Off-Season Hours</h4>
             <p>
               <FaCalendarCheck className="footer-icon" aria-hidden="true" />
-              Monday - Friday: 10:00 AM - 6:00 PM <span className="footer-sep">·</span> <span className="footer-note footer-note-teal">Standard business hours</span>
+              Monday - Friday: 10:00 AM - 6:00 PM <span className="footer-sep">·</span> <span className="footer-note footer-note-teal">Standard Business Hours</span>
             </p>
             <p>
               <FaMoon className="footer-icon" aria-hidden="true" />
