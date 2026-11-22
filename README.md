@@ -53,3 +53,6 @@ Full-stack web application for DPS Professional Tax Services and DPS Realty. Pro
 ### Deployment
 - 2 services on Render (backend + frontend)
 - Environment variables: MONGODB_URI, JWT_SECRET, CRM_BACKEND_URL, CRM_LINK_REDEEM_KEY, GROQ_API_KEY
+
+
+
