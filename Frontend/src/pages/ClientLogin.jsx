@@ -159,6 +159,10 @@ export default function ClientLogin() {
           </form>
 
           <p>
+            <Link to="/client-forgot">Forgot password?</Link>
+          </p>
+
+          <p>
             New DPS client?{" "}
             <Link to="/client-signup" state={{ returnTo }}>
               Create an account
