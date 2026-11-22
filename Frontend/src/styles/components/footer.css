@@ -3,6 +3,7 @@
   background: linear-gradient(120deg, #0f5c54 0%, #245b68 52%, #4c287f 100%);
   color: #e8f5f2;
   font-size: 0.82rem;
+  font-family: "Poppins", "Open Sans", Arial, sans-serif;
 }
 
 .footer-content {
@@ -139,4 +140,16 @@
   .footer-brand {
     text-align: center;
   }
+}
+
+.footer-sep {
+  color: #f5d36c;
+  font-weight: 800;
+  margin: 0 0.35rem;
+}
+
+.footer-note {
+  color: #f5d36c;
+  font-style: italic;
+  font-weight: 600;
 }

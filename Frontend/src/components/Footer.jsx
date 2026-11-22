@@ -6,7 +6,12 @@ import {
   FaEnvelope,
   FaClock,
   FaCalendarAlt,
-  FaHome,
+  FaSun,
+  FaMoon,
+  FaGlobe,
+  FaBuilding,
+  FaBriefcase,
+  FaStar,
   FaUser,
 } from "react-icons/fa";
 
@@ -64,7 +69,7 @@ function Footer() {
               Saturday: 10:00 AM - 7:00 PM
             </p>
             <p>
-              <FaCalendarAlt className="footer-icon" aria-hidden="true" />
+              <FaSun className="footer-icon" aria-hidden="true" />
               Sunday: By Appointment Only
             </p>
           </div>
@@ -72,27 +77,27 @@ function Footer() {
           <div className="footer-card">
             <h4><FaClock className="footer-icon" aria-hidden="true" /> Off-Season Hours</h4>
             <p>
-              <FaClock className="footer-icon" aria-hidden="true" />
+              <FaBriefcase className="footer-icon" aria-hidden="true" />
               Monday - Friday: 10:00 AM - 6:00 PM
             </p>
             <p>
-              <FaCalendarAlt className="footer-icon" aria-hidden="true" />
-              Saturday: By Appointment * Walk-ins Welcome
+              <FaMoon className="footer-icon" aria-hidden="true" />
+              Saturday: By Appointment <span className="footer-sep">·</span> <span className="footer-note">Walk-ins Welcome</span>
             </p>
             <p>
-              <FaCalendarAlt className="footer-icon" aria-hidden="true" />
-              Sunday: By Appointment Only * Contact the Office for Availability
+              <FaStar className="footer-icon" aria-hidden="true" />
+              Sunday: By Appointment Only <span className="footer-sep">·</span> <span className="footer-note">Contact the Office for Availability</span>
             </p>
           </div>
 
           <div className="footer-card">
-            <h4><FaMapMarkerAlt className="footer-icon" aria-hidden="true" /> Service Area</h4>
+            <h4><FaGlobe className="footer-icon" aria-hidden="true" /> Service Area</h4>
             <p>
               <FaMapMarkerAlt className="footer-icon" aria-hidden="true" />
               Serving Maplewood, NJ and the Tri-State area.
             </p>
             <p>
-              <FaHome className="footer-icon" aria-hidden="true" />
+              <FaBuilding className="footer-icon" aria-hidden="true" />
               Real Estate Services provided by RC Realty Group.
             </p>
             <div className="footer-socials">
