@@ -158,7 +158,7 @@ function FullContact() {
                 <FaCloud className="full-contact-icon" aria-hidden="true" />
                 <span>Sunday: By Appointment Only</span>
                 <span className="full-contact-sep"> · </span>
-                <span className="full-contact-note full-contact-note--teal">Call for Availability</span>
+                <span className="full-contact-note full-contact-note--teal">Call to Confirm</span>
               </p>
             </div>
           </div>
