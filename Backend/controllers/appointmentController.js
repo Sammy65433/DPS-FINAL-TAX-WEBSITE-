@@ -786,7 +786,7 @@ export async function clearAppointmentMessage(req, res) {
             return res.status(500).json({ message: "Could not clear message." });
         }
 
-        return res.json({ appointment: toAppointment(updated) });
+        return res.json({ appointment: { ...updated, id: String(updated._id) } });
     } catch (error) {
         console.error("Clear appointment message failed:", error);
         return res.status(500).json({ message: "Could not clear message." });
