@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { FaEnvelope, FaKey } from "react-icons/fa";
 import Layout from "../components/Layout";
 
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
@@ -39,6 +40,7 @@ export default function ClientForgot() {
       <main className="client-auth-page">
         <div className="client-auth-card">
           <p className="client-auth-eyebrow">DPS Client Access</p>
+          <div className="client-auth-icon"><FaKey /></div>
           <h1>Forgot Password</h1>
           <p className="client-auth-text">
             Enter your email to receive a password reset link.
@@ -46,7 +48,7 @@ export default function ClientForgot() {
 
           <form onSubmit={handleSubmit} className="client-auth-form">
             <label htmlFor="email">
-              Email
+              <FaEnvelope /> Email
               <input
                 id="email"
                 type="email"

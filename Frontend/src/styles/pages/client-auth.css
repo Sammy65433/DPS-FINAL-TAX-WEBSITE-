@@ -280,3 +280,17 @@
   accent-color: #0f5c54;
   cursor: pointer;
 }
+
+.client-auth-icon {
+  width: 62px;
+  height: 62px;
+  margin: 0 auto 1rem;
+  border-radius: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #eef4ff, #f3efff);
+  color: #6d28d9;
+  font-size: 1.4rem;
+  border: 1px solid #dbe7f5;
+}

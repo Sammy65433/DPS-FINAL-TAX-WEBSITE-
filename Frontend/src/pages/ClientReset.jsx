@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Layout from "../components/Layout";
+import { FaLock, FaKey } from "react-icons/fa";
 
 const API_URL = import.meta.env.VITE_API_URL?.replace(/\/$/, "");
 
@@ -50,6 +51,7 @@ export default function ClientReset() {
       <main className="client-auth-page">
         <div className="client-auth-card">
           <p className="client-auth-eyebrow">DPS Client Access</p>
+          <div className="client-auth-icon"><FaKey /></div>
           <h1>Reset Password</h1>
 
           {done ? (
@@ -71,7 +73,7 @@ export default function ClientReset() {
                 onChange={(event) => setToken(event.target.value)}
               />
 
-              <label htmlFor="reset-password">New password (12+ characters)</label>
+              <label htmlFor="reset-password"><FaLock /> New password (12+ characters)</label>
               <input
                 id="reset-password"
                 type="password"
