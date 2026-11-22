@@ -13,18 +13,18 @@ import "./dps-ticker.css";
 const TICKER_ITEMS = [
     { Icon: FaPhoneAlt, text: "Call DPS · (973) 327-2340", to: "/contact" },
     { Icon: FaMapMarkerAlt, text: "1811 Springfield Ave, Maplewood, NJ 07040", to: "/contact" },
-    { Icon: FaCalendarCheck, text: "Book your appointment online", to: "/booking" },
-    { Icon: FaFileInvoiceDollar, text: "Pricing varies by city & state", to: "/pricing" },
-    { Icon: FaHome, text: "Buying, selling & rentals — DPS Realty", to: "/real-estate-booking" },
-    { Icon: FaCloudUploadAlt, text: "Client portal — upload & track your documents", to: "/client-login" },
+    { Icon: FaCalendarCheck, text: "Book Your Appointment Online", to: "/booking" },
+    { Icon: FaFileInvoiceDollar, text: "Pricing Varies by City & State", to: "/pricing" },
+    { Icon: FaHome, text: "Buying, Selling & Rentals — DPS Realty", to: "/real-estate-booking" },
+    { Icon: FaCloudUploadAlt, text: "Client Portal — Upload & Track your Documents", to: "/client-login" },
 ];
 
 // Federal / estimated-tax deadlines (month, day) — ET dates, label shown in the ticker.
 const TAX_DEADLINES = [
-    { month: 1, day: 15, label: "Jan 15 · Q4 estimated tax" },
-    { month: 4, day: 15, label: "Apr 15 · federal filing deadline" },
-    { month: 6, day: 15, label: "Jun 15 · Q2 estimated tax" },
-    { month: 10, day: 15, label: "Oct 15 · extension deadline" },
+    { month: 1, day: 15, label: "Jan 15 · Q4 Estimated Tax" },
+    { month: 4, day: 15, label: "Apr 15 · Federal Filing Deadline" },
+    { month: 6, day: 15, label: "Jun 15 · Q2 Estimated Tax" },
+    { month: 10, day: 15, label: "Oct 15 · Extension Deadline" },
 ];
 
 const WEEKDAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
@@ -79,7 +79,7 @@ function statusText(now) {
 
     if (isSunday) {
         const monOpen = taxSeason ? 9 : 10;
-        return `Closed today · opens Mon ${monOpen} AM ET`;
+        return `Closed Today · Opens Mon ${monOpen} AM ET`;
     }
 
     if (isSaturday && !taxSeason) {
