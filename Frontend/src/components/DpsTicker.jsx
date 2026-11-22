@@ -14,7 +14,7 @@ const TICKER_ITEMS = [
     { Icon: FaPhoneAlt, text: "Call DPS · (973) 327-2340", to: "/contact" },
     { Icon: FaMapMarkerAlt, text: "1811 Springfield Ave, Maplewood, NJ 07040", to: "/contact" },
     { Icon: FaCalendarCheck, text: "Book Your Appointment Online", to: "/booking" },
-    { Icon: FaFileInvoiceDollar, text: "Pricing Varies by City & State", to: "/pricing" },
+    { Icon: FaFileInvoiceDollar, text: "Pricing Varies By City & State", to: "/pricing" },
     { Icon: FaHome, text: "Buying, Selling & Rentals — DPS Realty", to: "/real-estate-booking" },
     { Icon: FaCloudUploadAlt, text: "Client Portal — Upload & Track your Documents", to: "/client-login" },
 ];
@@ -83,7 +83,7 @@ function statusText(now) {
     }
 
     if (isSaturday && !taxSeason) {
-        return "Sat by appointment · call (973) 327-2340";
+        return "Sat By Appointment · Call (973) 327-2340";
     }
 
     const opens = isSaturday && taxSeason ? saturdayOpen * 60 : openHour * 60;
@@ -91,22 +91,22 @@ function statusText(now) {
 
     if (minutes < opens) {
         const h = opens / 60;
-        return `Opens today ${h > 12 ? h - 12 : h} ${h >= 12 ? "PM" : "AM"} ET`;
+        return `Opens Today ${h > 12 ? h - 12 : h} ${h >= 12 ? "PM" : "AM"} ET`;
     }
     if (minutes < closes) {
         const h = closes / 60;
-        return `Open now · closes ${h > 12 ? h - 12 : h} ${h >= 12 ? "PM" : "AM"} ET`;
+        return `Open Now · Closes ${h > 12 ? h - 12 : h} ${h >= 12 ? "PM" : "AM"} ET`;
     }
     if (now.weekdayIndex === 5) {
         const monOpen = taxSeason ? 9 : 10;
-        return `Closed · opens Mon ${monOpen} AM ET`;
+        return `Closed · Opens Mon ${monOpen} AM ET`;
     }
     if (isSaturday) {
         const monOpen = taxSeason ? 9 : 10;
-        return `Closed · opens Mon ${monOpen} AM ET`;
+        return `Closed · Opens Mon ${monOpen} AM ET`;
     }
     const tomorrowOpen = taxSeason ? 9 : 10;
-    return `Closed · opens tomorrow ${tomorrowOpen} AM ET`;
+    return `Closed · Opens Tomorrow ${tomorrowOpen} AM ET`;
 }
 
 export default function DpsTicker() {
@@ -119,7 +119,7 @@ export default function DpsTicker() {
 
     const status = statusText(now);
     const deadline = nextDeadline(now);
-    const deadlineText = `${deadline.diffDays} days until ${deadline.label}`;
+    const deadlineText = `${deadline.diffDays} Days Until ${deadline.label}`;
 
     const liveItems = [
         { Icon: null, text: `🟢 ${status}`, to: "/contact", live: true },
