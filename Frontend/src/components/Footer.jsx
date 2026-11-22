@@ -12,6 +12,10 @@ import {
   FaBuilding,
   FaBriefcase,
   FaStar,
+  FaCalendarCheck,
+  FaCloud,
+  FaMobileAlt,
+  FaAt,
   FaUser,
 } from "react-icons/fa";
 
@@ -35,7 +39,7 @@ function Footer() {
           <div className="footer-card">
             <h4><FaPhoneAlt className="footer-icon" aria-hidden="true" /> Contact</h4>
             <p>
-              <FaPhoneAlt className="footer-icon" aria-hidden="true" />
+              <FaMobileAlt className="footer-icon" aria-hidden="true" />
               <a href="tel:+19733272340">(973) 327-2340</a>
             </p>
             <p>
@@ -43,7 +47,7 @@ function Footer() {
               <a href="mailto:info@dpstaxpro.com">info@DPStaxpro.com</a>
             </p>
             <p>
-              <FaUser className="footer-icon" aria-hidden="true" />
+              <FaAt className="footer-icon" aria-hidden="true" />
               <a href="mailto:dpstax1@gmail.com">DpsTax1@gmail.com</a>
             </p>
             <p>
@@ -59,7 +63,7 @@ function Footer() {
           </div>
 
           <div className="footer-card">
-            <h4><FaClock className="footer-icon" aria-hidden="true" /> Tax Season Hours</h4>
+            <h4><FaSun className="footer-icon" aria-hidden="true" /> Tax Season Hours</h4>
             <p>
               <FaClock className="footer-icon" aria-hidden="true" />
               Monday - Friday: 9:00 AM - 9:00 PM
@@ -69,15 +73,15 @@ function Footer() {
               Saturday: 10:00 AM - 7:00 PM
             </p>
             <p>
-              <FaSun className="footer-icon" aria-hidden="true" />
+              <FaStar className="footer-icon" aria-hidden="true" />
               Sunday: By Appointment Only
             </p>
           </div>
 
           <div className="footer-card">
-            <h4><FaClock className="footer-icon" aria-hidden="true" /> Off-Season Hours</h4>
+            <h4><FaBriefcase className="footer-icon" aria-hidden="true" /> Off-Season Hours</h4>
             <p>
-              <FaBriefcase className="footer-icon" aria-hidden="true" />
+              <FaCalendarCheck className="footer-icon" aria-hidden="true" />
               Monday - Friday: 10:00 AM - 6:00 PM
             </p>
             <p>
@@ -85,7 +89,7 @@ function Footer() {
               Saturday: By Appointment <span className="footer-sep">·</span> <span className="footer-note">Walk-ins Welcome</span>
             </p>
             <p>
-              <FaStar className="footer-icon" aria-hidden="true" />
+              <FaCloud className="footer-icon" aria-hidden="true" />
               Sunday: By Appointment Only <span className="footer-sep">·</span> <span className="footer-note">Contact the Office for Availability</span>
             </p>
           </div>
