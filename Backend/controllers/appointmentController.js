@@ -760,22 +760,33 @@ export async function clearAppointmentMessage(req, res) {
     const { id } = req.params;
 
     try {
-        const { data: current, error: currentError } =
-            await getAppointmentByIdService(id);
+        const db = await getDatabase();
+        const { ObjectId } = await import("mongodb");
 
-        if (currentError || !current) {
+        // Flexible id match: try ObjectId and string
+        let doc = await db.collection("appointments").findOne({ _id: id });
+        if (!doc && /^[0-9a-f]{24}$/i.test(String(id))) {
+            try {
+                const { ObjectId } = await import("mongodb");
+                doc = await db.collection("appointments").findOne({ _id: new ObjectId(id) });
+            } catch (_) {}
+        }
+        if (!doc) {
             return res.status(404).json({ message: "Appointment not found." });
         }
 
-        const { data, error } = await updateAppointmentService(id, {
-            message: "",
-        });
+        const result = await db.collection("appointments").findOneAndUpdate(
+            { _id: doc._id },
+            { $set: { message: "" } },
+            { returnDocument: "after" }
+        );
 
-        if (error || !data || data.length === 0) {
+        const updated = result.value;
+        if (!updated) {
             return res.status(500).json({ message: "Could not clear message." });
         }
 
-        return res.json({ appointment: data[0] });
+        return res.json({ appointment: toAppointment(updated) });
     } catch (error) {
         console.error("Clear appointment message failed:", error);
         return res.status(500).json({ message: "Could not clear message." });
