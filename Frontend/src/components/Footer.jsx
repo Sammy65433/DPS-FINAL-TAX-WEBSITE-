@@ -31,7 +31,7 @@ function Footer() {
           />
           <div className="footer-brand-text">
             <h3>DPS Professional Tax Services</h3>
-            <p>Trusted tax and support services in Maplewood, NJ</p>
+            <p>Trusted Tax & Support Services in Maplewood, NJ</p>
           </div>
         </div>
 
@@ -44,7 +44,7 @@ function Footer() {
             </p>
             <p>
               <FaEnvelope className="footer-icon" aria-hidden="true" />
-              <a href="mailto:info@dpstaxpro.com">info@DPStaxpro.com</a>
+              <a href="mailto:info@dpstaxpro.com">Info@DPStaxpro.com</a>
             </p>
             <p>
               <FaAt className="footer-icon" aria-hidden="true" />
