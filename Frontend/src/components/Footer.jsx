@@ -28,7 +28,7 @@ function Footer() {
 
         <div className="footer-grid">
           <div className="footer-card">
-            <h4>Contact</h4>
+            <h4><FaPhoneAlt className="footer-icon" aria-hidden="true" /> Contact</h4>
             <p>
               <FaPhoneAlt className="footer-icon" aria-hidden="true" />
               <a href="tel:+19733272340">(973) 327-2340</a>
@@ -54,7 +54,7 @@ function Footer() {
           </div>
 
           <div className="footer-card">
-            <h4>Tax Season Hours</h4>
+            <h4><FaClock className="footer-icon" aria-hidden="true" /> Tax Season Hours</h4>
             <p>
               <FaClock className="footer-icon" aria-hidden="true" />
               Monday - Friday: 9:00 AM - 9:00 PM
@@ -70,7 +70,7 @@ function Footer() {
           </div>
 
           <div className="footer-card">
-            <h4>Off-Season Hours</h4>
+            <h4><FaClock className="footer-icon" aria-hidden="true" /> Off-Season Hours</h4>
             <p>
               <FaClock className="footer-icon" aria-hidden="true" />
               Monday - Friday: 10:00 AM - 6:00 PM
@@ -86,7 +86,7 @@ function Footer() {
           </div>
 
           <div className="footer-card">
-            <h4>Service Area</h4>
+            <h4><FaMapMarkerAlt className="footer-icon" aria-hidden="true" /> Service Area</h4>
             <p>
               <FaMapMarkerAlt className="footer-icon" aria-hidden="true" />
               Serving Maplewood, NJ and the Tri-State area.
