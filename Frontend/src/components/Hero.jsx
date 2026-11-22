@@ -44,10 +44,10 @@ function Hero() {
           <Link to="/about" className="tag">
             19+ Years Serving Maplewood, NJ
           </Link>
-          <h1>DPS Professional Tax Services and Realty Management</h1>
+          <h1>DPS Professional Tax Services & Realty Management</h1>
           <p className="lead">
-            For over 19 years, DPS has provided tax preparation and essential
-            business services to individuals, families, and small businesses
+            For Over 19 years, DPS has provided Tax Preparation and Essential
+            Business Services to Individuals, Families, & Small Businesses
             throughout New Jersey and the Tri-State area.
           </p>
           <Link
@@ -100,7 +100,7 @@ function Hero() {
               className="hero-quick-link hero-quick-link-call"
             >
               <FaPhoneAlt aria-hidden="true" />
-              <span>Call the Office</span>
+              <span>Call The Office</span>
               <FaArrowCircleRight className="hero-quick-arrow" aria-hidden="true" />
             </a>
           </nav>
