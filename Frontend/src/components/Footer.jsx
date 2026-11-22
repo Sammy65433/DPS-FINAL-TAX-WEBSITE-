@@ -65,7 +65,7 @@ function Footer() {
             </p>
             <p>
               <FaCalendarAlt className="footer-icon" aria-hidden="true" />
-              Sunday: By appointment only
+              Sunday: By Appointment Only
             </p>
           </div>
 
@@ -77,11 +77,11 @@ function Footer() {
             </p>
             <p>
               <FaCalendarAlt className="footer-icon" aria-hidden="true" />
-              Saturday: By appointment; Walk-ins welcome
+              Saturday: By Appointment * Walk-ins Welcome
             </p>
             <p>
               <FaCalendarAlt className="footer-icon" aria-hidden="true" />
-              Sunday: By appointment only; contact the office for availability
+              Sunday: By Appointment Only * Contact the Office for Availability
             </p>
           </div>
 
@@ -93,7 +93,7 @@ function Footer() {
             </p>
             <p>
               <FaHome className="footer-icon" aria-hidden="true" />
-              Real estate services provided by RC Realty Group.
+              Real Estate Services provided by RC Realty Group.
             </p>
             <div className="footer-socials">
               <a
