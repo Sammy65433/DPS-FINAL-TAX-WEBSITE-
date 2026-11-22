@@ -5,6 +5,8 @@ import {
   FaPhoneAlt,
   FaEnvelope,
   FaClock,
+  FaCalendarAlt,
+  FaHome,
   FaUser,
 } from "react-icons/fa";
 
@@ -57,8 +59,14 @@ function Footer() {
               <FaClock className="footer-icon" aria-hidden="true" />
               Monday - Friday: 9:00 AM - 9:00 PM
             </p>
-            <p>Saturday: 10:00 AM - 7:00 PM</p>
-            <p>Sunday: By appointment only</p>
+            <p>
+              <FaCalendarAlt className="footer-icon" aria-hidden="true" />
+              Saturday: 10:00 AM - 7:00 PM
+            </p>
+            <p>
+              <FaCalendarAlt className="footer-icon" aria-hidden="true" />
+              Sunday: By appointment only
+            </p>
           </div>
 
           <div className="footer-card">
@@ -67,14 +75,26 @@ function Footer() {
               <FaClock className="footer-icon" aria-hidden="true" />
               Monday - Friday: 10:00 AM - 6:00 PM
             </p>
-            <p>Saturday: By appointment; Walk-ins welcome</p>
-            <p>Sunday: By appointment only; contact the office for availability</p>
+            <p>
+              <FaCalendarAlt className="footer-icon" aria-hidden="true" />
+              Saturday: By appointment; Walk-ins welcome
+            </p>
+            <p>
+              <FaCalendarAlt className="footer-icon" aria-hidden="true" />
+              Sunday: By appointment only; contact the office for availability
+            </p>
           </div>
 
           <div className="footer-card">
             <h4>Service Area</h4>
-            <p>Serving Maplewood, NJ and the Tri-State area.</p>
-            <p>Real estate services provided by RC Realty Group.</p>
+            <p>
+              <FaMapMarkerAlt className="footer-icon" aria-hidden="true" />
+              Serving Maplewood, NJ and the Tri-State area.
+            </p>
+            <p>
+              <FaHome className="footer-icon" aria-hidden="true" />
+              Real estate services provided by RC Realty Group.
+            </p>
             <div className="footer-socials">
               <a
                 href="https://wa.me/18627661725"
