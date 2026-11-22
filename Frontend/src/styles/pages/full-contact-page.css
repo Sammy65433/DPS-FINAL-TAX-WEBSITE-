@@ -48,7 +48,7 @@
 .full-contact-heading h1 {
   margin: 0 0 0.85rem;
   color: #fff;
-  font-family: "Libre Baskerville", Georgia, serif;
+  font-family: "Poppins", "Libre Baskerville", Georgia, serif;
   font-size: clamp(2.2rem, 4vw, 3.4rem);
 }
 
@@ -153,7 +153,7 @@
 .full-contact-hours h2 {
   margin: 0 0 0.9rem;
   color: #fff;
-  font-family: "Libre Baskerville", Georgia, serif;
+  font-family: "Poppins", "Libre Baskerville", Georgia, serif;
   font-size: 1.1rem;
   line-height: 1.35;
 }
@@ -263,4 +263,24 @@
     flex-direction: column;
     text-align: center;
   }
+}
+
+.full-contact-sep {
+  color: #f5d36c;
+  font-weight: 800;
+  margin: 0 0.35rem;
+  font-style: normal;
+}
+
+.full-contact-note {
+  font-style: italic;
+  font-weight: 600;
+}
+
+.full-contact-note--gold {
+  color: #f5d36c;
+}
+
+.full-contact-note--teal {
+  color: #5ce0cf;
 }

@@ -6,6 +6,13 @@ import {
   FaFax,
   FaMapMarkerAlt,
   FaPhoneAlt,
+  FaSun,
+  FaMoon,
+  FaStar,
+  FaCloud,
+  FaBriefcase,
+  FaCalendarAlt,
+  FaGlobe,
 } from "react-icons/fa";
 import Contact from "./Contact";
 
@@ -83,7 +90,7 @@ function FullContact() {
 
           <div className="full-contact-grid">
             <div className="full-contact-details">
-              <h2>Office Information</h2>
+              <h2><FaMapMarkerAlt className="full-contact-icon" aria-hidden="true" /> Office Information</h2>
               <p>
                 <FaMapMarkerAlt
                   className="full-contact-icon"
@@ -112,23 +119,47 @@ function FullContact() {
             </div>
 
             <div className="full-contact-hours" id="hours">
-              <h2>Tax Season Hours</h2>
+              <h2><FaSun className="full-contact-icon" aria-hidden="true" /> Tax Season Hours</h2>
               <p>
                 <FaClock className="full-contact-icon" aria-hidden="true" />
                 <span>Monday - Friday: 9:00 AM - 5:00 PM</span>
+                <span className="full-contact-sep"> · </span>
+                <span className="full-contact-note full-contact-note--gold">Extended evening hours</span>
               </p>
-              <p>Saturday: 9:00 AM - 6:00 PM</p>
-              <p>Sunday: By appointment only</p>
+              <p>
+                <FaCalendarAlt className="full-contact-icon" aria-hidden="true" />
+                <span>Saturday: 9:00 AM - 6:00 PM</span>
+                <span className="full-contact-sep"> · </span>
+                <span className="full-contact-note full-contact-note--gold">Weekend appointments available</span>
+              </p>
+              <p>
+                <FaSun className="full-contact-icon" aria-hidden="true" />
+                <span>Sunday: By appointment only</span>
+                <span className="full-contact-sep"> · </span>
+                <span className="full-contact-note full-contact-note--gold">Contact the office for availability</span>
+              </p>
             </div>
 
             <div className="full-contact-hours">
-              <h2>Off-Season Hours</h2>
+              <h2><FaBriefcase className="full-contact-icon" aria-hidden="true" /> Off-Season Hours</h2>
               <p>
-                <FaClock className="full-contact-icon" aria-hidden="true" />
+                <FaBriefcase className="full-contact-icon" aria-hidden="true" />
                 <span>Monday - Friday: 10:00 AM - 6:00 PM</span>
+                <span className="full-contact-sep"> · </span>
+                <span className="full-contact-note full-contact-note--teal">Standard business hours</span>
               </p>
-              <p>Saturday: By appointment; walk-ins welcome</p>
-              <p>Sunday: By appointment only; call for availability</p>
+              <p>
+                <FaMoon className="full-contact-icon" aria-hidden="true" />
+                <span>Saturday: By appointment</span>
+                <span className="full-contact-sep"> · </span>
+                <span className="full-contact-note full-contact-note--teal">Walk-ins welcome</span>
+              </p>
+              <p>
+                <FaCloud className="full-contact-icon" aria-hidden="true" />
+                <span>Sunday: By appointment only</span>
+                <span className="full-contact-sep"> · </span>
+                <span className="full-contact-note full-contact-note--teal">Call for availability</span>
+              </p>
             </div>
           </div>
 
