@@ -151,7 +151,7 @@ function Translation() {
         </div>
       </section>
 
-      <div className="translation-cta" style={{ textAlign: "center", padding: "2rem 1rem" }}>
+      <div className="translation-cta" style={{ textAlign: "center", padding: "2rem 1rem", background: "linear-gradient(135deg, #0f5c54, #3b1f6e)", borderRadius: "16px", margin: "1.5rem 0" }}>
         <h2 style={{ color: "#fff", marginBottom: "0.75rem" }}>Ready to Get Started?</h2>
         <p style={{ color: "#edf7f5", marginBottom: "1rem" }}>
           Review pricing, book a translation appointment, or contact our team.
